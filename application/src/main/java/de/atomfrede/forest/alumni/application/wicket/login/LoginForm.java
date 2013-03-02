@@ -35,8 +35,6 @@ public class LoginForm extends AbstractBaseForm<User> {
 	FeedbackPanel feedbackPanel;
 	WebMarkupContainer usernameContainer, passwordContainer;
 	
-	Link<Void> registerLink;
-
 	public LoginForm(String id, UserAuthModel model) {
 		super(id, new CompoundPropertyModel<User>(model));
 
@@ -57,16 +55,6 @@ public class LoginForm extends AbstractBaseForm<User> {
 
 		passwordTextField = new PasswordTextField("password");
 		passwordContainer.add(passwordTextField);
-		
-		registerLink = new Link<Void>("register-link") {
-
-			@Override
-			public void onClick() {
-//				setResponsePage(RegisterPage.class);
-			}
-		};
-		
-		add(registerLink);
 	}
 
 	@Override

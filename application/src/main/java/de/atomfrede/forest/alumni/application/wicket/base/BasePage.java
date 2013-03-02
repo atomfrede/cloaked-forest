@@ -1,9 +1,12 @@
 package de.atomfrede.forest.alumni.application.wicket.base;
 
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
+
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.GenericWebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -24,6 +27,7 @@ import de.atomfrede.forest.alumni.domain.entity.user.User;
 public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	protected User currentUser;
+	Label pageTitel;
 	
 	public BasePage() {
 		super();
@@ -59,10 +63,10 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 	
 	private void commonInit(PageParameters pageParameters) {
-
-		currentUser = getSession().getUser().getObject();
-
+		pageTitel = new Label("pageTitle", _("global.page.title", "global.page.title"));
+		add(pageTitel);
 		
+		currentUser = getSession().getUser().getObject();
 		add(newNavbar("navbar"));
 //		add(new Footer("footer"));
 //		
@@ -80,7 +84,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		navbar.setPosition(Navbar.Position.TOP);
 
 		// show brand name
-		navbar.brandName(Model.of("Mate Tracker"));
+		navbar.brandName(Model.of(_("global.page.title", "global.page.title").getString()));
+		
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT, new NavbarButton<Homepage>(
 						Homepage.class, Model.of("Home"))

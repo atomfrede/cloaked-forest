@@ -1,22 +1,26 @@
 package de.atomfrede.forest.alumni.application.wicket.login;
 
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import de.atomfrede.forest.alumni.application.wicket.base.AbstractBasePage;
+import de.atomfrede.forest.alumni.application.wicket.base.AbstractAuthPage;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 import de.atomfrede.forest.alumni.service.user.UserService;
 import de.atomfrede.forest.alumni.service.user.UsernameAlreadyTakenException;
 
 @MountPath(value = "/login", alt = "/login")
-public class LoginPage extends AbstractBasePage {
+public class LoginPage extends AbstractAuthPage<Void> {
 
 	@SpringBean
 	public UserService userService;
 	
 
 	public LoginPage() {
+		super();
+		commonInit(new PageParameters());
 //		addDummyBottles();
 		addDummyUser();
 		

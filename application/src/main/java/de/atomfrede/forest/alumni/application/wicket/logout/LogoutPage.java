@@ -5,7 +5,8 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import de.atomfrede.forest.alumni.application.wicket.base.AbstractBasePage;
+import de.atomfrede.forest.alumni.application.wicket.base.AbstractAuthPage;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 import de.atomfrede.forest.alumni.application.wicket.login.LoginPanel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserSession;
@@ -13,7 +14,7 @@ import de.atomfrede.forest.alumni.domain.entity.user.User;
 import de.atomfrede.forest.alumni.service.user.UserService;
 
 @MountPath(value = "/logout", alt = "/logout")
-public class LogoutPage extends AbstractBasePage {
+public class LogoutPage extends AbstractAuthPage<Void> {
 
 	private static final long serialVersionUID = 2053750825891259558L;
 
