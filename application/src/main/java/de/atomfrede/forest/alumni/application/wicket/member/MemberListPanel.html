@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/">
+
+<wicket:panel>
+	<div class="row content-main">
+		<table class="table table-hover table-bordered table-striped">
+			<thead>
+				<tr>
+					<th><wicket:message key="member.headers.degree"/></th>
+					<th><wicket:message key="member.headers.firstname"/></th>
+					<th><wicket:message key="member.headers.lastname"/></th>
+					<th><wicket:message key="member.headers.graduationyear"/></th>
+					<th><wicket:message key="member.headers.profession"/></th>
+					<th><wicket:message key="member.headers.activity"/></th>
+				</tr>
+			</thead>
+			<tbody>
+				<span wicket:id="members">
+					<tr>
+						<td><span wicket:id="degree"></span></td>
+						<td><span wicket:id="firstname"></span></td>
+						<td><span wicket:id="lastname"></span></td>
+						<td><span wicket:id="graduation-year"></span></td>
+						<td><span wicket:id="profession"></span></td>
+						<td><span wicket:id="activity"></span></td>
+					</tr>
+				</span>
+			</tbody>
+		</table>
+		<div wicket:id="pager"></div>
+	</div>
+</wicket:panel>
+
+</html>
