@@ -27,6 +27,6 @@ http://www.springframework.org/schema/util
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 	<bean
 		id="wicketApplication"
-		class="de.atomfrede.mate.application.wicket.WicketApplication"
+		class="de.atomfrede.forest.alumni.application.wicket.WicketApplication"
 	></bean>
 </beans>

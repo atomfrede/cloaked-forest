@@ -11,10 +11,12 @@ import org.apache.wicket.request.resource.CssResourceReference;
 
 import de.agilecoders.wicket.Bootstrap;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
+import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
+import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserSession;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
@@ -86,10 +88,10 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		));
 
-//		navbar.addComponents(new ImmutableNavbarComponent(
-//				new NavbarButton<LogoutPage>(LogoutPage.class, Model
-//						.of("Logout")).setIconType(IconType.off),
-//				Navbar.ComponentPosition.RIGHT));
+		navbar.addComponents(new ImmutableNavbarComponent(
+				new NavbarButton<LogoutPage>(LogoutPage.class, Model
+						.of("Logout")).setIconType(IconType.off),
+				Navbar.ComponentPosition.RIGHT));
 
 		return navbar;
 	}
@@ -101,7 +103,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				BasePage.class, "base-content.css")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-				AbstractBasePage.class, "base.css")));
+				BasePage.class, "base.css")));
 		Bootstrap.renderHead(response);
 	}
 

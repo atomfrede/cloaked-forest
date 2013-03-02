@@ -1,0 +1,66 @@
+body {
+	height: 100%;
+}
+
+.available-mates {
+	margin-top: 5px;
+}
+
+.main-wrapper {
+	padding-top: 60px;
+	height: 100%;
+}
+
+.left-actions {
+	float: left;
+	width: 25%;
+}
+
+.right-content {
+	padding-left: 10px;
+	float: right;
+	width: 70%;
+	background-color: white;
+	overflow: hidden;
+}
+
+.content-main {
+	margin: 10px;
+}
+
+.footer {
+	background-color: #F5F5F5;
+	border-top: 1px solid #E5E5E5;
+	margin-top: 70px;
+	padding: 70px 0;
+}
+
+.main-content {
+	background-image: url(./base/background.gif);
+	background-position: top;
+	background-repeat: repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.main-content-inner {
+	height: 100%;
+}
+
+.box {
+	background-color: white;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #EEEEEE;
+	border-right: 1px solid #EEEEEE;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.box-round {
+	border-radius: 4px 4px 4px 4px;
+}
+
+.my-account-part {
+	background-color: #F5F5F5; 
+	border : 1px solid #DDDDDD;
+	border-radius: 4px 4px 4px 4px;
+}

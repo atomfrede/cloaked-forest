@@ -9,6 +9,7 @@ import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.request.component.IRequestableComponent;
 
 import de.atomfrede.forest.alumni.application.wicket.login.LoginPage;
+import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
 
 public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy{
 
@@ -23,9 +24,9 @@ public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy{
 //			return true;
 //		}
 //		
-//		if(LogoutPage.class.isAssignableFrom(componentClass)){
-//			return true;
-//		}
+		if(LogoutPage.class.isAssignableFrom(componentClass)){
+			return true;
+		}
 		
 		if(LoginPage.class.isAssignableFrom(componentClass)){
 			return true;

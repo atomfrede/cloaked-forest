@@ -55,7 +55,7 @@
 		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
 		<init-param>
 			<param-name>applicationClassName</param-name>
-			<param-value>de.atomfrede.mate.application.wicket.WicketApplication</param-value>
+			<param-value>de.atomfrede.forest.alumni.application.wicket.WicketApplication</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ignorePaths</param-name>
