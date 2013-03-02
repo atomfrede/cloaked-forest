@@ -1,0 +1,48 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+		<div class="form-box box-round">
+			<form id="login_form" wicket:id="loginForm" class="form-horizontal">
+				<fieldset class="form-content">
+					<legend>Login</legend>
+					<div class="alert-error login-feedback" wicket:id="feedbackPanel"></div>
+					<div wicket:id="username_container" class="control-group">
+						<label class="control-label" for="login_form_username"><wicket:message
+								key="username">Benutzername</wicket:message>:</label>
+						<div class="controls">
+							<input type="text" wicket:id="username" id="login_form_username"
+								placeholder="Benutzername" />
+						</div>
+					</div>
+					<div wicket:id="password_container" class="control-group">
+						<label class="control-label" for="login_form_password"><wicket:message
+								key="Password">Password</wicket:message>:</label>
+						<div class="controls">
+							<input class="error" type="password" wicket:id="password"
+								id="login_form_password" />
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+
+							<input wicket:message="value:Login" class="btn btn-primary"
+								type="submit" value="Login" />
+							<!-- 					<button wicket:message="value:Login" type="submit" class="btn" value="Login" >Login</button> -->
+							<a wicket:id="register-link" class="register-link" href="#">Registrieren</a>
+
+						</div>
+
+					</div>
+
+				</fieldset>
+			</form>
+		</div>
+	</wicket:panel>
+
+	<!-- 	<wicket:panel> -->
+
+	<!-- 	</wicket:panel> -->
+
+
+</body>
+</html>
