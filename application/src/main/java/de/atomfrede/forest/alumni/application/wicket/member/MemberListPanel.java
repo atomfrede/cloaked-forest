@@ -21,8 +21,14 @@ public class MemberListPanel extends Panel{
 	@SpringBean
 	MemberDao memberDao;
 	
+	MemberListActionPanel actionPanel;
+	
 	public MemberListPanel(String id) {
 		super(id);
+		
+		actionPanel = new MemberListActionPanel("members-action");
+		add(actionPanel);
+		
 		setOutputMarkupId(true);
 		populateItems();
 		
