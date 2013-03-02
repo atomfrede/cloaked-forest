@@ -1,0 +1,4 @@
+*.xml~
+/target
+/.settings
+.classpath
