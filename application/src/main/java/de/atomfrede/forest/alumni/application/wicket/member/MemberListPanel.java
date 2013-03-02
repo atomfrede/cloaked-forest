@@ -31,7 +31,6 @@ public class MemberListPanel extends Panel{
 		
 		setOutputMarkupId(true);
 		populateItems();
-		
 	}
 	
 	private void populateItems(){
