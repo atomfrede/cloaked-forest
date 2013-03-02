@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/">
+<head>
+
+<wicket:head>
+	<title>Hello World</title>
+</wicket:head>
+
+</head>
+<body class="main-content">
+
+	<div class="container">
+		<div wicket:id="navbar"></div>
+
+		<div class="main-wrapper">
+<!-- 			<div class="alert alert-block alert-success"> -->
+<!-- 				<button type="button" class="close" data-dismiss="alert">×</button> -->
+<!-- 				<h4>Warning!</h4> -->
+<!-- 				Best check yo self, you're not... -->
+<!-- 			</div> -->
+			<div class="left-actions">
+				<div style="height: 100%;">
+					<a href="#" wicket:id="btn-get-bottle" class="btn btn-block btn-large"
+						type="button">Large button</a>
+					<a href="#" wicket:id="btn-crate" class="btn btn-block btn-large" type="button">Large
+						button</a>
+					<a href="#" wicket:id="btn-user-admin" class="btn btn-block btn-large"
+						type="button">Large button</a>
+						
+
+					<div class="alert alert-info available-mates"><span wicket:id="available-mates"></span></div>
+				</div>
+
+			</div>
+
+			<!--Body content-->
+			<div class="right-content box box-round">
+				<wicket:child />
+			</div>
+
+		</div>
+
+
+
+
+
+
+	</div>
+	<wicket:panel wicket:id="footer"></wicket:panel>
+
+
+</body>
+</html>
