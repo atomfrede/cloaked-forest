@@ -5,12 +5,14 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
 import de.agilecoders.wicket.Bootstrap;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
@@ -109,6 +111,9 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				BasePage.class, "base-content.css")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				BasePage.class, "base.css")));
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				BasePage.class, "bootstrap-select.min.css")));
+		response.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(BasePage.class, "bootstrap-select.min.js")));
 		Bootstrap.renderHead(response);
 	}
 
