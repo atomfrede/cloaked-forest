@@ -30,12 +30,12 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 		Session session = this.sessionFactory.getCurrentSession();
 
 		Criteria crit = session.createCriteria(getClazz());
-		crit.setFirstResult((int)offset);
-		crit.setMaxResults((int)count);
+		crit.addOrder(Order.asc("lastname"));
 		for(FilterElement elem:elements){
 			crit.add(Restrictions.ilike(elem.getPropertyName(), "%"+elem.getFilter()+"%"));
 		}
-		crit.addOrder(Order.asc("lastname"));
+		crit.setFirstResult((int)offset);
+		crit.setMaxResults((int)count);
 
 		return crit.list();
 	}
@@ -46,13 +46,14 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 		Session session = this.sessionFactory.getCurrentSession();
 
 		Criteria crit = session.createCriteria(getClazz());
-		crit.setFirstResult((int)offset);
-		crit.setMaxResults((int)count);
 		if(desc){
 			crit.addOrder(Order.desc(orderProperty));
 		}else{
 			crit.addOrder(Order.asc(orderProperty));
 		}
+		crit.setFirstResult((int)offset);
+		crit.setMaxResults((int)count);
+		
 		return crit.list();
 	}
 	

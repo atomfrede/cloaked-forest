@@ -10,4 +10,5 @@ public interface MemberDao extends DAO<Member> {
 	
 	public List<Member> list(long offset, long count, FilterElement...elements);
 
+	public List<Member> list(long offset, long count, String orderProperty, boolean desc);
 }

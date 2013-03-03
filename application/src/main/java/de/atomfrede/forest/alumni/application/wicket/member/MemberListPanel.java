@@ -96,9 +96,7 @@ public class MemberListPanel extends Panel{
 			
 		};
 		members.setItemsPerPage(15);
-//		add(members);
 		members.setOutputMarkupId(true);
-//		add(new BootstrapAjaxPagingNavigator("pager", members));
 		wmc.add(members);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
 		add(wmc);

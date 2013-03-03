@@ -41,7 +41,7 @@ public class MemberProvider implements IDataProvider<Member>{
 			count = members.size();
 			return members.iterator();
 		}
-		return memberDao.list(offset, count).iterator();
+		return memberDao.list(offset, count, "lastname", false).iterator();
 		
 	}
 
