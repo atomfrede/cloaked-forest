@@ -6,7 +6,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import de.atomfrede.forest.alumni.application.wicket.base.AbstractAuthPage;
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 import de.atomfrede.forest.alumni.application.wicket.login.LoginPanel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserSession;

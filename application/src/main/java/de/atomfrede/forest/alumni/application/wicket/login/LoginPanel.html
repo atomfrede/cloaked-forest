@@ -4,21 +4,23 @@
 		<div class="form-box box-round">
 			<form id="login_form" wicket:id="loginForm" class="form-horizontal">
 				<fieldset class="form-content">
-					<legend>Login</legend>
+					<legend><wicket:message key="login.page.legend"/></legend>
 					<div class="alert-error login-feedback" wicket:id="feedbackPanel"></div>
 					<div wicket:id="username_container" class="control-group">
 						<label class="control-label" for="login_form_username"><wicket:message
-								key="value:login.page.username">Benutzername</wicket:message>:</label>
+								key="login.page.username">Benutzername</wicket:message>:</label>
 						<div class="controls">
 							<input type="text" wicket:id="username" id="login_form_username"
+								wicket:message="placeholder:login.page.username"
 								placeholder="Benutzername" />
 						</div>
 					</div>
 					<div wicket:id="password_container" class="control-group">
 						<label class="control-label" for="login_form_password"><wicket:message
-								key="value:login.page.password">Password</wicket:message>:</label>
+								key="login.page.password">Password</wicket:message>:</label>
 						<div class="controls">
 							<input class="error" type="password" wicket:id="password"
+								wicket:message="placeholder:login.page.password"
 								id="login_form_password" />
 						</div>
 					</div>

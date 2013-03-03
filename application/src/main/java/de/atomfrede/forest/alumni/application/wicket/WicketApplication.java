@@ -34,6 +34,8 @@ public class WicketApplication extends WebApplication implements
 		super.init();
 		Bootstrap.install(WicketApplication.get(),
 				new BootstrapSettings().minify(true));
+		
+		configureBootstrap();
 
 		initSpring();
 
@@ -48,7 +50,7 @@ public class WicketApplication extends WebApplication implements
 		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
 
 		new AnnotatedMountScanner().scanPackage(
-				"de.atomfrede.virtual.web.tour.application.*").mount(this);
+				"de.atomfrede.forest.alumni.application.*").mount(this);
 
 	}
 
@@ -60,13 +62,6 @@ public class WicketApplication extends WebApplication implements
 
 	private void configureBootstrap() {
 		final BootstrapSettings settings = new BootstrapSettings();
-		settings.useJqueryPP(false).useModernizr(false).useResponsiveCss(true)
-				.setJsResourceFilterName("footer-container");
-
-		// reactivate if new less4j version is available:
-		// settings.getBootstrapLessCompilerSettings().setUseLessCompiler(usesDevelopmentConfig());
-		// settings.getBootstrapLessCompilerSettings().setLessCompiler(new
-		// Less4JCompiler());
 
 		ThemeProvider themeProvider = new BootswatchThemeProvider() {
 			{

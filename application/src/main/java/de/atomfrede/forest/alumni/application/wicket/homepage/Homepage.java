@@ -13,6 +13,4 @@ public class Homepage extends BasePage<Void> {
 		super();
 		add(new MemberListPanel("members"));
 	}
-
-
 }

@@ -5,12 +5,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import de.atomfrede.forest.alumni.application.wicket.base.AbstractAuthPage;
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 import de.atomfrede.forest.alumni.service.user.UserService;
 import de.atomfrede.forest.alumni.service.user.UsernameAlreadyTakenException;
 
+@SuppressWarnings("serial")
 @MountPath(value = "/login", alt = "/login")
 public class LoginPage extends AbstractAuthPage<Void> {
 
@@ -21,7 +21,6 @@ public class LoginPage extends AbstractAuthPage<Void> {
 	public LoginPage() {
 		super();
 		commonInit(new PageParameters());
-//		addDummyBottles();
 		addDummyUser();
 		
 		UserAuthModel userModel = new UserAuthModel(User.class, -1L);

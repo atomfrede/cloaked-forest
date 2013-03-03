@@ -20,6 +20,8 @@ public class MemberProvider implements IDataProvider<Member>{
 	@SpringBean
 	MemberDao memberDao;
 	
+	long count;
+	
 	String nameFilter;
 	
 	public MemberProvider(){
@@ -33,9 +35,11 @@ public class MemberProvider implements IDataProvider<Member>{
 
 	@Override
 	public Iterator<? extends Member> iterator(long offset, long count) {
-		if(nameFilter != null && !"".equals(nameFilter.trim())){
+		if(isFilteredByName()){
 			FilterElement elem = new FilterElement().propertyName("lastname").filter(nameFilter);
-			return memberDao.list(offset, count, elem).iterator();
+			List<Member> members = memberDao.list(offset, count, elem);
+			count = members.size();
+			return members.iterator();
 		}
 		return memberDao.list(offset, count).iterator();
 		
@@ -48,7 +52,16 @@ public class MemberProvider implements IDataProvider<Member>{
 
 	@Override
 	public long size() {
+		if(isFilteredByName()){
+			FilterElement elem = new FilterElement().propertyName("lastname").filter(nameFilter);
+			List<Member> members = memberDao.list(0, memberDao.count(), elem);
+			return members.size();
+		}
 		return memberDao.count();
+	}
+	
+	private boolean isFilteredByName(){
+		return (nameFilter != null && !"".equals(nameFilter.trim()));
 	}
 
 }

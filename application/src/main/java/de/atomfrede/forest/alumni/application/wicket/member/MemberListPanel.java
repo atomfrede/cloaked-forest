@@ -2,6 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
@@ -26,6 +27,7 @@ public class MemberListPanel extends Panel{
 	MemberListActionPanel actionPanel;
 	MemberProvider memberProvider;
 	DataView<Member> members;
+	WebMarkupContainer wmc;
 	
 	public MemberListPanel(String id) {
 		super(id);
@@ -34,6 +36,8 @@ public class MemberListPanel extends Panel{
 		add(actionPanel);
 		addFilter();
 		setOutputMarkupId(true);
+		wmc = new WebMarkupContainer("table-wrapper");
+		wmc.setOutputMarkupId(true);
 		populateItems();
 		
 	}
@@ -45,12 +49,8 @@ public class MemberListPanel extends Panel{
 			protected void onUpdate(AjaxRequestTarget target) {
 				// TODO Auto-generated method stub
 				String input = actionPanel.nameFilter.getConvertedInput();
-				actionPanel.nameFilter.setModel(Model.of(input));
-				System.out.println("OnChange "+actionPanel.nameFilter.getConvertedInput());
 				doFilter(input);
-				target.add(members.getParent());
-				
-				
+				target.add(wmc);
 			}
 		});
 	}
@@ -60,6 +60,8 @@ public class MemberListPanel extends Panel{
 	}
 	
 	private void populateItems(){
+		
+		
 		members = new DataView<Member>("members", getMemberProvider()){
 
 			@Override
@@ -94,9 +96,12 @@ public class MemberListPanel extends Panel{
 			
 		};
 		members.setItemsPerPage(15);
-		add(members);
+//		add(members);
 		members.setOutputMarkupId(true);
-		add(new BootstrapAjaxPagingNavigator("pager", members));
+//		add(new BootstrapAjaxPagingNavigator("pager", members));
+		wmc.add(members);
+		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
+		add(wmc);
 	}
 	
 	public MemberProvider getMemberProvider(){
