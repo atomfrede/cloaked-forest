@@ -37,7 +37,7 @@ public class Company extends AbstractEntity {
 	@JoinColumn(name = "sector", nullable = true)
 	private Sector sector;
 	
-	@OneToMany(cascade = { CascadeType.ALL })
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy="department")
 	private List<Department> departments;
 	
 	@Override

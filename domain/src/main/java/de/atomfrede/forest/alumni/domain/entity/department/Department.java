@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,6 +22,10 @@ public class Department extends AbstractEntity {
 
 	@Id
 	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name="company_fk")
+	private Company company;
 	
 	@Column(name = "department")
 	private String department;
@@ -118,4 +123,14 @@ public class Department extends AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	
 }

@@ -235,6 +235,11 @@ public class ConverterExecutor {
 				Company company = companyDao.findById(compId);
 				company.setDepartments(comp_departments.get(compId));
 				companyDao.persist(company);
+				
+					for(Department dep:comp_departments.get(compId)){
+						dep.setCompany(company);
+						departmentDao.persist(dep);
+					}
 			}
 		}catch(Exception e){
 			
