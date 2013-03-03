@@ -1,5 +1,7 @@
 package de.atomfrede.forest.alumni.application.wicket.member;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
@@ -22,19 +24,43 @@ public class MemberListPanel extends Panel{
 	MemberDao memberDao;
 	
 	MemberListActionPanel actionPanel;
+	MemberProvider memberProvider;
+	DataView<Member> members;
 	
 	public MemberListPanel(String id) {
 		super(id);
 		
 		actionPanel = new MemberListActionPanel("members-action");
 		add(actionPanel);
-		
+		addFilter();
 		setOutputMarkupId(true);
 		populateItems();
+		
+	}
+	
+	private void addFilter(){
+		actionPanel.nameFilter.add(new OnChangeAjaxBehavior() {
+			
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) {
+				// TODO Auto-generated method stub
+				String input = actionPanel.nameFilter.getConvertedInput();
+				actionPanel.nameFilter.setModel(Model.of(input));
+				System.out.println("OnChange "+actionPanel.nameFilter.getConvertedInput());
+				doFilter(input);
+				target.add(members.getParent());
+				
+				
+			}
+		});
+	}
+	
+	protected void doFilter(String input){
+		getMemberProvider().nameFilter = input;
 	}
 	
 	private void populateItems(){
-		DataView<Member> members = new DataView<Member>("members", new MemberProvider()){
+		members = new DataView<Member>("members", getMemberProvider()){
 
 			@Override
 			protected void populateItem(Item<Member> item) {
@@ -67,10 +93,17 @@ public class MemberListPanel extends Panel{
 			}
 			
 		};
-		
 		members.setItemsPerPage(15);
 		add(members);
+		members.setOutputMarkupId(true);
 		add(new BootstrapAjaxPagingNavigator("pager", members));
+	}
+	
+	public MemberProvider getMemberProvider(){
+		if(memberProvider == null){
+			memberProvider = new MemberProvider();
+		}
+		return memberProvider;
 	}
 
 }

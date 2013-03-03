@@ -37,7 +37,11 @@ public class CsvExporter {
 				for(Member member:members){
 					String[] line = new String[6];
 					line[0] = member.getSalutation();
-					line[1] = member.getDegree().getShortForm();
+					if(member.getDegree() != null){
+						line[1] = member.getDegree().getShortForm();
+					}else{
+						line[1] = "-/-";
+					}
 					line[2] = member.getFirstname();
 					line[3] = member.getLastname();
 					

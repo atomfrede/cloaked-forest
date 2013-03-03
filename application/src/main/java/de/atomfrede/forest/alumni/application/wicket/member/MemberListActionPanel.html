@@ -2,7 +2,14 @@
 <html xmlns:wicket="http://wicket.apache.org/">
 <wicket:panel>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="span6">
+			<div class="pull-left">
+				<form wicket:id="filter-form">
+					<input wicket:id="name-filter" type="text" placeholder="Filter nach Name"/>
+				</form>
+			</div>
+		</div>
+		<div class="span6">
 			<div class="pull-right action-wrapper">
 				<a href="#" wicket:id="btn-new-member" class="btn" type="button"></a>
 				<a href="#" wicket:id="btn-csv-download" class="btn" type="button"></a>

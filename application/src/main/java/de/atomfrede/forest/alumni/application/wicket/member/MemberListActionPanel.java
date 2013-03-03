@@ -6,8 +6,13 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.wicket.ajax.AjaxEventBehavior;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.IRequestHandler;
@@ -17,6 +22,7 @@ import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.IValidator;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
 import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
@@ -37,12 +43,25 @@ public class MemberListActionPanel extends Panel {
 	
 	TypedLink<Void> newMember;
 	TypedLink<Void> csvDownload;
+	TextField<String> nameFilter;
+	Form<String> filterForm;
+	String currentFilter = "";
 	
 	public MemberListActionPanel(String id) {
 		super(id);
+		filterForm = new Form<String>("filter-form");
+		nameFilter = new TextField<String>("name-filter", Model.of(currentFilter));
+		
+		filterForm.add(nameFilter);
+		filterForm.setOutputMarkupId(true);
+		add(filterForm);
+		
 		addNewMember();
 		addCsvDownload();
+		setOutputMarkupId(true);
 	}
+	
+
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {

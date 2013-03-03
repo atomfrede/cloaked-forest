@@ -5,10 +5,12 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.dao.AbstractDAO;
+import de.atomfrede.forest.alumni.domain.dao.filter.FilterElement;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 
 @Repository(value = "memberDao")
@@ -24,12 +26,15 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 	 * Returns a list of members starting the the given offset up to the specific count.
 	 * Ordered ascending by lastname.
 	 */
-	public List<Member> list(long offset, long count) {
+	public List<Member> list(long offset, long count, FilterElement...elements) {
 		Session session = this.sessionFactory.getCurrentSession();
 
 		Criteria crit = session.createCriteria(getClazz());
 		crit.setFirstResult((int)offset);
 		crit.setMaxResults((int)count);
+		for(FilterElement elem:elements){
+			crit.add(Restrictions.ilike(elem.getPropertyName(), "%"+elem.getFilter()+"%"));
+		}
 		crit.addOrder(Order.asc("lastname"));
 
 		return crit.list();
