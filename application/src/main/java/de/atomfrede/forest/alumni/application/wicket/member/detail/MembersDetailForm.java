@@ -25,10 +25,14 @@ import de.atomfrede.forest.alumni.application.wicket.activity.ActivityProvider;
 import de.atomfrede.forest.alumni.application.wicket.custom.CustomSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
+import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
+import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
+import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 
 @SuppressWarnings("serial")
 public class MembersDetailForm extends Form<Void>{
@@ -36,11 +40,21 @@ public class MembersDetailForm extends Form<Void>{
 	@SpringBean
 	DegreeDao degreeDao;
 	
+	@SpringBean
+	SectorDao sectorDao;
+	
+	@SpringBean
+	CompanyDao companyDao;
+	
+	@SpringBean
+	DepartmentDao departmentDao;
+	
 	Type editType;
+	Degree selectedDegree;
+	Sector selectedSector;
 	
 	RequiredTextField<String> firstname, lastname, personalMail;
-	Degree selectedDegree;
-	TextField<String> profession, salutation, title, graduationYear, personalStreet, personalTown, personalPostcode, workMail, personalMobile, personalFax, personalPhone, personalInternet;
+	TextField<String> personalAddon, profession, salutation, title, graduationYear, personalStreet, personalTown, personalPostcode, workMail, personalMobile, personalFax, personalPhone, personalInternet, workPhone, workMobile, workFax, workInternet;
 	DateTextField entryDate;
 	
 	DataView<Activity> activities;
@@ -86,6 +100,7 @@ public class MembersDetailForm extends Form<Void>{
 		
 		add(degreeSelect);
 		
+		personalAddon = new TextField<String>("personal.addon");
 		personalFax = new TextField<String>("personal.fax");
 		personalMobile = new TextField<String>("personal.mobile");
 		personalPhone = new TextField<String>("personal.phone");
@@ -97,6 +112,17 @@ public class MembersDetailForm extends Form<Void>{
 		personalMail.add(EmailAddressValidator.getInstance());
 		workMail = new TextField<String>("work.mail");
 		workMail.add(EmailAddressValidator.getInstance());
+		workFax = new TextField<String>("work.fax");
+		workInternet = new TextField<String>("work.internet");
+		workMobile = new TextField<String>("work.mobile");
+		workPhone = new TextField<String>("work.phone");
+		
+		
+		add(workFax);
+		add(workInternet);
+		add(workMobile);
+		add(workPhone);
+		add(personalAddon);
 		add(workMail);
 		add(personalPostcode);
 		add(personalStreet);
@@ -106,6 +132,21 @@ public class MembersDetailForm extends Form<Void>{
 		add(personalMobile);
 		add(personalPhone);
 		add(personalInternet);
+		
+		//Branche
+		List<Sector> sectors = sectorDao.findAll();
+		
+		Select<Sector> sectorSelect = new Select<Sector>("sector-select", new PropertyModel<Sector>(this, "selectedSector"));
+		
+		sectorSelect.add(new ListView<Sector>("sector-options", sectors) {
+
+			@Override
+			protected void populateItem(ListItem<Sector> item) {
+				item.add(new CustomSelectOption("sector-option", item.getModelObject().getSector()));
+			}
+		});
+		
+		add(sectorSelect);
 		
 		populateItems();
 	}
