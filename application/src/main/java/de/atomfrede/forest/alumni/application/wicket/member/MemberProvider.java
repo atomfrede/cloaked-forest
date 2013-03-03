@@ -2,6 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 
 import java.util.Iterator;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
