@@ -90,7 +90,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT, new NavbarButton<Homepage>(
-						Homepage.class, Model.of("Home"))
+						Homepage.class, Model.of(_("nav.home", "Mitgliederliste").getString()))
 						.setIconType(IconType.home)
 
 		));
@@ -114,6 +114,9 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				BasePage.class, "bootstrap-select.min.css")));
 		response.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(BasePage.class, "bootstrap-select.min.js")));
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				BasePage.class, "prettyCheckable.css")));
+		response.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(BasePage.class, "prettyCheckable.js")));
 		Bootstrap.renderHead(response);
 	}
 

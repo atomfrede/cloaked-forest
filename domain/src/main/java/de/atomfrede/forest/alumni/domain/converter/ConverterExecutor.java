@@ -433,7 +433,11 @@ public class ConverterExecutor {
 				contact.setAddon(zusatz);
 				contact.setCountry(land);
 				try{
-					contact.setDepartment(departmentId_department.get(Long.parseLong(abteilungsId)));
+					Department dep = departmentId_department.get(Long.parseLong(abteilungsId));
+					if(dep != null){
+						System.out.println("Setting Department with ID "+dep.getId()+" into contact data...");
+					}
+					contact.setDepartment(dep);
 				}catch(NumberFormatException nfe){
 					System.out.println("NFE");
 				}

@@ -4,27 +4,93 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<div class="row-fluid">
+				 <ul class="nav nav-tabs">
+					<li class="active"><a href="#tab1" data-toggle="tab"><wicket:message key="member.detail.tab.personal"/></a></li>
+					<li><a href="#tab2" data-toggle="tab"><wicket:message key="member.detail.tab.degree"/></a></li>
+					<li><a href="#tab3" data-toggle="tab"><wicket:message key="member.detail.tab.contact"/></a></li>
+					<li><a href="#tab4" data-toggle="tab"><wicket:message key="member.detail.tab.activities"/></a></li>
+				</ul>
 				<form wicket:id="member-form">
-					<div class="span5">
-						<fieldset>
-							<legend><wicket:message key="member.detail.personal"/></legend>
-		
-							<label><wicket:message key="member.detail.firstname" /></label> 
-							<input class="input-xlarge" wicket:id="firstname" type="text" wicket:message="placeholder:member.detail.firstname"> 
-							<label><wicket:message key="member.detail.lastname" /></label> 
-							<input class="input-xlarge" wicket:id="lastname" type="text" wicket:message="placeholder:member.detail.lastname">
-						</fieldset>
-					</div>
-					<div class="span5">
-						<fieldset>
-							<legend><wicket:message key="member.detail.degree"/></legend>
-							<label><wicket:message key="member.detail.degree"/></label>
-							<select wicket:id="degree-select" class="selectpicker">
-								<wicket:container wicket:id="degree-options">
-									<option wicket:id="degree-option"></option>
-								</wicket:container>
-							</select>
-						</fieldset>
+					<div class="tab-content">
+					
+						<div class="tab-pane active" id="tab1">
+							<div class="span5">
+								<fieldset>
+									<legend><wicket:message key="member.detail.personal"/></legend>
+									<label><wicket:message key="member.detail.salutation" /></label> 
+									<input class="input-xlarge" wicket:id="salutation" type="text" wicket:message="placeholder:member.detail.salutation"> 
+									<label><wicket:message key="member.detail.title" /></label> 
+									<input class="input-xlarge" wicket:id="title" type="text" wicket:message="placeholder:member.detail.title.placeholder"> 
+									<label><wicket:message key="member.detail.firstname" /></label> 
+									<input class="input-xlarge" wicket:id="firstname" type="text" wicket:message="placeholder:member.detail.firstname.placeholder"> 
+									<label><wicket:message key="member.detail.lastname" /></label> 
+									<input class="input-xlarge" wicket:id="lastname" type="text" wicket:message="placeholder:member.detail.lastname.placeholder">
+									<label><wicket:message key="member.detail.entry.date" /></label> 
+									<input class="input-xlarge" wicket:id="entrydate" wicket:message="placeholder:member.detail.entry.date.placeholder">
+								</fieldset>
+							</div>
+							<div class="span5">
+								<fieldset>
+									<legend><wicket:message key="member.detail.contact.personal"/></legend>
+									<label><wicket:message key="member.detail.personal.street" /></label> 
+									<input class="input-xlarge" wicket:id="personal.street" type="text" wicket:message="placeholder:member.detail.personal.street.placeholder"> 
+									<label><wicket:message key="member.detail.personal.postcode" /></label> 
+									<input class="input-xlarge" wicket:id="personal.postcode" type="text" wicket:message="placeholder:member.detail.personal.postcode.placeholder"> 
+									<label><wicket:message key="member.detail.personal.town" /></label> 
+									<input class="input-xlarge" wicket:id="personal.town" type="text" wicket:message="placeholder:member.detail.personal.town.placeholder"> 
+									<label><wicket:message key="member.detail.personal.mail" /></label> 
+									<input class="input-xlarge" wicket:id="personal.mail" type="text" wicket:message="placeholder:member.detail.personal.mail.placeholder">
+									<label><wicket:message key="member.detail.personal.mobile" /></label> 
+									<input class="input-xlarge" wicket:id="personal.mobile" type="text" wicket:message="placeholder:member.detail.personal.mobile.placeholder">
+									<label><wicket:message key="member.detail.personal.phone" /></label> 
+									<input class="input-xlarge" wicket:id="personal.phone" type="text" wicket:message="placeholder:member.detail.personal.phone.placeholder">
+									<label><wicket:message key="member.detail.personal.fax" /></label> 
+									<input class="input-xlarge" wicket:id="personal.fax" type="text" wicket:message="placeholder:member.detail.personal.fax.placeholder">
+									<label><wicket:message key="member.detail.personal.internet" /></label> 
+									<input class="input-xlarge" wicket:id="personal.internet" type="text" wicket:message="placeholder:member.detail.personal.internet.placeholder">
+								</fieldset>
+							</div>
+							
+							
+						</div>
+						<div class="tab-pane" id="tab2">
+							<div class="span5">
+								<fieldset>
+									<legend><wicket:message key="member.detail.degree"/></legend>
+									<label><wicket:message key="member.detail.degree"/></label>
+									<select wicket:id="degree-select" class="selectpicker">
+										<wicket:container wicket:id="degree-options">
+											<option wicket:id="degree-option"></option>
+										</wicket:container>
+									</select>
+									<label><wicket:message key="member.detail.profession" /></label> 
+									<input class="input-xlarge" wicket:id="profession" type="text" wicket:message="placeholder:member.detail.profession.placeholder"> 
+									<label><wicket:message key="member.detail.graduation.year" /></label> 
+									<input class="input-xlarge" wicket:id="graduationyear" type="text" wicket:message="placeholder:member.detail.graduation.year.placeholder"> 
+								</fieldset>
+							</div>
+						</div>
+						<div class="tab-pane" id="tab3">
+							<div class="span5">
+								<fieldset>
+									<legend><wicket:message key="member.detail.contact.work"/></legend>
+									<label><wicket:message key="member.detail.work.mail" /></label> 
+									<input class="input-xlarge" wicket:id="work.mail" type="text" wicket:message="placeholder:member.detail.work.mail.placeholder">
+								</fieldset>
+							</div>
+						</div>
+						<div class="tab-pane" id="tab4">
+							<div class="span8">
+								<fieldset>
+									<legend><wicket:message key="member.detail.activities"/></legend>
+										<span wicket:id="activities">
+											<div class="span6">
+												<input wicket:id="activity" type="checkbox" class="checkboxes-pretty" value="true" />
+											</div>
+										</span>
+								</fieldset>
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>
