@@ -39,6 +39,7 @@ import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
+import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
 public class MembersDetailForm extends Form<Void>{
@@ -57,6 +58,9 @@ public class MembersDetailForm extends Form<Void>{
 	
 	@SpringBean
 	DepartmentDao departmentDao;
+	
+	@SpringBean
+	MemberService memberService;
 	
 	Type editType;
 	Degree selectedDegree;
@@ -294,7 +298,7 @@ public class MembersDetailForm extends Form<Void>{
 	
 	@Override
 	public void onSubmit() {
-		
+		memberService.createMember(_firstname, _lastname, _personalMail);
 		
 	}
 
