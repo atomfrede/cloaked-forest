@@ -81,11 +81,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Class<Member> getClazz() {
-		return Member.class;
-	}
-
-	@Override
 	public Member createMember(String firstname, String lastname,
 			String personalMail) {
 		Member mem = new Member();
