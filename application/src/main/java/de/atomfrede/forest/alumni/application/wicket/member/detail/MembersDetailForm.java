@@ -239,7 +239,21 @@ public class MembersDetailForm extends Form<Void>{
 			@Override
 			protected void populateItem(Item<Activity> item) {
 				//TODO check which must be the default value...
-				CheckBox checkBox = new CheckBox("activity", Model.of(Boolean.TRUE));
+				CheckBox checkBox =null;
+				switch (editType) {
+				case Create:
+					checkBox = new CheckBox("activity", Model.of(Boolean.FALSE));
+					break;
+				case Edit:
+					//TODO use the activities currently selected for this user
+					break;
+				case Show:
+					//TODO use the activities currently selected for this user
+					break;
+				default:
+					break;
+				}
+				
 				checkBox.add(new AttributeModifier("data-label", item.getModelObject().getActivity()));
 				item.add(checkBox);
 			}
