@@ -47,6 +47,12 @@ public class AbstractEntityModel<T extends AbstractEntity>
 	}
 
 	public T getObject() {
+		try {
+			//FIXME CHeck why this throws an exception 
+			entity.getId();
+		} catch (Exception e) {
+			entity = null;
+		}
 		if (entity == null) {
 			if (id != null) {
 				entity = load(id);
