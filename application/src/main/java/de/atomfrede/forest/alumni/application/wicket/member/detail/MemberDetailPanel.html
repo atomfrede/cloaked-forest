@@ -3,16 +3,16 @@
 <wicket:panel>
 	<div class="row-fluid">
 		<div class="span12">
+			<form wicket:id="member-form">
 			<div class="row-fluid">
+				<div class="alert-error member-feedback" wicket:id="feedbackPanel"></div>
 				 <ul class="nav nav-tabs">
 					<li class="active"><a href="#tab1" data-toggle="tab"><wicket:message key="member.detail.tab.personal"/></a></li>
 					<li><a href="#tab2" data-toggle="tab"><wicket:message key="member.detail.tab.degree"/></a></li>
 					<li><a href="#tab3" data-toggle="tab"><wicket:message key="member.detail.tab.contact"/></a></li>
 					<li><a href="#tab4" data-toggle="tab"><wicket:message key="member.detail.tab.activities"/></a></li>
 				</ul>
-				<form wicket:id="member-form">
 					<div class="tab-content">
-					
 						<div class="tab-pane active" id="tab1">
 							<div class="span5">
 								<fieldset>
@@ -21,10 +21,14 @@
 									<input class="input-xlarge" wicket:id="salutation" type="text" wicket:message="placeholder:member.detail.salutation"> 
 									<label><wicket:message key="member.detail.title" /></label> 
 									<input class="input-xlarge" wicket:id="title" type="text" wicket:message="placeholder:member.detail.title.placeholder"> 
-									<label><wicket:message key="member.detail.firstname" /></label> 
-									<input class="input-xlarge" wicket:id="firstname" type="text" wicket:message="placeholder:member.detail.firstname.placeholder"> 
-									<label><wicket:message key="member.detail.lastname" /></label> 
-									<input class="input-xlarge" wicket:id="lastname" type="text" wicket:message="placeholder:member.detail.lastname.placeholder">
+									<div wicket:id="member.detail.firstname.wrapper" class="control-group">
+										<label><wicket:message key="member.detail.firstname" /></label> 
+										<input class="input-xlarge" wicket:id="firstname" type="text" wicket:message="placeholder:member.detail.firstname.placeholder"> 
+									</div>
+									<div wicket:id="member.detail.lastname.wrapper" class="control-group">
+										<label><wicket:message key="member.detail.lastname" /></label> 
+										<input class="input-xlarge" wicket:id="lastname" type="text" wicket:message="placeholder:member.detail.lastname.placeholder">
+									</div>
 									<label><wicket:message key="member.detail.entry.date" /></label> 
 									<input class="input-xlarge" wicket:id="entrydate" wicket:message="placeholder:member.detail.entry.date.placeholder">
 								</fieldset>
@@ -47,8 +51,11 @@
 										<input class="span5" wicket:id="personal.town" type="text" wicket:message="placeholder:member.detail.personal.town.placeholder"> 
 									</div>
 									
-									<label><wicket:message key="member.detail.personal.mail" /></label> 
-									<input class="input-xlarge span8" wicket:id="personal.mail" type="text" wicket:message="placeholder:member.detail.personal.mail.placeholder">
+									<div wicket:id="member.detail.personal.mail.wrapper" class="control-group">
+										<label><wicket:message key="member.detail.personal.mail" /></label> 
+										<input class="input-xlarge span8" wicket:id="personal.mail" type="text" wicket:message="placeholder:member.detail.personal.mail.placeholder">
+									</div>
+									
 									<label><wicket:message key="member.detail.personal.mobile" /></label> 
 									<input class="input-xlarge span8" wicket:id="personal.mobile" type="text" wicket:message="placeholder:member.detail.personal.mobile.placeholder">
 									<label><wicket:message key="member.detail.personal.phone" /></label> 
@@ -124,14 +131,13 @@
 							</div>
 						</div>
 					</div>
-				</form>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
+						<button type="button" class="btn"><wicket:message key="global.cancel"/></button>
+					</div>
 			</div>
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
-				<button type="button" class="btn"><wicket:message key="global.cancel"/></button>
-			</div>
+			</form>
 		</div>
-
 	</div>
 </wicket:panel>
 </html>

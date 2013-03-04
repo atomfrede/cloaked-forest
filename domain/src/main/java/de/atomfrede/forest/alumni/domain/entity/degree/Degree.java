@@ -52,4 +52,8 @@ public class Degree extends AbstractEntity{
 	public void setShortForm(String shortForm) {
 		this.shortForm = shortForm;
 	}
+	
+	public String toString(){
+		return title;
+	}
 }

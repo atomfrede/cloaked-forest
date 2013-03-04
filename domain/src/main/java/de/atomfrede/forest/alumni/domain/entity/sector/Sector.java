@@ -37,5 +37,9 @@ public class Sector extends AbstractEntity{
 	public void setSector(String sector) {
 		this.sector = sector;
 	}
+	
+	public String toString(){
+		return sector;
+	}
 
 }
