@@ -9,6 +9,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
@@ -17,6 +18,8 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
 import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
@@ -144,7 +147,10 @@ public class MemberListPanel extends Panel{
 	}
 	
 	private void editMember(long id){
-		
+		PageParameters params = new PageParameters();
+		params.add(MemberDetailPage.EDIT_TYPE, Type.Edit);
+		params.add(MemberDetailPage.MEMBER_ID, id);
+		setResponsePage(MemberDetailPage.class, params);
 	}
 
 }

@@ -1,7 +1,9 @@
 package de.atomfrede.forest.alumni.application.wicket.member.detail;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -28,6 +30,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.extensions.form.DateTextField
 import de.atomfrede.forest.alumni.application.wicket.activity.ActivityProvider;
 import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.SectorSelectOption;
+import de.atomfrede.forest.alumni.application.wicket.member.MemberDetailPageListener;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.domain.dao.activity.ActivityDao;
@@ -42,7 +45,7 @@ import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
-public class MembersDetailForm extends Form<Void>{
+public class MembersDetailForm extends Form<Member>{
 
 	@SpringBean
 	DegreeDao degreeDao;
@@ -83,8 +86,10 @@ public class MembersDetailForm extends Form<Void>{
 	String _graduationYear, _profession;
 	String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
 	
+	Map<String, Boolean> activityName_checked = new HashMap<>();
+	
 	public MembersDetailForm(String id, Type editType, AbstractEntityModel<Member> model) {
-		super(id);
+		super(id, model);
 		this.editType = editType;
 		
 		feedbackPanel = new FeedbackPanel("feedbackPanel");
@@ -100,7 +105,7 @@ public class MembersDetailForm extends Form<Void>{
 	}
 	
 	private void initFormValues(AbstractEntityModel<Member> model){
-		if(model.getObject() == null){
+		if(editType == Type.Create){
 			_salutation = "";
 			_title = "";
 			_firstname = "";
@@ -116,6 +121,42 @@ public class MembersDetailForm extends Form<Void>{
 			_personalTown = "";
 			
 			_entryDate = new Date();
+			
+		}else if(model.getObject() != null){
+			Member mem = model.getObject();
+			_graduationYear = mem.getYearOfGraduation();
+			_salutation = mem.getSalutation();
+			_title = mem.getTitle();
+			_firstname = mem.getFirstname();
+			_lastname = mem.getLastname();
+			_personalMail = mem.getContactData().getEmail();
+			_personalAddon = mem.getContactData().getAddon();
+			_personalFax = mem.getContactData().getFax();
+			_personalInternet = mem.getContactData().getInternet();
+			_personalMobile = mem.getContactData().getMobile();
+			_personalNumber = mem.getContactData().getNumber();
+			_personalPostcode = mem.getContactData().getPostCode();
+			_personalStreet = mem.getContactData().getStreet();
+			_personalTown = mem.getContactData().getTown();
+			_workFax = mem.getContactData().getFaxD();
+			_workInternet = mem.getContactData().getInternetD();
+			_workMail = mem.getContactData().getEmailD();
+			_workMobile = mem.getContactData().getMobileD();
+			_workPhone = mem.getContactData().getPhoneD();
+			
+			_entryDate = mem.getEntryDate();
+			_profession = mem.getProfession();
+			
+			selectedDegree = mem.getDegree();
+			selectedSector = mem.getSector();
+			
+			for(Activity act:activityDao.findAll()){
+				if(mem.getActivities().contains(act)){
+					activityName_checked.put(act.getActivity(), Boolean.TRUE);
+				}else{
+					activityName_checked.put(act.getActivity(), Boolean.FALSE);
+				}
+			}
 		}
 	}
 	/**
@@ -244,15 +285,18 @@ public class MembersDetailForm extends Form<Void>{
 			protected void populateItem(Item<Activity> item) {
 				//TODO check which must be the default value...
 				CheckBox checkBox =null;
+				boolean checked = false;
 				switch (editType) {
 				case Create:
 					checkBox = new CheckBox("activity", Model.of(Boolean.FALSE));
 					break;
 				case Edit:
-					//TODO use the activities currently selected for this user
+					checked = activityName_checked.get(item.getModelObject().getActivity());
+					checkBox = new CheckBox("activity", Model.of(checked));
 					break;
 				case Show:
-					//TODO use the activities currently selected for this user
+					checked = activityName_checked.get(item.getModelObject().getActivity());
+					checkBox = new CheckBox("activity", Model.of(Boolean.FALSE));
 					break;
 				default:
 					break;
@@ -298,7 +342,17 @@ public class MembersDetailForm extends Form<Void>{
 	
 	@Override
 	public void onSubmit() {
-		memberService.createMember(_firstname, _lastname, _personalMail);
+		Member member = null;
+		if(editType == Type.Create){
+			member = memberService.createMember(_firstname, _lastname, _personalMail);
+			editType = Type.Create;
+			if(getPage() instanceof MemberDetailPageListener){
+				((MemberDetailPageListener)getPage()).editTypeChanged(editType);
+			}
+		}else{
+			member = getModelObject();
+		}
+		
 		
 	}
 

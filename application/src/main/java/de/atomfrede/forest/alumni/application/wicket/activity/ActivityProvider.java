@@ -23,7 +23,7 @@ public class ActivityProvider implements IDataProvider<Activity> {
 	
 	@Override
 	public void detach() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
