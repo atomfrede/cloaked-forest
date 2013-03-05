@@ -11,7 +11,11 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
+import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
+import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
 import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
+import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
@@ -72,13 +76,15 @@ public class MemberListPanel extends Panel{
 				item.add(new Label("firstname", new PropertyModel<String>(member, "firstname")));
 				item.add(new Label("lastname", new PropertyModel<String>(member, "lastname")));
 				if(degree != null){
-					Label degreeLbl = new Label("degree", new PropertyModel<String>(degree, "shortForm"));
+					String degreeShort = degree.getShortForm();
+					String graduationYear = member.getYearOfGraduation();
+					String label = degreeShort+ " ("+graduationYear+")";
+					Label degreeLbl = new Label("degree", Model.of(label));
 					degreeLbl.add(new TooltipBehavior(new PropertyModel<String>(degree, "title")));
 					item.add(degreeLbl);
 				}else{
 					item.add(new Label("degree", Model.of("-/-")));
 				}
-				item.add(new Label("graduation-year", new PropertyModel<String>(member, "yearOfGraduation")));
 				item.add(new Label("profession", new PropertyModel<String>(member, "profession")));
 				
 				int size = member.getActivities().size();
@@ -92,6 +98,30 @@ public class MemberListPanel extends Panel{
 					cSize++;
 				}
 				item.add(new Label("activity", Model.of(sb.toString())));
+				
+				final long memberId = member.getId();
+				TypedLink<Void> editUser = new TypedLink<Void>("action-edit", ButtonType.Default) {
+
+					@Override
+					public void onClick() {
+						editMember(memberId);
+						
+					}
+				};
+				editUser.setIconType(IconType.pencil).setSize(ButtonSize.Mini).setInverted(false);
+				
+				TypedLink<Void> deleteUser = new TypedLink<Void>("action-delete", ButtonType.Danger) {
+
+					@Override
+					public void onClick() {
+						deleteMember(memberId);
+						
+					}
+				};
+				deleteUser.setIconType(IconType.remove).setSize(ButtonSize.Mini);
+				
+				item.add(editUser);
+				item.add(deleteUser);
 			}
 			
 		};
@@ -107,6 +137,14 @@ public class MemberListPanel extends Panel{
 			memberProvider = new MemberProvider();
 		}
 		return memberProvider;
+	}
+	
+	private void deleteMember(long id){
+		memberDao.remove(id);
+	}
+	
+	private void editMember(long id){
+		
 	}
 
 }

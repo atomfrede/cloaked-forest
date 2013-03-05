@@ -12,9 +12,9 @@
 					<th><wicket:message key="member.headers.degree" /></th>
 					<th><wicket:message key="member.headers.firstname" /></th>
 					<th><wicket:message key="member.headers.lastname" /></th>
-					<th><wicket:message key="member.headers.graduationyear" /></th>
 					<th><wicket:message key="member.headers.profession" /></th>
 					<th><wicket:message key="member.headers.activity" /></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,9 +23,14 @@
 						<td><span wicket:id="degree"></span></td>
 						<td><span wicket:id="firstname"></span></td>
 						<td><span wicket:id="lastname"></span></td>
-						<td><span wicket:id="graduation-year"></span></td>
 						<td><span wicket:id="profession"></span></td>
 						<td><span wicket:id="activity"></span></td>
+						<td>
+							<div class="btn-group">
+								<a wicket:id="action-edit" class="btn btn-mini" href="#"></a>
+								<a wicket:id="action-delete" class="btn btn-mini btn-danger" href=""></a>
+							</div>
+						</td>
 					</tr>
 				</span>
 			</tbody>

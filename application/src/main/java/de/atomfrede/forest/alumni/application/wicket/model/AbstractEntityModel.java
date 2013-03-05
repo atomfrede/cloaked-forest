@@ -12,8 +12,8 @@ import org.apache.wicket.util.io.IClusterable;
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.service.EntityLoader;
 
-public class AbstractEntityModel<T extends AbstractEntity> 
-		 implements IModel<T>, IClusterable, Serializable{
+public class AbstractEntityModel<T extends AbstractEntity> implements
+		IModel<T>, IClusterable, Serializable {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class AbstractEntityModel<T extends AbstractEntity>
 
 	@SpringBean
 	public EntityLoader mEntityLoader;
-	
+
 	public Serializable id;
 
 	public T entity;
@@ -33,10 +33,9 @@ public class AbstractEntityModel<T extends AbstractEntity>
 		this.clazz = entity.getClass();
 		id = entity.getId();
 		this.entity = entity;
-		
+
 		Injector.get().inject(this);
-		
-		
+
 	}
 
 	public AbstractEntityModel(Class<? extends AbstractEntity> clazz,
@@ -48,7 +47,7 @@ public class AbstractEntityModel<T extends AbstractEntity>
 
 	public T getObject() {
 		try {
-			//FIXME CHeck why this throws an exception 
+			// FIXME CHeck why this throws an exception
 			entity.getId();
 		} catch (Exception e) {
 			entity = null;
@@ -66,6 +65,12 @@ public class AbstractEntityModel<T extends AbstractEntity>
 	}
 
 	public void detach() {
+		try {
+			// FIXME CHeck why this throws an exception
+			entity.getId();
+		} catch (Exception e) {
+			entity = null;
+		}
 		if (entity != null) {
 			if (entity.getId() != null) {
 				id = entity.getId();
