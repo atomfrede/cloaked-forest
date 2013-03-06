@@ -22,6 +22,7 @@ body {
 	border-left: 1px solid #EEEEEE;
 	border-right: 1px solid #EEEEEE;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	padding: 5px;
 }
 
 .box-round {
@@ -46,16 +47,22 @@ body {
 	height: 256px;
 	margin-left: -256px;
 	left: 50%;
-	padding-top: 15px;
+	padding-top: 25px;
 }
 
+.logo-image-inner:{
+	margin:5px;
+	padding: 5px;
+	
+}
 .logo-image img{
-	position:relative;
-	text-align: center;
+/* 	position:relative; */
+/* 	text-align: center; */
+	
 	left: 50%;
-	width: 256px;
-	height: 256px;
-	margin-left: -128px;
+/* 	width: 256px; */
+/* 	height: 256px; */
+/* 	margin-left: -256px; */
 }
 
 .centre {
