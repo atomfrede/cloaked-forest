@@ -188,4 +188,5 @@ public class Member extends AbstractEntity {
 		}
 		activities.add(activity);
 	}
+	
 }

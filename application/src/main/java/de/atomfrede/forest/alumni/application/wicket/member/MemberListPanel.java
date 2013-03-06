@@ -3,6 +3,8 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes.Method;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -21,7 +23,6 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
 import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
 import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
-import de.agilecoders.wicket.markup.html.bootstrap.image.IconBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
@@ -67,6 +68,12 @@ public class MemberListPanel extends Panel{
 				String input = actionPanel.nameFilter.getConvertedInput();
 				doFilter(input);
 				target.add(wmc);
+			}
+			
+			@Override
+			protected void updateAjaxAttributes(AjaxRequestAttributes attributes){
+				super.updateAjaxAttributes(attributes);
+				//Do need to declare some additional Attributes?
 			}
 		});
 	}
