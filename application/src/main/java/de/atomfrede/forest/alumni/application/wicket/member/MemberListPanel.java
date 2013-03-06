@@ -1,7 +1,10 @@
 package de.atomfrede.forest.alumni.application.wicket.member;
 
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -12,12 +15,16 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
 import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
 import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
+import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
+import de.agilecoders.wicket.markup.html.bootstrap.image.IconBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
@@ -35,6 +42,7 @@ public class MemberListPanel extends Panel{
 	MemberProvider memberProvider;
 	DataView<Member> members;
 	WebMarkupContainer wmc;
+	TextContentModal modal;
 	
 	public MemberListPanel(String id) {
 		super(id);
@@ -46,6 +54,7 @@ public class MemberListPanel extends Panel{
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
+		setupModal();
 		
 	}
 	
@@ -103,6 +112,8 @@ public class MemberListPanel extends Panel{
 				item.add(new Label("activity", Model.of(sb.toString())));
 				
 				final long memberId = member.getId();
+				final String firstname = member.getFirstname();
+				final String lastname = member.getLastname();
 				TypedLink<Void> editUser = new TypedLink<Void>("action-edit", ButtonType.Default) {
 
 					@Override
@@ -117,7 +128,7 @@ public class MemberListPanel extends Panel{
 
 					@Override
 					public void onClick() {
-						deleteMember(memberId);
+						deleteMember(memberId, firstname, lastname);
 						
 					}
 				};
@@ -135,6 +146,12 @@ public class MemberListPanel extends Panel{
 		add(wmc);
 	}
 	
+	void setupModal(){
+		modal = new TextContentModal("modal-prompt", Model.of("Hallo Welt"));
+		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
+		add(modal);
+	}
+	
 	public MemberProvider getMemberProvider(){
 		if(memberProvider == null){
 			memberProvider = new MemberProvider();
@@ -142,7 +159,42 @@ public class MemberListPanel extends Panel{
 		return memberProvider;
 	}
 	
-	private void deleteMember(long id){
+	private void deleteMember(final long id, String firstname, String lastname){
+		
+		final TextContentModal modal = new TextContentModal("modal-prompt", Model.of(_("modal.text", firstname, lastname).getString()));
+		modal.setOutputMarkupId(true);
+		
+		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
+		modal.header(Model.of(_("modal.header", firstname, lastname).getString()));
+		
+		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_("modal.delete", "").getString())) {
+
+			@Override
+		    protected void onConfigure() {
+		        super.onConfigure();
+
+		        setBody(getDefaultModel());
+		        add(new ButtonBehavior(ButtonType.Danger));
+//		        add(new IconBehavior(IconType.remove));
+		    }
+			
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				doDeleteMember(id);
+				target.appendJavaScript("$('.modal').modal('close');");
+				setResponsePage(Homepage.class);
+				
+			}
+		};
+		
+		
+		modal.addButton(doDelete);
+		this.modal.replaceWith(modal);
+		modal.show(true);
+		this.modal = modal;
+	}
+	
+	private void doDeleteMember(long id){
 		memberDao.remove(id);
 	}
 	
