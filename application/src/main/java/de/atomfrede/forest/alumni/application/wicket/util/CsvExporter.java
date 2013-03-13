@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
+import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
+import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 
 @Component
@@ -20,6 +24,7 @@ public class CsvExporter {
 	@Autowired
 	MemberDao memberDao;
 	
+	private static Log log = LogFactory.getLog(CsvExporter.class);
 	public CsvExporter(){
 	}
 	
@@ -34,8 +39,27 @@ public class CsvExporter {
 				List<Member> members = memberDao.findAll();
 				List<String[]> linesToWrite = new ArrayList<String[]>();
 				
+				String[] header = new String[14];
+				
+				header[0] = "Anrede";
+				header[1] = "Abschluss/Titel";
+				header[2] = "Vorname";
+				header[3] = "Nachname";
+				header[4] = "Abschlussjahr";
+				header[5] = "Abschluss";
+				header[6] = "Tätigkeit";
+				header[7] = "Straße/Hausnummer";
+				header[8] = "PLZ";
+				header[9] = "Ort";
+				header[10] = "Mail (privat)";
+				header[11] = "Firma/Arbeitgeber";
+				header[12] = "Abteilung";
+				header[13] = "Branche";
+				
+				linesToWrite.add(header);
+				
 				for(Member member:members){
-					String[] line = new String[6];
+					String[] line = new String[14];
 					line[0] = member.getSalutation();
 					if(member.getDegree() != null){
 						line[1] = member.getDegree().getShortForm();
@@ -47,14 +71,48 @@ public class CsvExporter {
 					
 					line[4] = member.getYearOfGraduation();
 					line[5] = member.getProfession();
-//					line[4] = member.getContactData().
+					
+					line[6] = "";
+					int actCount = member.getActivities().size();
+					int counter = 1;
+					for(Activity act:member.getActivities()){
+						if(counter != actCount){
+							line[6] = line[6] + act.getActivity()+", ";
+						}else{
+							line[6] = line[6] + act.getActivity();
+						}
+						
+					}
+					//Now the Adress and Contact Data
+					ContactData cData = member.getContactData();
+					line[7] = cData.getStreet() + " " +cData.getNumber();
+					line[8] = cData.getPostCode();
+					line[9] = cData.getTown();
+					line[10] = cData.getEmail();
+					
+					if(member.getDepartment() != null){
+						line[11] = member.getDepartment().getCompany().getCompany();
+						line[12] = member.getDepartment().getDepartment();
+					}else{
+						line[11] = "-/-";
+						line[12] = "-/-";
+					}
+					
+					if(member.getSector() != null){
+						line[13] = member.getSector().getSector();
+					}else{
+						line[13] = "-/-";
+					}
+					
+					
+					
 					linesToWrite.add(line);
 				}
 				
 				writer.writeAll(linesToWrite);
 				return tempCsvFile;
 			}catch (Exception e) {
-			
+				log.error("Could not write CSV.", e);
 			}finally{
 				if(writer != null){
 					writer.close();
