@@ -61,6 +61,8 @@ public class ConverterExecutor {
 	
 	Map<Long, Department> departmentId_department = new HashMap<Long, Department>();
 	
+	Map<Long, Company> companyId_company = new HashMap<>();
+	
 	public ConverterExecutor(){
 		URL resource = ConverterExecutor.class.getResource("../../../../../../domain-context.xml");
 		System.out.println("URL "+resource);
@@ -174,6 +176,8 @@ public class ConverterExecutor {
 				comp.setSector(sec);
 				
 				companyDao.persist(comp);
+				
+				companyId_company.put(comp.getId(), comp);
 				
 			}
 			
@@ -465,15 +469,26 @@ public class ConverterExecutor {
 				
 				Member mem = memberId_member.get(Long.parseLong(mitgliedId));
 				mem.setContactData(contact);
+				if(contact.getDepartment() != null){
+					ContactData data = contactDao.findById(contact.getId());
+					mem.setDepartment(contact.getDepartment());
+					companyDao.findById(contact.getDepartment().getCompany().getId());
+					System.out.println("Company "+contact.getDepartment().getCompany().getId());
+					
+					mem.setCompany(companyId_company.get(contact.getDepartment().getCompany().getId()));
+				}
 				contactData.add(contact);
 				membersDb.add(mem);
+				
+				memberDao.persist(mem);
 				
 			}
 			
 			reader.close();
 			System.out.println("Ready with Adressen");
 			
-			memberDao.persistAll(membersDb);
+//			memberDao.persistAll(membersDb);
+			
 			
 			
 		}catch(Exception e){

@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
@@ -58,6 +59,10 @@ public class Member extends AbstractEntity {
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "department", nullable = true)
 	private Department department;
+	
+	@OneToOne
+	@JoinColumn(name = "company", nullable = true)
+	private Company company;
 	
 	@Column(name = "salutation")
 	private String salutation;
@@ -182,6 +187,14 @@ public class Member extends AbstractEntity {
 		this.id = id;
 	}
 	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 	public void addActivity(Activity activity){
 		if(activities == null){
 			activities = new HashSet<Activity>();
