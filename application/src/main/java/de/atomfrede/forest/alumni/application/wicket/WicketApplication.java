@@ -34,7 +34,7 @@ public class WicketApplication extends WebApplication implements
 		super.init();
 		Bootstrap.install(WicketApplication.get(),
 				new BootstrapSettings().minify(true));
-		
+
 		configureBootstrap();
 
 		initSpring();
@@ -71,14 +71,15 @@ public class WicketApplication extends WebApplication implements
 		settings.setThemeProvider(themeProvider);
 
 		Bootstrap.install(this, settings);
+		
+	        // wicket markup leads to ui problems because css selectors doesn't match.
+				 this.getMarkupSettings().setStripWicketTags(true);
 	}
 
 	@Override
 	public Class<? extends Page> getHomePage() {
 		return Homepage.class;
 	}
-	
-	
 
 	@Override
 	public Class<? extends Page> getLoginPage() {
@@ -91,7 +92,5 @@ public class WicketApplication extends WebApplication implements
 				request);
 		return session;
 	}
-
-	
 
 }

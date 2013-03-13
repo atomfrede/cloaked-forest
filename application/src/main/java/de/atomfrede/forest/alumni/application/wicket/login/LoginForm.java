@@ -6,11 +6,12 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
+import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.atomfrede.forest.alumni.application.wicket.base.AbstractBaseForm;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
@@ -32,15 +33,14 @@ public class LoginForm extends AbstractBaseForm<User> {
 
 	TextField<String> usernameTextField;
 	PasswordTextField passwordTextField;
-	FeedbackPanel feedbackPanel;
+	NotificationPanel feedbackPanel;
 	WebMarkupContainer usernameContainer, passwordContainer;
 	
 	public LoginForm(String id, UserAuthModel model) {
 		super(id, new CompoundPropertyModel<User>(model));
 
-		feedbackPanel = new FeedbackPanel("feedbackPanel");
+		feedbackPanel = new NotificationPanel("feedbackPanel");
 		add(feedbackPanel);
-		feedbackPanel.setVisible(false);
 
 		usernameContainer = new WebMarkupContainer("username_container");
 		feedbackPanel.add(usernameContainer);
@@ -90,13 +90,13 @@ public class LoginForm extends AbstractBaseForm<User> {
 		if (user == null) {
 			// Put a generic error message like user not found or password
 			// incorrect
-			error("Benutzer nicht gefunden oder Password nicht korrekt.");
+			error(new NotificationMessage(Model.of("Benutzer nicht gefunden oder Password nicht korrekt.")));
 			return;
 		} else {
 			// Check if the password is correct for the user found by the
 			// provided username
 			if(!user.isPassword(password)){
-				error("Benutzer nicht gefunden oder Password nicht korrekt.");
+				error(new NotificationMessage(Model.of("Benutzer nicht gefunden oder Password nicht korrekt.")));
 				return;
 			}
 		}
