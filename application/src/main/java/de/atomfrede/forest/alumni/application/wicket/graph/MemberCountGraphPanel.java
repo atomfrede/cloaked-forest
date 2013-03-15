@@ -1,11 +1,9 @@
 package de.atomfrede.forest.alumni.application.wicket.graph;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.wicketstuff.jqplot.JqPlotChart;
-
-import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 
 import br.com.digilabs.jqplot.chart.LineChart;
+import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 
 @SuppressWarnings("serial")
 public class MemberCountGraphPanel extends Panel{
@@ -16,8 +14,7 @@ public class MemberCountGraphPanel extends Panel{
 	}
 	
 	private void setupGraph(){
-		LineChart<Integer> lineChart = new LineChart<Integer>();
-		lineChart.addValues(1,2,3,4,5);
+		LineChart<Integer> lineChart = new LineChart<Integer>("Mitgliederentwicklung");
 		add(new JQPlotChart("chart1", lineChart));
 	}
 
