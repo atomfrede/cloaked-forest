@@ -12,7 +12,6 @@ import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
-import org.wicketstuff.jqplot.behavior.JqPlotBehavior;
 
 import br.com.digilabs.jqplot.Chart;
 import br.com.digilabs.jqplot.JqPlotUtils;

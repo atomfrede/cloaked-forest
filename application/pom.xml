@@ -87,15 +87,9 @@
 			<version>${wicket.bootstrap.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.wicketstuff</groupId>
-			<artifactId>jqplot</artifactId>
-			<version>1.5.9.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.wicket</groupId>
-					<artifactId>wicket</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>br.com.digilabs.jqplot</groupId>
+			<artifactId>jqplot4java</artifactId>
+			<version>1.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
