@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.markup.html.form.select.Select;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -23,8 +26,10 @@ import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
+import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.form.DateTextField;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.form.DateTextFieldConfig;
 import de.atomfrede.forest.alumni.application.wicket.activity.ActivityProvider;
@@ -69,13 +74,14 @@ public class MembersDetailForm extends Form<Member>{
 	Degree selectedDegree;
 	Sector selectedSector;
 	
-	FeedbackPanel feedbackPanel;
+	NotificationPanel feedbackPanel;
 	
 	WebMarkupContainer firstnameWrapper, lastnameWrapper, personalMailWrapper;
 	
 	RequiredTextField<String> firstname, lastname, personalMail;
 	TextField<String> personalAddon, profession, salutation, title, graduationYear, personalStreet, personalTown, personalPostcode, workMail, personalMobile, personalFax, personalPhone, personalInternet, workPhone, workMobile, workFax, workInternet;
 	DateTextField entryDate;
+	
 	
 	DataView<Activity> activities;
 	
@@ -92,9 +98,8 @@ public class MembersDetailForm extends Form<Member>{
 		super(id, model);
 		this.editType = editType;
 		
-		feedbackPanel = new FeedbackPanel("feedbackPanel");
+		feedbackPanel = new NotificationPanel("feedbackPanel");
 		add(feedbackPanel);
-		feedbackPanel.setVisible(false);
 		
 		initFormValues(model);
 		
@@ -323,6 +328,7 @@ public class MembersDetailForm extends Form<Member>{
 	protected void onError() {
 		// Only on validation errors we make the feedbackpanel visible
 		this.feedbackPanel.setVisible(true);
+		this.feedbackPanel.hideAfter(Duration.seconds(10));
 		if(!firstname.isValid()){
 			firstnameWrapper.add(new AttributeAppender("class", " error"));
 		}else{

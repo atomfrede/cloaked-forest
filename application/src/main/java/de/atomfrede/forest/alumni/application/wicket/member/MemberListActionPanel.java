@@ -21,8 +21,8 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
-import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
+import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
@@ -38,8 +38,8 @@ public class MemberListActionPanel extends Panel {
 	@SpringBean
 	CsvExporter csvExporter;
 	
-	TypedLink<Void> newMember;
-	TypedLink<Void> csvDownload;
+	BootstrapLink<Void> newMember;
+	BootstrapLink<Void> csvDownload;
 	TextField<String> nameFilter;
 	Form<String> filterForm;
 	String currentFilter = "";
@@ -48,6 +48,8 @@ public class MemberListActionPanel extends Panel {
 		super(id);
 		filterForm = new Form<String>("filter-form");
 		nameFilter = new TextField<String>("name-filter", new PropertyModel<String>(this, "currentFilter"));
+		
+		nameFilter.setOutputMarkupId(true);
 		
 		filterForm.add(nameFilter);
 		filterForm.setOutputMarkupId(true);
@@ -68,7 +70,7 @@ public class MemberListActionPanel extends Panel {
 	}
 	
 	private void addNewMember(){
-		newMember = new TypedLink<Void>("btn-new-member", ButtonType.Primary) {
+		newMember = new BootstrapLink<Void>("btn-new-member", Buttons.Type.Primary) {
 
 			@Override
 			public void onClick() {
@@ -81,7 +83,7 @@ public class MemberListActionPanel extends Panel {
 	}
 	
 	private void addCsvDownload(){
-		csvDownload = new TypedLink<Void>("btn-csv-download", ButtonType.Default) {
+		csvDownload = new BootstrapLink<Void>("btn-csv-download", Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {

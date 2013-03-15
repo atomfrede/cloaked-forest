@@ -4,7 +4,6 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
-import org.apache.wicket.ajax.attributes.AjaxRequestAttributes.Method;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -17,10 +16,10 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapAjaxLink;
+import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
-import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
+import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
@@ -76,6 +75,8 @@ public class MemberListPanel extends Panel{
 				//Do need to declare some additional Attributes?
 			}
 		});
+		
+
 	}
 	
 	protected void doFilter(String input){
@@ -121,7 +122,7 @@ public class MemberListPanel extends Panel{
 				final long memberId = member.getId();
 				final String firstname = member.getFirstname();
 				final String lastname = member.getLastname();
-				TypedLink<Void> editUser = new TypedLink<Void>("action-edit", ButtonType.Default) {
+				BootstrapLink<Void> editUser = new BootstrapLink<Void>("action-edit", Buttons.Type.Default) {
 
 					@Override
 					public void onClick() {
@@ -129,17 +130,18 @@ public class MemberListPanel extends Panel{
 						
 					}
 				};
-				editUser.setIconType(IconType.pencil).setSize(ButtonSize.Mini).setInverted(false);
+				editUser.setIconType(IconType.pencil).setSize(Buttons.Size.Mini).setInverted(false);
 				
-				TypedLink<Void> deleteUser = new TypedLink<Void>("action-delete", ButtonType.Danger) {
+				BootstrapLink<Void> deleteUser = new BootstrapLink<Void>("action-delete", Buttons.Type.Danger) {
 
 					@Override
 					public void onClick() {
 						deleteMember(memberId, firstname, lastname);
 						
 					}
+
 				};
-				deleteUser.setIconType(IconType.remove).setSize(ButtonSize.Mini);
+				deleteUser.setIconType(IconType.remove).setSize(Buttons.Size.Mini);
 				
 				item.add(editUser);
 				item.add(deleteUser);
@@ -181,7 +183,7 @@ public class MemberListPanel extends Panel{
 		        super.onConfigure();
 
 		        setBody(getDefaultModel());
-		        add(new ButtonBehavior(ButtonType.Danger));
+		        add(new ButtonBehavior(Buttons.Type.Danger));
 //		        add(new IconBehavior(IconType.remove));
 		    }
 			

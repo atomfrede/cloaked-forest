@@ -33,7 +33,7 @@ public class WicketApplication extends WebApplication implements
 	protected void init() {
 		super.init();
 		Bootstrap.install(WicketApplication.get(),
-				new BootstrapSettings().minify(true));
+				new BootstrapSettings());
 
 		configureBootstrap();
 
