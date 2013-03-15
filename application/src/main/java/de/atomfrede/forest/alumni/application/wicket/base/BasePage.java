@@ -20,7 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarCompone
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
-import de.atomfrede.forest.alumni.application.wicket.graph.MemberCountGraphPage;
+import de.atomfrede.forest.alumni.application.wicket.graph.MemberGraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
@@ -81,23 +81,24 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		navbar.setPosition(Navbar.Position.TOP);
 
 		// show brand name
-		navbar.brandName(Model.of(_("global.page.title", "global.page.title")
+		navbar.brandName(Model.of(_("global.page.title")
 				.getString()));
+		
+
 		
 
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT,
 				new NavbarButton<Homepage>(Homepage.class, Model.of(_(
-						"nav.home", "Mitgliederliste").getString()))
+						"nav.home").getString()))
 						.setIconType(IconType.home)
 
 		));
 
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT,
-				new NavbarButton<MemberCountGraphPage>(
-						MemberCountGraphPage.class, Model.of(_("nav.graph",
-								"Graphs").getString()))
+				new NavbarButton<MemberGraphPage>(
+						MemberGraphPage.class, Model.of(_("nav.graph").getString()))
 						.setIconType(IconType.picture)));
 
 		navbar.addComponents(new ImmutableNavbarComponent(

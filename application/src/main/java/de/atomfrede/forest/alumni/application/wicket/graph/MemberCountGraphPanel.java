@@ -48,15 +48,17 @@ public class MemberCountGraphPanel extends Panel{
 			
 			Map<Date, Integer> values = memberService.getMemberCountPerYear(dt.toDate());
 			
-			LabeledLineChart<Integer> lineChart = new LabeledLineChart<Integer>(_("member.graph.heading", startYear, endYear).getString(), "Jahr", "Mitglieder");
+			LabeledLineChart<Integer> lineChart = new LabeledLineChart<Integer>(_("member.graph.heading", startYear, endYear).getString(), _("graph.year").getString(), _("graph.year").getString());
 			
 			Date[] dates = values.keySet().toArray(new Date[]{});
 			
 			SimpleDateFormat sdfPlot = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdfPlot2 = new SimpleDateFormat("MMM-dd-yyyy");
 			Arrays.sort(dates);
 			int count = 0;
 			for(Date key:dates){
 				if(count == 0){
+//					lineChart.getXAxis().setMin(sdfPlot2.format(key));
 				}
 				if(count == dates.length){
 					
@@ -73,10 +75,11 @@ public class MemberCountGraphPanel extends Panel{
 			lineChart.getChartConfiguration().setHighlighter(hl);
 			
 			lineChart.getYAxis().setAutoScale(true);
-			lineChart.getXAxis().getTickOptions().setFormatString("%b %#d %Y");
+			lineChart.getXAxis().getTickOptions().setFormatString("%b-%d-%Y");
 //			lineChart.getXAxis().setMin(sdfPlot.format(dates[0]));
 //			lineChart.getXAxis().setMin(sdfPlot.format(dates[dates.length-1]));
-			lineChart.getXAxis().setAutoScale(false);
+			lineChart.getYAxis().setMin(0+"");
+			lineChart.getXAxis().setAutoScale(true);
 			add(new JQPlotChart("chart1", lineChart));
 		}catch(Exception e) {
 			log.error("Could not retrieve data values for plot.", e);
