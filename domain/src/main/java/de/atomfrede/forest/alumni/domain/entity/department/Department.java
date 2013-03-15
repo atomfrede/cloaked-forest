@@ -132,5 +132,9 @@ public class Department extends AbstractEntity {
 		this.company = company;
 	}
 	
+	public String toString(){
+		return department;
+	}
+	
 	
 }

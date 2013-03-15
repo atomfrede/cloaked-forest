@@ -83,5 +83,9 @@ public class Company extends AbstractEntity {
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
 	}
+	
+	public String toString(){
+		return company;
+	}
 
 }

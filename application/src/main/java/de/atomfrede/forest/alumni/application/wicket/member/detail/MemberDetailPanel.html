@@ -108,13 +108,27 @@
 							</div>
 							<div class="span5">
 								<fieldset>
-									<legend><wicket:message key="member.details.work.legend"/></legend>
-									<label><wicket:message key="member.detail.work.sector"/></label>
-									<select wicket:id="sector-select" class="selectpicker">
-										<wicket:container wicket:id="sector-options">
-											<option wicket:id="sector-option"></option>
-										</wicket:container>
-									</select>
+									<div wicket:id="select-wrapper">
+										<legend><wicket:message key="member.details.work.legend"/></legend>
+										<label><wicket:message key="member.detail.work.sector"/></label>
+										<select wicket:id="sector-select" class="selectpicker">
+											<wicket:container wicket:id="sector-options">
+												<option wicket:id="sector-option"></option>
+											</wicket:container>
+										</select>
+										<label><wicket:message key="member.detail.work.company"/></label>
+										<select wicket:id="company-select" class="selectpicker">
+											<wicket:container wicket:id="company-options">
+												<option wicket:id="company-option"></option>
+											</wicket:container>
+										</select>
+										<label><wicket:message key="member.detail.work.department"/></label>
+										<select wicket:id="department-select" class="selectpicker">
+											<wicket:container wicket:id="department-options">
+												<option wicket:id="department-option"></option>
+											</wicket:container>
+										</select>
+									</div>
 								</fieldset>
 							</div>
 						</div>
