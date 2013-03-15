@@ -12,7 +12,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import de.atomfrede.forest.alumni.domain.dao.contact.ContactDataDao;
 import de.atomfrede.forest.alumni.domain.dao.filter.FilterElement;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
+import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 
 @Service(value = "memberService")
 @Transactional(rollbackFor = Exception.class)
@@ -37,6 +38,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	ContactDataDao contactDao;
+	
+	@Autowired
+	SectorDao sectorDao;
 
 	protected Session session;
 	
@@ -153,5 +157,28 @@ public class MemberServiceImpl implements MemberService {
 	
 	public Map<Date, Integer> getMemberCountPerYear(Date from){
 		return getMemberCountPerYear(from, new Date());
+	}
+	
+	@Transactional
+	public Map<String, Integer> getMembersPerSector(){
+		return getMembersPerSector(false);
+	}
+	
+	@Transactional
+	public Map<String, Integer> getMembersPerSector(boolean withZero){
+		Map<String, Integer> values = new HashMap<>();
+		
+		List<Sector> sectors = sectorDao.findAll();
+		
+		for(Sector sec:sectors){
+			int value = memberDao.findAllByProperty("sector", sec).size();
+			if(value == 0 && withZero){
+				values.put(sec.getSector(), value);
+			}else if(value != 0){
+				values.put(sec.getSector(), value);
+			}
+		}
+		
+		return values;
 	}
 }

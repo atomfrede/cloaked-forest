@@ -8,6 +8,7 @@ public class MemberGraphPage extends BasePage<Void>{
 	public MemberGraphPage(){
 		super();
 		add(new MemberCountGraphPanel("member-count"));
+		add(new SectorGraphPanel("sector-overview"));
 	}
 	
 }

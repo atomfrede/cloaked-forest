@@ -31,6 +31,10 @@ public interface MemberService extends EntityService<Member>{
 	public Map<Date, Integer> getMemberCountPerYear(Date from);
 	
 	public Map<Date, Integer> getMemberCountPerYear(Date from, Date to);
+	
+	public Map<String, Integer> getMembersPerSector();
+	
+	public Map<String, Integer> getMembersPerSector(boolean withZero);
 
 
 }

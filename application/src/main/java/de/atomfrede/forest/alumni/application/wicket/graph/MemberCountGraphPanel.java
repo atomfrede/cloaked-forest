@@ -48,7 +48,7 @@ public class MemberCountGraphPanel extends Panel{
 			
 			Map<Date, Integer> values = memberService.getMemberCountPerYear(dt.toDate());
 			
-			LabeledLineChart<Integer> lineChart = new LabeledLineChart<Integer>(_("member.graph.heading", startYear, endYear).getString(), _("graph.year").getString(), _("graph.year").getString());
+			LabeledLineChart<Integer> lineChart = new LabeledLineChart<Integer>(_("member.graph.heading", startYear, endYear).getString(), _("graph.year").getString(), _("graph.members").getString());
 			
 			Date[] dates = values.keySet().toArray(new Date[]{});
 			
