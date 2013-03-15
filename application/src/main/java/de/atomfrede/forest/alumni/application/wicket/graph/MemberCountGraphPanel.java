@@ -15,6 +15,7 @@ public class MemberCountGraphPanel extends Panel{
 	
 	private void setupGraph(){
 		LineChart<Integer> lineChart = new LineChart<Integer>("Mitgliederentwicklung");
+		lineChart.addValues(1,2,3,4,5);
 		add(new JQPlotChart("chart1", lineChart));
 	}
 

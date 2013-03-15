@@ -2,6 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.jqplot;
 
 import java.util.List;
 
+import org.apache.wicket.Application;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.head.CssHeaderItem;
@@ -20,10 +21,10 @@ import br.com.digilabs.jqplot.JqPlotUtils;
 public class JQPlotBehaviour extends Behavior {
 
 	private static final ResourceReference JQPLOT_JS = new JavaScriptResourceReference(
-			JqPlotBehavior.class, "jquery.jqplot.min.js");
+			JQPlotBehaviour.class, "jquery.jqplot.min.js");
 
 	private static final ResourceReference JQPLOT_CSS = new CssResourceReference(
-			JqPlotBehavior.class, "jquery.jqplot.min.css");
+			JQPlotBehaviour.class, "jquery.jqplot.min.css");
 
 
 	private Chart<?> chart;
@@ -37,6 +38,8 @@ public class JQPlotBehaviour extends Behavior {
 	@Override
 	public void renderHead(Component component, IHeaderResponse response) {
 		super.renderHead(component, response);
+		response.render(JavaScriptHeaderItem.forReference(Application.get().getJavaScriptLibrarySettings().getJQueryReference()));
+		
 		response.render(JavaScriptHeaderItem.forReference(JQPLOT_JS));
 		response.render(CssHeaderItem.forReference(JQPLOT_CSS));
 
@@ -44,7 +47,7 @@ public class JQPlotBehaviour extends Behavior {
 		for (String resource : resources) {
 			response.render(JavaScriptHeaderItem
 					.forReference(new JavaScriptResourceReference(
-							JqPlotBehavior.class, resource)));
+							JQPlotBehaviour.class, resource)));
 		}
 		String json = createJquery();
 		response.render(OnDomReadyHeaderItem.forScript(json));
