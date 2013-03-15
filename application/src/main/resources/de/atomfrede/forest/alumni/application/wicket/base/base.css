@@ -2,7 +2,7 @@ body {
 	height: 100%
 }
 
-.register-link{
+.register-link {
 	margin-left: 5px;
 }
 
@@ -10,19 +10,25 @@ body {
 	margin: 5px;
 }
 
-.login-feedback{
+.login-feedback {
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
 .form-box {
-	background: -moz-linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%)
-		repeat scroll 0 0 transparent;
+	background: -webkit-gradient(center top, #FFFFFF 0px, #DDDDDD 100%);
+	background: -webkit-linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%);
+	background: -o-linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%);
+	background: -ms-linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%);
+	background: -moz-linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%); 
+	background : -linear-gradient( center top, #FFFFFF 0px, #DDDDDD 100%);
+	background-image: -webkit-linear-gradient(top, rgb(255, 255, 255) 0px, rgb(221, 221, 221) 100%);
 	border-bottom: 1px solid #CCCCCC;
 	border-left: 1px solid #EEEEEE;
 	border-right: 1px solid #EEEEEE;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 	padding: 5px;
+	background: -linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%);
 }
 
 .box-round {
@@ -50,28 +56,27 @@ body {
 	padding-top: 25px;
 }
 
-.logo-image-inner:{
-	margin:5px;
+.logo-image-inner: {
+	margin: 5px;
 	padding: 5px;
-	
 }
-.logo-image img{
-/* 	position:relative; */
-/* 	text-align: center; */
-	
+
+.logo-image img {
+	/* 	position:relative; */
+	/* 	text-align: center; */
 	left: 50%;
-/* 	width: 256px; */
-/* 	height: 256px; */
-/* 	margin-left: -256px; */
+	/* 	width: 256px; */
+	/* 	height: 256px; */
+	/* 	margin-left: -256px; */
 }
 
 .centre {
 	position: absolute;
 	margin-top: 256px;
-/* 	height: 256px; */
-/* 	margin-top: -50px; */
-/* 	width: 420px; */
-/* 	margin-left: -210px; */
-/* 	top: 50%; */
-/* 	left: 50%; */
+	/* 	height: 256px; */
+	/* 	margin-top: -50px; */
+	/* 	width: 420px; */
+	/* 	margin-left: -210px; */
+	/* 	top: 50%; */
+	/* 	left: 50%; */
 }
