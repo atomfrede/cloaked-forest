@@ -20,6 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarCompone
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
+import de.atomfrede.forest.alumni.application.wicket.graph.MemberCountGraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
@@ -30,7 +31,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	protected User currentUser;
 	Label pageTitel;
-	
+
 	public BasePage() {
 		super();
 		commonInit(new PageParameters());
@@ -58,27 +59,21 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		commonInit(parameters);
 	}
 
-
 	@Override
-	public void onBeforeRender(){
+	public void onBeforeRender() {
 		super.onBeforeRender();
 	}
-	
+
 	private void commonInit(PageParameters pageParameters) {
-		pageTitel = new Label("pageTitle", _("global.page.title", "global.page.title"));
+		pageTitel = new Label("pageTitle", _("global.page.title",
+				"global.page.title"));
 		add(pageTitel);
-		
+
 		currentUser = getSession().getUser().getObject();
 		add(newNavbar("navbar"));
-//		add(new Footer("footer"));
-//		
+		// add(new Footer("footer"));
+		//
 	}
-
-	
-
-
-
-
 
 	protected Navbar newNavbar(String markupId) {
 		Navbar navbar = new Navbar(markupId);
@@ -86,14 +81,24 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		navbar.setPosition(Navbar.Position.TOP);
 
 		// show brand name
-		navbar.brandName(Model.of(_("global.page.title", "global.page.title").getString()));
+		navbar.brandName(Model.of(_("global.page.title", "global.page.title")
+				.getString()));
 		
+
 		navbar.addComponents(NavbarComponents.transform(
-				Navbar.ComponentPosition.LEFT, new NavbarButton<Homepage>(
-						Homepage.class, Model.of(_("nav.home", "Mitgliederliste").getString()))
+				Navbar.ComponentPosition.LEFT,
+				new NavbarButton<Homepage>(Homepage.class, Model.of(_(
+						"nav.home", "Mitgliederliste").getString()))
 						.setIconType(IconType.home)
 
 		));
+
+		navbar.addComponents(NavbarComponents.transform(
+				Navbar.ComponentPosition.LEFT,
+				new NavbarButton<MemberCountGraphPage>(
+						MemberCountGraphPage.class, Model.of(_("nav.graph",
+								"Graphs").getString()))
+						.setIconType(IconType.picture)));
 
 		navbar.addComponents(new ImmutableNavbarComponent(
 				new NavbarButton<LogoutPage>(LogoutPage.class, Model
@@ -102,7 +107,6 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		return navbar;
 	}
-
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
@@ -113,10 +117,15 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				BasePage.class, "base.css")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				BasePage.class, "bootstrap-select.min.css")));
-		response.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(BasePage.class, "bootstrap-select.min.js")));
+		response.render(JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(BasePage.class,
+						"bootstrap-select.min.js")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				BasePage.class, "prettyCheckable.css")));
-		response.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(BasePage.class, "prettyCheckable.js")));
+		response.render(JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(BasePage.class,
+						"prettyCheckable.js")));
+		
 		Bootstrap.renderHead(response);
 	}
 

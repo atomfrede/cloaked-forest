@@ -88,6 +88,17 @@
 		</dependency>
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
+			<artifactId>jqplot</artifactId>
+			<version>1.5.9.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.wicket</groupId>
+					<artifactId>wicket</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
 			<artifactId>wicketstuff-annotation</artifactId>
 			<version>${wicketstuff.version}</version>
 			<exclusions>
