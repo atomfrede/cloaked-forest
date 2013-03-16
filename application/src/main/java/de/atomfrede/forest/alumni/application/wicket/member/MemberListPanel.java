@@ -31,12 +31,16 @@ import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
 public class MemberListPanel extends Panel{
 
 	@SpringBean
 	MemberDao memberDao;
+	
+	@SpringBean
+	MemberService memberService;
 	
 	MemberListActionPanel actionPanel;
 	MemberProvider memberProvider;
@@ -204,7 +208,7 @@ public class MemberListPanel extends Panel{
 	}
 	
 	private void doDeleteMember(long id){
-		memberDao.remove(id);
+		memberService.deleteMember(id);
 	}
 	
 	private void editMember(long id){

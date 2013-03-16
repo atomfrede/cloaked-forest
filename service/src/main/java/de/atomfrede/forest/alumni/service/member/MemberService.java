@@ -12,6 +12,10 @@ public interface MemberService extends EntityService<Member>{
 	
 	public Member createMember(String firstname, String lastname, String personalMail);
 	
+	public boolean deleteMember(Member member);
+	
+	public boolean deleteMember(long id);
+	
 	public List<Member> list(long offset, long count, String orderProperty,
 			boolean desc);
 	

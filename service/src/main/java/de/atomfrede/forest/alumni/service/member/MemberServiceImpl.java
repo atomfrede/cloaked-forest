@@ -181,4 +181,22 @@ public class MemberServiceImpl implements MemberService {
 		
 		return values;
 	}
+
+	@Override
+	@Transactional
+	public boolean deleteMember(Member member) {
+		member.clearActivities();
+		memberDao.persist(member);
+		memberDao.remove(member);
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean deleteMember(long id) {
+		Member mem = memberDao.findById(id);
+		return deleteMember(mem);
+	}
+	
+	
 }
