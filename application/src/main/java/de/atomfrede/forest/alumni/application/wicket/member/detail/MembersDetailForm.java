@@ -356,9 +356,13 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	}
 
 	private void updateSelectors(){
-		companies = companyDao.findAllByProperty("sector",
-				selectedSector);
-		
+		if(selectedSector.getId() != null){
+			companies = companyDao.findAllByProperty("sector",
+					selectedSector);
+		}else{
+			companies = new ArrayList<>();
+			selectedCompany = emptyCompany;
+		}
 		companies.add(0, emptyCompany);
 
 		companySelect.addOrReplace(new ListView<Company>("company-options", companies) {
@@ -368,10 +372,12 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 						.getModelObject()));
 			}
 		});
+		
+		onCompanySelected();
 	}
 	
 	private void onCompanySelected(){
-		if(selectedCompany != null){
+		if(selectedCompany != null && selectedCompany.getId() != null){
 			departments = departmentDao.findAllByProperty("company", selectedCompany);
 			departments.add(0, emptyDepartment);
 			
