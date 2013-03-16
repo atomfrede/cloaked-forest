@@ -1,24 +1,21 @@
 package de.atomfrede.forest.alumni.domain.entity.member;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
@@ -36,52 +33,52 @@ public class Member extends AbstractEntity {
 
 	@Id
 	private Long id;
-	
-	@OneToOne(cascade = { CascadeType.ALL })
+
+	@OneToOne
 	@JoinColumn(name = "degree", nullable = true)
 	private Degree degree;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "entrydate")
 	private java.util.Date entryDate;
-	
-	@ManyToMany(cascade={CascadeType.ALL})
+
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Activity> activities;
-	
-	@OneToOne(cascade = { CascadeType.ALL })
+
+	@OneToOne
 	@JoinColumn(name = "contactdata", nullable = true)
 	private ContactData contactData;
-	
-	@OneToOne(cascade = { CascadeType.ALL })
+
+	@OneToOne
 	@JoinColumn(name = "sector", nullable = true)
 	private Sector sector;
-	
-	@OneToOne(cascade = { CascadeType.ALL })
+
+	@OneToOne
 	@JoinColumn(name = "department", nullable = true)
 	private Department department;
-	
+
 	@OneToOne
 	@JoinColumn(name = "company", nullable = true)
 	private Company company;
-	
+
 	@Column(name = "salutation")
 	private String salutation;
-	
+
 	@Column(name = "title")
 	private String title;
-	
+
 	@Column(name = "lastname")
 	private String lastname;
-	
+
 	@Column(name = "firstname")
 	private String firstname;
-	
+
 	@Column(name = "profession")
 	private String profession;
-	
+
 	@Column(name = "graduationyear")
 	private String yearOfGraduation;
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -186,7 +183,7 @@ public class Member extends AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Company getCompany() {
 		return company;
 	}
@@ -195,11 +192,23 @@ public class Member extends AbstractEntity {
 		this.company = company;
 	}
 
-	public void addActivity(Activity activity){
-		if(activities == null){
+	public void addActivity(Activity activity) {
+		if (activities == null) {
 			activities = new HashSet<Activity>();
 		}
 		activities.add(activity);
 	}
-	
+
+	public void removeActivity(Activity activity) {
+		if (activities != null) {
+			activities.remove(activity);
+		}
+	}
+
+	public void clearActivities() {
+		if (activities != null) {
+			activities.clear();
+		}
+	}
+
 }

@@ -23,7 +23,7 @@ public class ContactData extends AbstractEntity {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne(cascade = { CascadeType.ALL })
+	@OneToOne
 	@JoinColumn(name = "department", nullable = true)
 	private Department department;
 	
