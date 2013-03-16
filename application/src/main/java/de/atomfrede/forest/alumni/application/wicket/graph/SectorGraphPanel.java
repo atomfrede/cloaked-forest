@@ -10,6 +10,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import br.com.digilabs.jqplot.JqPlotResources;
 import br.com.digilabs.jqplot.chart.BarChart;
+import br.com.digilabs.jqplot.elements.RendererOptions;
 import br.com.digilabs.jqplot.elements.TickOptions;
 import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 import de.atomfrede.forest.alumni.service.member.MemberService;
@@ -46,6 +47,12 @@ public class SectorGraphPanel extends Panel {
 		
 		barchart.getAxesDefaults().setTickRenderer(JqPlotResources.CanvasAxisTickRenderer);
 		barchart.getAxesDefaults().setTickOptions(tickOptions);
+		
+//		RendererOptions ro = new RendererOptions();
+//		ro.setBarDirection("horizontal");
+//		barchart.getYAxis().setRenderer(JqPlotResources.CategoryAxisRenderer);
+//		barchart.getYAxis().setTicks(ticks);
+//		barchart.getSeriesDefaults().setRendererOptions(ro);
 		
 		add(new JQPlotChart("chart1", barchart));
 	}
