@@ -13,14 +13,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 
-import br.com.digilabs.jqplot.ChartConfiguration;
-import br.com.digilabs.jqplot.JqPlotResources;
-import br.com.digilabs.jqplot.chart.AbstractChart;
 import br.com.digilabs.jqplot.chart.LabeledLineChart;
-import br.com.digilabs.jqplot.chart.LineChart;
-import br.com.digilabs.jqplot.data.ChartData;
 import br.com.digilabs.jqplot.data.item.LabeledItem;
-import br.com.digilabs.jqplot.elements.GridPadding;
 import br.com.digilabs.jqplot.elements.Highlighter;
 import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 import de.atomfrede.forest.alumni.service.member.MemberService;
@@ -53,7 +47,6 @@ public class MemberCountGraphPanel extends Panel{
 			Date[] dates = values.keySet().toArray(new Date[]{});
 			
 			SimpleDateFormat sdfPlot = new SimpleDateFormat("yyyy-MM-dd");
-			SimpleDateFormat sdfPlot2 = new SimpleDateFormat("MMM-dd-yyyy");
 			Arrays.sort(dates);
 			int count = 0;
 			for(Date key:dates){
@@ -76,8 +69,6 @@ public class MemberCountGraphPanel extends Panel{
 			
 			lineChart.getYAxis().setAutoScale(true);
 			lineChart.getXAxis().getTickOptions().setFormatString("%b-%d-%Y");
-//			lineChart.getXAxis().setMin(sdfPlot.format(dates[0]));
-//			lineChart.getXAxis().setMin(sdfPlot.format(dates[dates.length-1]));
 			lineChart.getYAxis().setMin(0+"");
 			lineChart.getXAxis().setAutoScale(true);
 			add(new JQPlotChart("chart1", lineChart));

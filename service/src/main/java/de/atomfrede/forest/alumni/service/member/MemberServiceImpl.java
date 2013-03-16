@@ -19,10 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.dao.contact.ContactDataDao;
+import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.dao.filter.FilterElement;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
+import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 
@@ -41,6 +43,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	SectorDao sectorDao;
+	
+	@Autowired
+	DegreeDao degreeDao;
 
 	protected Session session;
 	
@@ -198,5 +203,16 @@ public class MemberServiceImpl implements MemberService {
 		return deleteMember(mem);
 	}
 	
+	@Override
+	@Transactional
+	public Map<Degree, Integer> getMembersPerDegree(){
+		Map<Degree, Integer> values = new HashMap<>();
+		List<Degree> allDegrees = degreeDao.findAll();
+		for(Degree deg:allDegrees){
+			int size = memberDao.findAllByProperty("degree", deg).size();
+			values.put(deg, size);
+		}
+		return values;
+	}
 	
 }

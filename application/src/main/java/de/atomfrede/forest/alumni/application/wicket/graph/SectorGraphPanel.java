@@ -1,6 +1,6 @@
 package de.atomfrede.forest.alumni.application.wicket.graph;
 
-import java.util.Date;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -28,7 +28,7 @@ public class SectorGraphPanel extends Panel {
 	}
 	
 	private void setupGraph(){
-		BarChart<Integer> barchart = new BarChart<>("Mitglieder nach Branche");
+		BarChart<Integer> barchart = new BarChart<>(_("graph.member.sector.header").getString());
 		
 		Map<String, Integer> values = memberService.getMembersPerSector();
 		
@@ -42,7 +42,7 @@ public class SectorGraphPanel extends Panel {
 		barchart.addValues(intValues);
 		barchart.getXAxis().setTicks(ticks);
 		TickOptions tickOptions = new TickOptions();
-		tickOptions.setAngle(-30);
+		tickOptions.setAngle(-45);
 		
 		barchart.getAxesDefaults().setTickRenderer(JqPlotResources.CanvasAxisTickRenderer);
 		barchart.getAxesDefaults().setTickOptions(tickOptions);

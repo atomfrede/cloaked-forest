@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.atomfrede.forest.alumni.domain.dao.filter.FilterElement;
+import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.EntityService;
 
@@ -39,6 +40,8 @@ public interface MemberService extends EntityService<Member>{
 	public Map<String, Integer> getMembersPerSector();
 	
 	public Map<String, Integer> getMembersPerSector(boolean withZero);
+	
+	public Map<Degree, Integer> getMembersPerDegree();
 
 
 }

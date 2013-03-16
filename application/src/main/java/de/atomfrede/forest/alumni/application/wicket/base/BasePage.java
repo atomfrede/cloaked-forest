@@ -20,7 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarCompone
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
-import de.atomfrede.forest.alumni.application.wicket.graph.MemberGraphPage;
+import de.atomfrede.forest.alumni.application.wicket.graph.GraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
@@ -97,8 +97,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT,
-				new NavbarButton<MemberGraphPage>(
-						MemberGraphPage.class, Model.of(_("nav.graph").getString()))
+				new NavbarButton<GraphPage>(
+						GraphPage.class, Model.of(_("nav.graph").getString()))
 						.setIconType(IconType.picture)));
 
 		navbar.addComponents(new ImmutableNavbarComponent(
