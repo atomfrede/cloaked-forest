@@ -6,6 +6,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
@@ -20,6 +21,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarCompone
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
+import de.atomfrede.forest.alumni.application.wicket.base.footer.Footer;
 import de.atomfrede.forest.alumni.application.wicket.graph.GraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
@@ -74,6 +76,9 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		add(newNavbar("navbar"));
 		// add(new Footer("footer"));
 		//
+		
+		 add(new Footer("footer"));
+//		 add(new HeaderResponseContainer("footer-container", "footer-container"));
 	}
 
 	protected Navbar newNavbar(String markupId) {

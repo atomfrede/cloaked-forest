@@ -1,10 +1,12 @@
 package de.atomfrede.forest.alumni.application.wicket.query;
 
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 import java.util.List;
 
 import org.apache.wicket.extensions.markup.html.form.select.Select;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -12,6 +14,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
+import de.atomfrede.forest.alumni.application.wicket.query.filter.ProfessionFilterPanel;
 import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
@@ -21,11 +24,18 @@ public class QueryConfigPanel extends Panel{
 	@SpringBean
 	DegreeDao degreeDao;
 	
-	Degree selectedFilterDegree;
+	Label header, subHeader;
+	ProfessionFilterPanel professionFilterPanel;
 	
 	public QueryConfigPanel(String id) {
 		super(id);
-		setupDegreeFilter();
+		header = new Label("page-header", _("query.header"));
+		subHeader = new Label("page-sub-header", _("query.sub.header"));
+		
+		add(header);
+		add(subHeader);
+		
+		add(new QueryConfigForm("query-form"));
 	}
 	
 	private void setupDegreeFilter(){

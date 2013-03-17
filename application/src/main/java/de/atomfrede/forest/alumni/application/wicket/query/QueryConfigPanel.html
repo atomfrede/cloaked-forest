@@ -2,14 +2,23 @@
 <html xmlns:wicket="http://wicket.apache.org/">
 <wicket:panel>
 	<div class="row-fluid">
-		<div class="span6">
-			<select wicket:id="degree-select" class="selectpicker">
-				<wicket:container wicket:id="degree-options">
-					<option wicket:id="degree-option"></option>
-				</wicket:container>
-			</select>
+			<div class="span12">
+				<div class="page-header">
+   		 			<h1><span wicket:id="page-header"></span><small><span wicket:id="page-sub-header"></span></small></h1>
+   				</div>
+				<form wicket:id="query-form">
+					<div class="span12">
+						<span wicket:id="degree-filter"></span>
+					</div>
+					<div class="span12">
+						<span wicket:id="profession-filter"></span>
+					</div>
+					<div class="span12 form-actions pull-right">
+						<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.filter"/></button>
+						<a href="#" wicket:id="btn-csv-download" class="btn" type="button"></a>
+					</div>
+				</form>
 		</div>
-
 	</div>
 </wicket:panel>
 </html>

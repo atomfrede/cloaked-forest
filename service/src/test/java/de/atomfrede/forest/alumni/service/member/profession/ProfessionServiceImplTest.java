@@ -1,4 +1,4 @@
-package de.atomfrede.forest.alumni.service.query;
+package de.atomfrede.forest.alumni.service.member.profession;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,16 +17,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
-import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.member.MemberService;
-import de.atomfrede.forest.alumni.service.query.filter.Filter;
-import de.atomfrede.forest.alumni.service.query.filter.Filter.Type;
+import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
+import de.atomfrede.forest.alumni.service.query.QueryServiceImplTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "../../../../../../domain-context.xml" })
-public class QueryServiceImplTest {
+@ContextConfiguration( { "../../../../../../../domain-context.xml" })
+public class ProfessionServiceImplTest {
 	
 	private final Log log = LogFactory.getLog(QueryServiceImplTest.class);
 	
@@ -37,13 +36,15 @@ public class QueryServiceImplTest {
 	MemberDao memberDao;
 	
 	@Autowired
-	QueryService queryService;
+	MemberService memberService;
 	
 	@Autowired
-	MemberService memberService;
+	ProfessionService professionService;
 	
 	Degree bachelor, master;
 	Member fred, john, max;
+	String profession1 = "Informatik";
+	String profession2 = "BWL";
 	
 	@Before
 	public void setup(){
@@ -69,6 +70,10 @@ public class QueryServiceImplTest {
 		max.setDegree(bachelor);
 		john.setDegree(master);
 		
+		fred.setProfession(profession1);
+		john.setProfession(profession1);
+		max.setProfession(profession2);
+		
 		memberDao.persist(fred);
 		memberDao.persist(john);
 		memberDao.persist(max);
@@ -82,51 +87,9 @@ public class QueryServiceImplTest {
 	}
 	
 	@Test
-	public void querySimpleProperty(){
-		Query<Member> memberQuery = new Query<>(Member.class);
-		Filter filter = new Filter("lastname", "Hahne", Type.LIKE);
-		memberQuery.addFilter(filter);
-		
-		List<AbstractEntity> result = (List<AbstractEntity>) queryService.queryDatabase(memberQuery);
-		
-		assertEquals(1, result.size());
-	}
-	
-	@Test
-	public void queryComplexProperty(){
-		Query<Member> memberQuery = new Query<>(Member.class);
-		Filter filter = new Filter("degree", bachelor, Type.EQ);
-		memberQuery.addFilter(filter);
-		
-		List<AbstractEntity> result = (List<AbstractEntity>) queryService.queryDatabase(memberQuery);
-		
-		assertEquals(2, result.size());
-	}
-	
-	@Test
-	public void queryCombination(){
-		Query<Member> memberQuery = new Query<>(Member.class);
-		Filter filter = new Filter("degree", bachelor, Type.EQ);
-		Filter filter2 = new Filter("lastname", "Hahne%", Type.LIKE);
-		memberQuery.addFilter(filter);
-		memberQuery.addFilter(filter2);
-		
-		List<AbstractEntity> result = (List<AbstractEntity>) queryService.queryDatabase(memberQuery);
-		
-		assertEquals(1, result.size());
-	}
-	
-	@Test
-	public void queryOr(){
-		Query<Member> memberQuery = new Query<>(Member.class);
-		Filter filter = new Filter("degree", bachelor, Type.EQ);
-		Filter filter2 = new Filter("degree", master, Type.EQ);
-		memberQuery.addOr(filter);
-		memberQuery.addOr(filter2);
-		
-		List<AbstractEntity> result = (List<AbstractEntity>) queryService.queryDatabase(memberQuery);
-		
-		assertEquals(3, result.size());
+	public void listOfProfessions(){
+		List<String> professions = professionService.getTypeaheadProfession();
+		assertEquals(2, professions.size());
 	}
 
 }
