@@ -3,9 +3,13 @@
 <wicket:panel>
 	<div class="row-fluid">
 		<div class="span6">
-			Hello World
+			<select wicket:id="degree-select" class="selectpicker">
+				<wicket:container wicket:id="degree-options">
+					<option wicket:id="degree-option"></option>
+				</wicket:container>
+			</select>
 		</div>
-	
+
 	</div>
 </wicket:panel>
 </html>
