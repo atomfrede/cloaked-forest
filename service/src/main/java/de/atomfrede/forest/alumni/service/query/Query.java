@@ -10,6 +10,8 @@ public class Query<T extends AbstractEntity> {
 
 	protected Class<T> clazz;
 	protected List<Filter> filters;
+	protected List<Filter> or;
+	protected List<Filter> and;
 	
 	public Query(Class<T> clazz){
 		this.clazz = clazz;
@@ -22,7 +24,23 @@ public class Query<T extends AbstractEntity> {
 		filters.add(filter);
 	}
 	
+	public void addOr(Filter filter){
+		if(or == null){
+			or = new ArrayList<>();
+		}
+		or.add(filter);
+	}
+	
+	public void addAnd(Filter filter){
+		if(and == null){
+			and = new ArrayList<>();
+		}
+		and.add(filter);
+	}
 	public void reset(){
 		filters.clear();
+		or.clear();
+		and.clear();
 	}
+	
 }

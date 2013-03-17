@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.service.query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.springframework.stereotype.Service;
@@ -37,22 +39,41 @@ public class QueryServiceImpl implements QueryService {
 	@Transactional
 	public List<AbstractEntity> queryDatabase(Query<?> query) {
 		Criteria crit = getSession().createCriteria(query.clazz);
-		for(Filter filter:query.filters){
-			switch (filter.getType()) {
-			case LIKE:
-				crit.add(Restrictions.like(filter.getPropertyName(), filter.getValue()));
-				break;
-			case EQ:
-				crit.add(Restrictions.eq(filter.getPropertyName(), filter.getValue()));
-				break;
-			case BETWEEN:
-				BetweenFilter bf = (BetweenFilter)filter;
-				crit.add(Restrictions.between(filter.getPropertyName(), bf.getValue(), bf.getValue2()));
-				break;
-			default:
-				break;
+		if(query.filters != null && !query.filters.isEmpty()){
+			for(Filter filter:query.filters){
+				crit.add(getRestriction(filter));
 			}
 		}
+		
+		if(query.or != null && !query.or.isEmpty()){
+			List<Criterion> crits = new ArrayList<>();
+			for(Filter or:query.or){
+				crits.add(getRestriction(or));
+			}
+			crit.add(Restrictions.or(crits.toArray(new Criterion[]{})));
+		}
+		
+		if(query.and != null && !query.and.isEmpty()){
+			List<Criterion> crits = new ArrayList<>();
+			for(Filter and:query.and){
+				crits.add(getRestriction(and));
+			}
+			crit.add(Restrictions.and(crits.toArray(new Criterion[]{})));
+		}
 		return crit.list();
+	}
+	
+	private Criterion getRestriction(Filter filter){
+		switch (filter.getType()) {
+		case LIKE:
+			return Restrictions.like(filter.getPropertyName(), filter.getValue());
+		case EQ:
+			return Restrictions.eq(filter.getPropertyName(), filter.getValue());
+		case BETWEEN:
+			BetweenFilter bf = (BetweenFilter)filter;
+			return Restrictions.between(filter.getPropertyName(), bf.getValue(), bf.getValue2());
+		default:
+			return null;
+		}
 	}
 }

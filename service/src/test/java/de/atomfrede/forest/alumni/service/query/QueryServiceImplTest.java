@@ -115,7 +115,19 @@ public class QueryServiceImplTest {
 		List<AbstractEntity> result = queryService.queryDatabase(memberQuery);
 		
 		assertEquals(1, result.size());
+	}
+	
+	@Test
+	public void queryOr(){
+		Query<Member> memberQuery = new Query<>(Member.class);
+		Filter filter = new Filter("degree", bachelor, Type.EQ);
+		Filter filter2 = new Filter("degree", master, Type.EQ);
+		memberQuery.addOr(filter);
+		memberQuery.addOr(filter2);
 		
+		List<AbstractEntity> result = queryService.queryDatabase(memberQuery);
+		
+		assertEquals(3, result.size());
 	}
 
 }
