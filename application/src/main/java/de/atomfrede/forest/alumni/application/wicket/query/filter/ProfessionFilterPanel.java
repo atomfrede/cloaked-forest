@@ -42,7 +42,7 @@ public class ProfessionFilterPanel extends Panel {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "value");
 		typeahead = new Typeahead<String>(markupId, model,
-				dataSource, new TypeaheadConfig().withNumberOfItems(4));
+				dataSource, new TypeaheadConfig().withNumberOfItems(8));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;

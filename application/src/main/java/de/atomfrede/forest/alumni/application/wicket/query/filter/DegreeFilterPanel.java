@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.application.wicket.query.filter;
 
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -15,6 +16,7 @@ import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
 import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
+@SuppressWarnings("serial")
 public class DegreeFilterPanel extends Panel{
 
 	@SpringBean
@@ -35,6 +37,11 @@ public class DegreeFilterPanel extends Panel{
 	private void setupDegreeSelect(){
 		List<Degree> degrees = degreeDao.findAll();
 
+		Degree noRestrictions = new Degree();
+		noRestrictions.setTitle(_("query.no.restriction").getString());
+		
+		degrees.add(0, noRestrictions);
+		
 		Select<Degree> degreeSelect = new Select<Degree>("degree-select",
 				new PropertyModel<Degree>(this, "selectedDegree"));
 

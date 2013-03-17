@@ -78,7 +78,7 @@ public class QueryConfigForm extends BootstrapForm<Void>{
 		Query<Member> query = new Query<>(Member.class);
 
 		Degree degree = degreeFilter.getSelectedDegree();
-		if(degree != null){
+		if(degree != null && degree.getId() != null){
 			Filter degFilter = new Filter("degree", degree, Type.EQ);
 			query.addFilter(degFilter);
 		}
