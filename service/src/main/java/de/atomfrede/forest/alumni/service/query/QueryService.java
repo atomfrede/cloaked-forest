@@ -6,5 +6,5 @@ import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 
 public interface QueryService {
 
-	public List<AbstractEntity> queryDatabase(Query<AbstractEntity> query);
+	public List<AbstractEntity> queryDatabase(Query<?> query);
 }

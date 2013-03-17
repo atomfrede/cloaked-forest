@@ -35,7 +35,7 @@ public class QueryServiceImpl implements QueryService {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<AbstractEntity> queryDatabase(Query<AbstractEntity> query) {
+	public List<AbstractEntity> queryDatabase(Query<?> query) {
 		Criteria crit = getSession().createCriteria(query.clazz);
 		for(Filter filter:query.filters){
 			switch (filter.getType()) {
