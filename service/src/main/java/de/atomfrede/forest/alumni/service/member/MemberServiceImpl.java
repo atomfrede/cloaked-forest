@@ -58,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public List<Member> list(long offset, long count) {
+	public List<Member> list(final long offset, final long count) {
 		return memberDao.list(offset, count);
 	}
 
@@ -73,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findByProperty(String propertyName, Object propertyValue) {
+	public Member findByProperty(final String propertyName, final Object propertyValue) {
 		return memberDao.findByProperty(propertyName, propertyValue);
 	}
 
@@ -94,19 +94,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<Member> list(long offset, long count, FilterElement... elements) {
+	public List<Member> list(final long offset, final long count, final FilterElement... elements) {
 		return memberDao.list(offset, count, elements);
 	}
 
 	@Override
-	public List<Member> list(long offset, long count, String orderProperty,
-			boolean desc) {
+	public List<Member> list(final long offset, final long count, final String orderProperty,
+			final boolean desc) {
 		return memberDao.list(offset, count, orderProperty, desc);
 	}
 
 	@Override
-	public List<Member> findAllByProperty(String propertName,
-			Object propertyValue) {
+	public List<Member> findAllByProperty(final String propertName,
+			final Object propertyValue) {
 		return memberDao.findAllByProperty(propertName, propertyValue);
 	}
 
@@ -116,8 +116,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member createMember(String firstname, String lastname,
-			String personalMail) {
+	public Member createMember(final String firstname, final String lastname,
+			final String personalMail) {
 		Member mem = new Member();
 		mem.setFirstname(firstname);
 		mem.setLastname(lastname);
@@ -136,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public Map<Date, Integer> getMemberCountPerYear(Date from, Date to) {
+	public Map<Date, Integer> getMemberCountPerYear(final Date from, final Date to) {
 		Map<Date, Integer> values = new HashMap<Date, Integer>();
 		//Always use December 31 as fixed date
 		
@@ -160,7 +160,7 @@ public class MemberServiceImpl implements MemberService {
 		return values;
 	}
 	
-	public Map<Date, Integer> getMemberCountPerYear(Date from){
+	public Map<Date, Integer> getMemberCountPerYear(final Date from){
 		return getMemberCountPerYear(from, new Date());
 	}
 	
@@ -170,7 +170,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Transactional
-	public Map<String, Integer> getMembersPerSector(boolean withZero){
+	public Map<String, Integer> getMembersPerSector(final boolean withZero){
 		Map<String, Integer> values = new HashMap<>();
 		
 		List<Sector> sectors = sectorDao.findAll();
@@ -198,7 +198,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public boolean deleteMember(long id) {
+	public boolean deleteMember(final long id) {
 		Member mem = memberDao.findById(id);
 		return deleteMember(mem);
 	}
