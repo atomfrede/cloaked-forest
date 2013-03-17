@@ -213,7 +213,7 @@
 							<artifactId>maven-checkstyle-plugin</artifactId>
 							<version>2.10</version>
 							<configuration>
-								<configLocation>https://raw.github.com/atomfrede/cloaked-forest/master/custom-checkstyle.xml</configLocation>
+								<configLocation>custom-checkstyle.xml</configLocation>
 							</configuration>
 						</plugin>
 					</reportPlugins>
