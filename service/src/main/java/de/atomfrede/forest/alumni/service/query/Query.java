@@ -12,6 +12,7 @@ public class Query<T extends AbstractEntity> {
 	protected List<Filter> filters;
 	protected List<Filter> or;
 	protected List<Filter> and;
+	protected List<SubQuery<T>> subQueries;
 	
 	public Query(Class<T> clazz){
 		this.clazz = clazz;
@@ -37,10 +38,18 @@ public class Query<T extends AbstractEntity> {
 		}
 		and.add(filter);
 	}
+	
 	public void reset(){
 		filters.clear();
 		or.clear();
 		and.clear();
+	}
+	
+	public void addSubQuery(SubQuery<T> subQuery){
+		if(subQueries == null){
+			subQueries = new ArrayList<>();
+		}
+		subQueries.add(subQuery);
 	}
 	
 }
