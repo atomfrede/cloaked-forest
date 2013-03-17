@@ -180,6 +180,18 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+				<dependencies>
+					<dependency>
+						<groupId>de.atomfrede.forest</groupId>
+						<artifactId>alumni.build-tools</artifactId>
+						<version>1.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
@@ -213,7 +225,7 @@
 							<artifactId>maven-checkstyle-plugin</artifactId>
 							<version>2.10</version>
 							<configuration>
-								<configLocation>custom-checkstyle.xml</configLocation>
+								<configLocation>atomfrede/custom-checkstyle.xml</configLocation>
 							</configuration>
 						</plugin>
 					</reportPlugins>
@@ -234,6 +246,7 @@
 		</repository>
 	</repositories>
 	<modules>
+		<module>build-tools</module>
 		<module>domain</module>
 		<module>application</module>
 		<module>service</module>
