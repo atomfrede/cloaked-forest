@@ -41,24 +41,26 @@ public class ProfessionFilterPanel extends Panel {
 		};
 
 		PropertyModel<String> model = new PropertyModel<>(this, "value");
-		typeahead = new Typeahead<String>(markupId, model,
-				dataSource, new TypeaheadConfig().withNumberOfItems(8));
+		typeahead = new Typeahead<String>(markupId, model, dataSource,
+				new TypeaheadConfig().withNumberOfItems(8));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;
 	}
-	
-	private void setupInput(){
+
+	private void setupInput() {
 		typeahead.add(new OnChangeAjaxBehavior() {
-			
+
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
-				// Nothing special to do here, just to update the model value without  require to submit the form explicitly.
-				
+				// Nothing special to do here, just to update the model value
+				// without require to submit the form explicitly.
+
 			}
 		});
 	}
-	public String getValue(){
+
+	public String getValue() {
 		return value;
 	}
 

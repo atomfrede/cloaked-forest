@@ -21,9 +21,9 @@ public class LogoutPage extends AbstractAuthPage<Void> {
 	private static int counter = 0;
 
 	@SpringBean
-	public UserService userService;
+	private UserService userService;
 
-	WebMarkupContainer successContainer;
+	private WebMarkupContainer successContainer;
 
 	public LogoutPage() {
 		UserAuthModel userModel = new UserAuthModel(User.class, -1L);
@@ -31,24 +31,22 @@ public class LogoutPage extends AbstractAuthPage<Void> {
 		successContainer = new WebMarkupContainer("logout-success");
 		add(successContainer);
 		successContainer.setVisible(false);
-		
+
 		add(new LoginPanel("loginPanel", userModel));
 
 		if (!loggedOut) {
 			loggedOut = true;
 			doLogout();
 		}
-		
-		
-		
+
 	}
-	
+
 	@Override
-	public void onBeforeRender(){
+	public void onBeforeRender() {
 		super.onBeforeRender();
-		if(counter < 2){
+		if (counter < 2) {
 			successContainer.setVisible(true);
-		}else{
+		} else {
 			successContainer.setVisible(false);
 		}
 		counter++;
@@ -58,7 +56,8 @@ public class LogoutPage extends AbstractAuthPage<Void> {
 		getSession().invalidateNow();
 		getSession().invalidate();
 		@SuppressWarnings("unchecked")
-		UserSession<UserAuthModel> session = (UserSession<UserAuthModel>) Session.get();
+		UserSession<UserAuthModel> session = (UserSession<UserAuthModel>) Session
+				.get();
 		session.setUser(new UserAuthModel(User.class, -1L));
 		loggedOut = true;
 	}

@@ -16,7 +16,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapAjaxLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
@@ -34,23 +33,23 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
-public class MemberListPanel extends Panel{
+public class MemberListPanel extends Panel {
 
 	@SpringBean
-	MemberDao memberDao;
-	
+	private MemberDao memberDao;
+
 	@SpringBean
-	MemberService memberService;
-	
-	MemberListActionPanel actionPanel;
-	MemberProvider memberProvider;
-	DataView<Member> members;
-	WebMarkupContainer wmc;
-	TextContentModal modal;
-	
+	private MemberService memberService;
+
+	private MemberListActionPanel actionPanel;
+	private MemberProvider memberProvider;
+	private DataView<Member> members;
+	private WebMarkupContainer wmc;
+	private TextContentModal modal;
+
 	public MemberListPanel(String id) {
 		super(id);
-		
+
 		actionPanel = new MemberListActionPanel("members-action");
 		add(actionPanel);
 		addFilter();
@@ -59,12 +58,12 @@ public class MemberListPanel extends Panel{
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
-		
+
 	}
-	
-	private void addFilter(){
+
+	private void addFilter() {
 		actionPanel.getNameFilter().add(new OnChangeAjaxBehavior() {
-			
+
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				// TODO Auto-generated method stub
@@ -72,85 +71,91 @@ public class MemberListPanel extends Panel{
 				doFilter(input);
 				target.add(wmc);
 			}
-			
+
 			@Override
-			protected void updateAjaxAttributes(AjaxRequestAttributes attributes){
+			protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
 				super.updateAjaxAttributes(attributes);
-				//Do need to declare some additional Attributes?
+				// Do need to declare some additional Attributes?
 			}
 		});
-		
 
 	}
-	
-	protected void doFilter(String input){
+
+	protected void doFilter(String input) {
 		getMemberProvider().nameFilter = input;
 	}
-	
-	private void populateItems(){
-		
-		
-		members = new DataView<Member>("members", getMemberProvider()){
+
+	private void populateItems() {
+
+		members = new DataView<Member>("members", getMemberProvider()) {
 
 			@Override
 			protected void populateItem(Item<Member> item) {
 				final Member member = item.getModel().getObject();
 				final Degree degree = member.getDegree();
-				
-				item.add(new Label("firstname", new PropertyModel<String>(member, "firstname")));
-				item.add(new Label("lastname", new PropertyModel<String>(member, "lastname")));
-				if(degree != null){
+
+				item.add(new Label("firstname", new PropertyModel<String>(
+						member, "firstname")));
+				item.add(new Label("lastname", new PropertyModel<String>(
+						member, "lastname")));
+				if (degree != null) {
 					String degreeShort = degree.getShortForm();
 					String graduationYear = member.getYearOfGraduation();
-					String label = degreeShort+ " ("+graduationYear+")";
+					String label = degreeShort + " (" + graduationYear + ")";
 					Label degreeLbl = new Label("degree", Model.of(label));
-					degreeLbl.add(new TooltipBehavior(new PropertyModel<String>(degree, "title")));
+					degreeLbl.add(new TooltipBehavior(
+							new PropertyModel<String>(degree, "title")));
 					item.add(degreeLbl);
-				}else{
+				} else {
 					item.add(new Label("degree", Model.of("-/-")));
 				}
-				item.add(new Label("profession", new PropertyModel<String>(member, "profession")));
-				
+				item.add(new Label("profession", new PropertyModel<String>(
+						member, "profession")));
+
 				int size = member.getActivities().size();
 				int cSize = 1;
 				StringBuilder sb = new StringBuilder();
-				for(Activity act:member.getActivities()){
+				for (Activity act : member.getActivities()) {
 					sb.append(act.getActivity());
-					if(cSize < size){
+					if (cSize < size) {
 						sb.append(", ");
 					}
 					cSize++;
 				}
 				item.add(new Label("activity", Model.of(sb.toString())));
-				
+
 				final long memberId = member.getId();
 				final String firstname = member.getFirstname();
 				final String lastname = member.getLastname();
-				BootstrapLink<Void> editUser = new BootstrapLink<Void>("action-edit", Buttons.Type.Default) {
+				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
+						"action-edit", Buttons.Type.Default) {
 
 					@Override
 					public void onClick() {
 						editMember(memberId);
-						
+
 					}
 				};
-				editUser.setIconType(IconType.pencil).setSize(Buttons.Size.Mini).setInverted(false);
-				
-				BootstrapLink<Void> deleteUser = new BootstrapLink<Void>("action-delete", Buttons.Type.Danger) {
+				editUser.setIconType(IconType.pencil)
+						.setSize(Buttons.Size.Mini).setInverted(false);
+
+				BootstrapLink<Void> deleteUser = new BootstrapLink<Void>(
+						"action-delete", Buttons.Type.Danger) {
 
 					@Override
 					public void onClick() {
 						deleteMember(memberId, firstname, lastname);
-						
+
 					}
 
 				};
-				deleteUser.setIconType(IconType.remove).setSize(Buttons.Size.Mini);
-				
+				deleteUser.setIconType(IconType.remove).setSize(
+						Buttons.Size.Mini);
+
 				item.add(editUser);
 				item.add(deleteUser);
 			}
-			
+
 		};
 		members.setItemsPerPage(15);
 		members.setOutputMarkupId(true);
@@ -158,60 +163,62 @@ public class MemberListPanel extends Panel{
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
 		add(wmc);
 	}
-	
-	void setupModal(){
+
+	void setupModal() {
 		modal = new TextContentModal("modal-prompt", Model.of("Hallo Welt"));
 		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modal);
 	}
-	
-	public MemberProvider getMemberProvider(){
-		if(memberProvider == null){
+
+	public MemberProvider getMemberProvider() {
+		if (memberProvider == null) {
 			memberProvider = new MemberProvider();
 		}
 		return memberProvider;
 	}
-	
-	private void deleteMember(final long id, String firstname, String lastname){
-		
-		final TextContentModal modal = new TextContentModal("modal-prompt", Model.of(_("modal.text", firstname, lastname).getString()));
+
+	private void deleteMember(final long id, String firstname, String lastname) {
+
+		final TextContentModal modal = new TextContentModal("modal-prompt",
+				Model.of(_("modal.text", firstname, lastname).getString()));
 		modal.setOutputMarkupId(true);
-		
+
 		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		modal.header(Model.of(_("modal.header", firstname, lastname).getString()));
-		
-		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_("modal.delete", "").getString())) {
+		modal.header(Model.of(_("modal.header", firstname, lastname)
+				.getString()));
+
+		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_(
+				"modal.delete", "").getString())) {
 
 			@Override
-		    protected void onConfigure() {
-		        super.onConfigure();
+			protected void onConfigure() {
+				super.onConfigure();
 
-		        setBody(getDefaultModel());
-		        add(new ButtonBehavior(Buttons.Type.Danger));
-//		        add(new IconBehavior(IconType.remove));
-		    }
-			
+				setBody(getDefaultModel());
+				add(new ButtonBehavior(Buttons.Type.Danger));
+				// add(new IconBehavior(IconType.remove));
+			}
+
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 				doDeleteMember(id);
 				target.appendJavaScript("$('.modal').modal('close');");
 				setResponsePage(Homepage.class);
-				
+
 			}
 		};
-		
-		
+
 		modal.addButton(doDelete);
 		this.modal.replaceWith(modal);
 		modal.show(true);
 		this.modal = modal;
 	}
-	
-	private void doDeleteMember(long id){
+
+	private void doDeleteMember(long id) {
 		memberService.deleteMember(id);
 	}
-	
-	private void editMember(long id){
+
+	private void editMember(long id) {
 		PageParameters params = new PageParameters();
 		params.add(MemberDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(MemberDetailPage.MEMBER_ID, id);
