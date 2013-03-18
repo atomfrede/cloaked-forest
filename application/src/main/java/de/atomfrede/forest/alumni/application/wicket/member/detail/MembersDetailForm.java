@@ -170,7 +170,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	private void initFormValues(AbstractEntityModel<Member> model) {
 		if (editType == Type.Create) {
 			_salutation = "";
-			_title = "";
 			_firstname = "";
 			_lastname = "";
 			_personalMail = "";
@@ -189,7 +188,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			Member mem = model.getObject();
 			_graduationYear = mem.getYearOfGraduation();
 			_salutation = mem.getSalutation();
-			_title = mem.getTitle();
 			_firstname = mem.getFirstname();
 			_lastname = mem.getLastname();
 			_personalMail = mem.getContactData().getEmail();
