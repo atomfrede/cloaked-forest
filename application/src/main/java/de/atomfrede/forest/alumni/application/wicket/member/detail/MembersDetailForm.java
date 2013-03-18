@@ -63,65 +63,65 @@ import de.atomfrede.forest.alumni.service.member.MemberService;
 public class MembersDetailForm extends BootstrapForm<Member> {
 
 	@SpringBean
-	protected DegreeDao degreeDao;
+	private DegreeDao degreeDao;
 
 	@SpringBean
-	protected SectorDao sectorDao;
+	private SectorDao sectorDao;
 
 	@SpringBean
-	protected CompanyDao companyDao;
+	private CompanyDao companyDao;
 
 	@SpringBean
-	protected ActivityDao activityDao;
+	private ActivityDao activityDao;
 
 	@SpringBean
-	protected DepartmentDao departmentDao;
+	private DepartmentDao departmentDao;
 
 	@SpringBean
-	protected MemberService memberService;
+	private MemberService memberService;
 
-	protected List<Company> companies;
-	protected List<Department> departments;
+	private List<Company> companies;
+	private List<Department> departments;
 
-	protected Sector emptySector;
-	protected Company emptyCompany;
-	protected Department emptyDepartment;
+	private Sector emptySector;
+	private Company emptyCompany;
+	private Department emptyDepartment;
 
-	protected Type editType;
-	protected Degree selectedDegree;
-	protected Sector selectedSector;
-	protected Company selectedCompany;
-	protected Department selectedDepartment;
+	private Type editType;
+	private Degree selectedDegree;
+	private Sector selectedSector;
+	private Company selectedCompany;
+	private Department selectedDepartment;
 
-	protected Select<Sector> sectorSelect;
-	protected Select<Company> companySelect;
-	protected Select<Department> departmentSelect;
+	private Select<Sector> sectorSelect;
+	private Select<Company> companySelect;
+	private Select<Department> departmentSelect;
 
-	protected NotificationPanel feedbackPanel;
+	private NotificationPanel feedbackPanel;
 
-	protected WebMarkupContainer firstnameWrapper, lastnameWrapper, personalMailWrapper,
+	private WebMarkupContainer firstnameWrapper, lastnameWrapper, personalMailWrapper,
 			selectWrapper;
 
-	protected RequiredTextField<String> firstname, lastname, personalMail;
-	protected TextField<String> personalAddon, profession, salutation, graduationYear,
+	private RequiredTextField<String> firstname, lastname, personalMail;
+	private TextField<String> personalAddon, profession, salutation, graduationYear,
 			personalStreet, personalTown, personalPostcode, workMail,
 			personalMobile, personalFax, personalPhone, personalInternet,
 			workPhone, workMobile, workFax, workInternet;
-	protected DateTextField entryDate;
+	private DateTextField entryDate;
 
 	DataView<Activity> activities;
 
 	// Now the data for this formfields. To reuse this panel for new (=non
 	// existing entities we don't use the model directly...)
-	protected String _salutation, _title, _firstname, _lastname;
-	protected Date _entryDate;
-	protected String _personalStreet, _personalNumber, _personalAddon, _personalPostcode,
+	private String _salutation, _firstname, _lastname;
+	private Date _entryDate;
+	private String _personalStreet, _personalNumber, _personalAddon, _personalPostcode,
 			_personalTown, _personalMail, _personalMobile, _personalPhone,
 			_personalFax, _personalInternet;
-	protected String _graduationYear, _profession;
-	protected String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
+	private String _graduationYear, _profession;
+	private String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
 
-	protected Map<String, Boolean> activityName_checked = new HashMap<>();
+	private Map<String, Boolean> activityName_checked = new HashMap<>();
 
 	public MembersDetailForm(String id, Type editType,
 			AbstractEntityModel<Member> model) {

@@ -6,4 +6,5 @@
 
 <suppressions>
 	<suppress checks="MagicNumberCheck" files="ConverterExecutor.java" />
+	<suppress checks="MagicNumberCheck" files="CsvExporter.java" />
 </suppressions>
