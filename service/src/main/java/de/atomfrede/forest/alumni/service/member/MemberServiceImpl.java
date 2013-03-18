@@ -40,10 +40,10 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private ContactDataDao contactDao;
-	
+
 	@Autowired
 	private SectorDao sectorDao;
-	
+
 	@Autowired
 	private DegreeDao degreeDao;
 
@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 			return sessionFactory.openSession();
 		}
 	}
-	
+
 	@Override
 	public List<Member> list(final long offset, final long count) {
 		return memberDao.list(offset, count);
@@ -71,7 +71,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findByProperty(final String propertyName, final Object propertyValue) {
+	public Member findByProperty(final String propertyName,
+			final Object propertyValue) {
 		return memberDao.findByProperty(propertyName, propertyValue);
 	}
 
@@ -92,13 +93,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<Member> list(final long offset, final long count, final FilterElement... elements) {
+	public List<Member> list(final long offset, final long count,
+			final FilterElement... elements) {
 		return memberDao.list(offset, count, elements);
 	}
 
 	@Override
-	public List<Member> list(final long offset, final long count, final String orderProperty,
-			final boolean desc) {
+	public List<Member> list(final long offset, final long count,
+			final String orderProperty, final boolean desc) {
 		return memberDao.list(offset, count, orderProperty, desc);
 	}
 
@@ -134,54 +136,54 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public Map<Date, Integer> getMemberCountPerYear(final Date from, final Date to) {
+	public Map<Date, Integer> getMemberCountPerYear(final Date from,
+			final Date to) {
 		Map<Date, Integer> values = new HashMap<Date, Integer>();
-		//Always use December 31 as fixed date
-		
+		// Always use December 31 as fixed date
+
 		DateTime start = new DateTime(from.getTime());
 		start = start.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
 		start = start.dayOfMonth().setCopy(31);
-		
+
 		DateTime end = new DateTime(to.getTime());
 		end = end.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
 		end = end.dayOfMonth().setCopy(31);
-		
-		while(!start.year().equals(end.year())){
+
+		while (!start.year().equals(end.year())) {
 			Criteria crit = getSession().createCriteria(Member.class);
 			crit.add(Restrictions.le("entryDate", start.toDate()));
 			int size = crit.list().size();
 			values.put(start.toDate(), size);
 			start = start.year().addToCopy(1);
 		}
-		
-		
+
 		return values;
 	}
-	
-	public Map<Date, Integer> getMemberCountPerYear(final Date from){
+
+	public Map<Date, Integer> getMemberCountPerYear(final Date from) {
 		return getMemberCountPerYear(from, new Date());
 	}
-	
+
 	@Transactional
-	public Map<String, Integer> getMembersPerSector(){
+	public Map<String, Integer> getMembersPerSector() {
 		return getMembersPerSector(false);
 	}
-	
+
 	@Transactional
-	public Map<String, Integer> getMembersPerSector(final boolean withZero){
+	public Map<String, Integer> getMembersPerSector(final boolean withZero) {
 		Map<String, Integer> values = new HashMap<>();
-		
+
 		List<Sector> sectors = sectorDao.findAll();
-		
-		for(Sector sec:sectors){
+
+		for (Sector sec : sectors) {
 			int value = memberDao.findAllByProperty("sector", sec).size();
-			if(value == 0 && withZero){
+			if (value == 0 && withZero) {
 				values.put(sec.getSector(), value);
-			}else if(value != 0){
+			} else if (value != 0) {
 				values.put(sec.getSector(), value);
 			}
 		}
-		
+
 		return values;
 	}
 
@@ -200,17 +202,17 @@ public class MemberServiceImpl implements MemberService {
 		Member mem = memberDao.findById(id);
 		return deleteMember(mem);
 	}
-	
+
 	@Override
 	@Transactional
-	public Map<Degree, Integer> getMembersPerDegree(){
+	public Map<Degree, Integer> getMembersPerDegree() {
 		Map<Degree, Integer> values = new HashMap<>();
 		List<Degree> allDegrees = degreeDao.findAll();
-		for(Degree deg:allDegrees){
+		for (Degree deg : allDegrees) {
 			int size = memberDao.findAllByProperty("degree", deg).size();
 			values.put(deg, size);
 		}
 		return values;
 	}
-	
+
 }
