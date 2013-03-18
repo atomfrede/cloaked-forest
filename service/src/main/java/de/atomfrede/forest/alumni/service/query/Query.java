@@ -13,43 +13,43 @@ public class Query<T extends AbstractEntity> {
 	protected List<Filter> or;
 	protected List<Filter> and;
 	protected List<SubQuery<T>> subQueries;
-	
-	public Query(Class<T> clazz){
+
+	public Query(Class<T> clazz) {
 		this.clazz = clazz;
 	}
-	
-	public void addFilter(Filter filter){
-		if(filters == null){
+
+	public void addFilter(Filter filter) {
+		if (filters == null) {
 			filters = new ArrayList<>();
 		}
 		filters.add(filter);
 	}
-	
-	public void addOr(Filter filter){
-		if(or == null){
+
+	public void addOr(Filter filter) {
+		if (or == null) {
 			or = new ArrayList<>();
 		}
 		or.add(filter);
 	}
-	
-	public void addAnd(Filter filter){
-		if(and == null){
+
+	public void addAnd(Filter filter) {
+		if (and == null) {
 			and = new ArrayList<>();
 		}
 		and.add(filter);
 	}
-	
-	public void reset(){
+
+	public void reset() {
 		filters.clear();
 		or.clear();
 		and.clear();
 	}
-	
-	public void addSubQuery(SubQuery<T> subQuery){
-		if(subQueries == null){
+
+	public void addSubQuery(SubQuery<T> subQuery) {
+		if (subQueries == null) {
 			subQueries = new ArrayList<>();
 		}
 		subQueries.add(subQuery);
 	}
-	
+
 }

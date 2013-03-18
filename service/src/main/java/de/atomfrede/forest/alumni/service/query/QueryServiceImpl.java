@@ -11,11 +11,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.service.query.filter.BetweenFilter;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 
@@ -24,8 +22,8 @@ import de.atomfrede.forest.alumni.service.query.filter.Filter;
 public class QueryServiceImpl implements QueryService {
 
 	@Resource
-	protected SessionFactory sessionFactory;
-	
+	private SessionFactory sessionFactory;
+
 	public Session getSession() {
 		try {
 			return sessionFactory.getCurrentSession();
@@ -34,44 +32,45 @@ public class QueryServiceImpl implements QueryService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<?> queryDatabase(Query<?> query) {
 		Criteria crit = getSession().createCriteria(query.clazz);
-		if(query.filters != null && !query.filters.isEmpty()){
-			for(Filter filter:query.filters){
+		if (query.filters != null && !query.filters.isEmpty()) {
+			for (Filter filter : query.filters) {
 				crit.add(getRestriction(filter));
 			}
 		}
-		
-		if(query.or != null && !query.or.isEmpty()){
+
+		if (query.or != null && !query.or.isEmpty()) {
 			List<Criterion> crits = new ArrayList<>();
-			for(Filter or:query.or){
+			for (Filter or : query.or) {
 				crits.add(getRestriction(or));
 			}
-			crit.add(Restrictions.or(crits.toArray(new Criterion[]{})));
+			crit.add(Restrictions.or(crits.toArray(new Criterion[] {})));
 		}
-		
-		if(query.and != null && !query.and.isEmpty()){
+
+		if (query.and != null && !query.and.isEmpty()) {
 			List<Criterion> crits = new ArrayList<>();
-			for(Filter and:query.and){
+			for (Filter and : query.and) {
 				crits.add(getRestriction(and));
 			}
-			crit.add(Restrictions.and(crits.toArray(new Criterion[]{})));
+			crit.add(Restrictions.and(crits.toArray(new Criterion[] {})));
 		}
 		return crit.list();
 	}
-	
-	private Criterion getRestriction(Filter filter){
+
+	private Criterion getRestriction(Filter filter) {
 		switch (filter.getType()) {
 		case LIKE:
-			return Restrictions.like(filter.getPropertyName(), filter.getValue());
+			return Restrictions.like(filter.getPropertyName(),
+					filter.getValue());
 		case EQ:
 			return Restrictions.eq(filter.getPropertyName(), filter.getValue());
 		case BETWEEN:
-			BetweenFilter bf = (BetweenFilter)filter;
-			return Restrictions.between(filter.getPropertyName(), bf.getValue(), bf.getValue2());
+			BetweenFilter bf = (BetweenFilter) filter;
+			return Restrictions.between(filter.getPropertyName(),
+					bf.getValue(), bf.getValue2());
 		default:
 			return null;
 		}

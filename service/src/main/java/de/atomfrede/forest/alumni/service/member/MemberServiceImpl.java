@@ -33,22 +33,20 @@ import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 public class MemberServiceImpl implements MemberService {
 
 	@Resource
-	protected SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
 	@Autowired
-	MemberDao memberDao;
+	private MemberDao memberDao;
 
 	@Autowired
-	ContactDataDao contactDao;
+	private ContactDataDao contactDao;
 	
 	@Autowired
-	SectorDao sectorDao;
+	private SectorDao sectorDao;
 	
 	@Autowired
-	DegreeDao degreeDao;
+	private DegreeDao degreeDao;
 
-	protected Session session;
-	
 	public Session getSession() {
 		try {
 			return sessionFactory.getCurrentSession();
@@ -68,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findById(Long id) {
+	public Member findById(final Long id) {
 		return memberDao.findById(id);
 	}
 
