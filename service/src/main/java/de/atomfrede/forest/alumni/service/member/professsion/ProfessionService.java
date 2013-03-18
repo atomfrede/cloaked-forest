@@ -5,4 +5,4 @@ import java.util.List;
 public interface ProfessionService {
 
 	public List<String> getTypeaheadProfession();
-} 
+}

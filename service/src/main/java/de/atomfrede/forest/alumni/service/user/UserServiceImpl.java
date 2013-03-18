@@ -16,7 +16,7 @@ import de.atomfrede.forest.alumni.domain.entity.user.User;
 public class UserServiceImpl implements UserService {
 
 	private final Log log = LogFactory.getLog(UserServiceImpl.class);
-	
+
 	@Autowired
 	private UserDao userDao;
 
@@ -67,9 +67,10 @@ public class UserServiceImpl implements UserService {
 			String email, String password) throws UsernameAlreadyTakenException {
 		User possibleUser = userDao.findByProperty("username", username);
 		if (possibleUser != null) {
-			log.error("Username already take. Can't create user with user name "+username);
+			log.error("Username already take. Can't create user with user name "
+					+ username);
 			throw new UsernameAlreadyTakenException();
-			
+
 		}
 		User user = new User();
 		user.setUsername(username);

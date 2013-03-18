@@ -9,8 +9,6 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +20,8 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 public class ProfessionServiceImpl implements ProfessionService {
 
 	@Resource
-	protected SessionFactory sessionFactory;
-	
+	private SessionFactory sessionFactory;
+
 	public Session getSession() {
 		try {
 			return sessionFactory.getCurrentSession();
@@ -31,7 +29,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 			return sessionFactory.openSession();
 		}
 	}
-	
+
 	@Override
 	@Transactional
 	public List<String> getTypeaheadProfession() {
@@ -40,10 +38,10 @@ public class ProfessionServiceImpl implements ProfessionService {
 		crit.setProjection(Projections.groupProperty("profession"));
 		@SuppressWarnings("rawtypes")
 		List values = crit.list();
-		
+
 		List<String> results = new ArrayList<>();
-		for(Object value:values){
-			results.add(value+"");
+		for (Object value : values) {
+			results.add(value + "");
 		}
 		return results;
 	}

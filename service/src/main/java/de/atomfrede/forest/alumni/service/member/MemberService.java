@@ -9,39 +9,40 @@ import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.EntityService;
 
-public interface MemberService extends EntityService<Member>{
-	
-	public Member createMember(String firstname, String lastname, String personalMail);
-	
+public interface MemberService extends EntityService<Member> {
+
+	public Member createMember(String firstname, String lastname,
+			String personalMail);
+
 	public boolean deleteMember(Member member);
-	
+
 	public boolean deleteMember(long id);
-	
+
 	public List<Member> list(long offset, long count, String orderProperty,
 			boolean desc);
-	
+
 	public List<Member> findAllByProperty(String propertName,
 			Object propertyValue);
-	
+
 	public void persistAll(List<Member> entities);
-	
+
 	public List<Member> list(long offset, long count, FilterElement... elements);
-	
+
 	/**
 	 * Retrieves the member count per year.
 	 * 
 	 * Usefull for generating a simple line plot of evolution of member count.
+	 * 
 	 * @return
 	 */
 	public Map<Date, Integer> getMemberCountPerYear(Date from);
-	
-	public Map<Date, Integer> getMemberCountPerYear(Date from, Date to);
-	
-	public Map<String, Integer> getMembersPerSector();
-	
-	public Map<String, Integer> getMembersPerSector(boolean withZero);
-	
-	public Map<Degree, Integer> getMembersPerDegree();
 
+	public Map<Date, Integer> getMemberCountPerYear(Date from, Date to);
+
+	public Map<String, Integer> getMembersPerSector();
+
+	public Map<String, Integer> getMembersPerSector(boolean withZero);
+
+	public Map<Degree, Integer> getMembersPerDegree();
 
 }
