@@ -71,7 +71,9 @@
     <module name="FinalClass"/>
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
-    <module name="VisibilityModifier"/>
+    <module name="VisibilityModifier">
+        <property name="severity" value="ignore"/>
+    </module>
     <module name="ArrayTypeStyle"/>
     <module name="FinalParameters">
          <property name="severity" value="ignore"/>
