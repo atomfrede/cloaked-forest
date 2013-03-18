@@ -3,6 +3,8 @@ cloaked-forest
 
 A small application to manage members of the alumni of forest faculty in Göttingen.
 
+[![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
+
 License
 =======
 
