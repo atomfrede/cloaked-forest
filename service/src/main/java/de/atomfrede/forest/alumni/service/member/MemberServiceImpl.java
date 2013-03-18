@@ -32,6 +32,8 @@ import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 @Transactional(rollbackFor = Exception.class)
 public class MemberServiceImpl implements MemberService {
 
+	private static final int days = 31;
+	
 	@Resource
 	private SessionFactory sessionFactory;
 
@@ -143,11 +145,11 @@ public class MemberServiceImpl implements MemberService {
 
 		DateTime start = new DateTime(from.getTime());
 		start = start.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
-		start = start.dayOfMonth().setCopy(31);
+		start = start.dayOfMonth().setCopy(MemberServiceImpl.days);
 
 		DateTime end = new DateTime(to.getTime());
 		end = end.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
-		end = end.dayOfMonth().setCopy(31);
+		end = end.dayOfMonth().setCopy(MemberServiceImpl.days);
 
 		while (!start.year().equals(end.year())) {
 			Criteria crit = getSession().createCriteria(Member.class);
