@@ -8,6 +8,9 @@
     Checkstyle-Configuration: Alumni Checkstyle
     Description: none
 -->
+<module name="SuppressionFilter">
+    <property name="file" value="suppressions.xml"/>
+</module>
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
@@ -21,9 +24,7 @@
     <module name="ConstantName"/>
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
-    <module name="MemberName">
-         <property name="severity" value="ignore"/>
-    </module>
+    <module name="MemberName"/>
     <module name="MethodName"/>
     <module name="PackageName"/>
     <module name="ParameterName"/>
@@ -70,7 +71,7 @@
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
     <module name="DesignForExtension">
-        <property name="severity" value="ignore"/>
+         <property name="severity" value="ignore"/>
     </module>
     <module name="FinalClass"/>
     <module name="HideUtilityClassConstructor"/>
