@@ -11,22 +11,20 @@ import de.atomfrede.forest.alumni.service.EntityService;
 
 public interface MemberService extends EntityService<Member> {
 
-	public Member createMember(String firstname, String lastname,
-			String personalMail);
+	Member createMember(String firstname, String lastname, String personalMail);
 
-	public boolean deleteMember(Member member);
+	boolean deleteMember(Member member);
 
-	public boolean deleteMember(long id);
+	boolean deleteMember(long id);
 
-	public List<Member> list(long offset, long count, String orderProperty,
+	List<Member> list(long offset, long count, String orderProperty,
 			boolean desc);
 
-	public List<Member> findAllByProperty(String propertName,
-			Object propertyValue);
+	List<Member> findAllByProperty(String propertName, Object propertyValue);
 
-	public void persistAll(List<Member> entities);
+	void persistAll(List<Member> entities);
 
-	public List<Member> list(long offset, long count, FilterElement... elements);
+	List<Member> list(long offset, long count, FilterElement... elements);
 
 	/**
 	 * Retrieves the member count per year.
@@ -35,14 +33,14 @@ public interface MemberService extends EntityService<Member> {
 	 * 
 	 * @return
 	 */
-	public Map<Date, Integer> getMemberCountPerYear(Date from);
+	Map<Date, Integer> getMemberCountPerYear(Date from);
 
-	public Map<Date, Integer> getMemberCountPerYear(Date from, Date to);
+	Map<Date, Integer> getMemberCountPerYear(Date from, Date to);
 
-	public Map<String, Integer> getMembersPerSector();
+	Map<String, Integer> getMembersPerSector();
 
-	public Map<String, Integer> getMembersPerSector(boolean withZero);
+	Map<String, Integer> getMembersPerSector(boolean withZero);
 
-	public Map<Degree, Integer> getMembersPerDegree();
+	Map<Degree, Integer> getMembersPerDegree();
 
 }

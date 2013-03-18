@@ -5,7 +5,7 @@ import de.atomfrede.forest.alumni.service.EntityService;
 
 public interface UserService extends EntityService<User> {
 
-	public User getByUsername(String username);
+	User getByUsername(String username);
 
 	/**
 	 * Creates a new user and tries to write it into database.
@@ -17,9 +17,9 @@ public interface UserService extends EntityService<User> {
 	 * @param password
 	 * @return
 	 */
-	public User createUser(String username, String firstname, String lastname,
+	User createUser(String username, String firstname, String lastname,
 			String email, String password) throws UsernameAlreadyTakenException;
-	
-	public boolean canCreateUser(String username);
+
+	boolean canCreateUser(String username);
 
 }

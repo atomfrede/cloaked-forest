@@ -12,6 +12,14 @@ public class SubQuery<T extends AbstractEntity> extends Query<T> {
 
 	public SubQuery(Class<T> clazz, Conjunction conjunction) {
 		super(clazz);
+		this.setConjunction(conjunction);
+	}
+
+	public Conjunction getConjunction() {
+		return conjunction;
+	}
+
+	public void setConjunction(Conjunction conjunction) {
 		this.conjunction = conjunction;
 	}
 }

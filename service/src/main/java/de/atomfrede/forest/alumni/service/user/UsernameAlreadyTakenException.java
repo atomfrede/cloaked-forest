@@ -7,11 +7,8 @@ package de.atomfrede.forest.alumni.service.user;
  * @author fred
  * 
  */
+@SuppressWarnings("serial")
 public class UsernameAlreadyTakenException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3791439658364773235L;
 
 }
