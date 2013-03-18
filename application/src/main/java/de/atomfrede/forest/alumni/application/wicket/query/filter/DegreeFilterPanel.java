@@ -17,31 +17,31 @@ import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
 @SuppressWarnings("serial")
-public class DegreeFilterPanel extends Panel{
+public class DegreeFilterPanel extends Panel {
 
 	@SpringBean
-	DegreeDao degreeDao;
-	
-	Degree selectedDegree;
-	
+	private DegreeDao degreeDao;
+
+	private Degree selectedDegree;
+
 	public DegreeFilterPanel(String id) {
 		super(id);
 		setupDegreeSelect();
 	}
-	
-	public Degree getSelectedDegree(){
+
+	public Degree getSelectedDegree() {
 		return selectedDegree;
 	}
-	
+
 	@SuppressWarnings("serial")
-	private void setupDegreeSelect(){
+	private void setupDegreeSelect() {
 		List<Degree> degrees = degreeDao.findAll();
 
 		Degree noRestrictions = new Degree();
 		noRestrictions.setTitle(_("query.no.restriction").getString());
-		
+
 		degrees.add(0, noRestrictions);
-		
+
 		Select<Degree> degreeSelect = new Select<Degree>("degree-select",
 				new PropertyModel<Degree>(this, "selectedDegree"));
 
@@ -53,18 +53,17 @@ public class DegreeFilterPanel extends Panel{
 						.getModelObject()));
 			}
 		});
-		
-		
-		degreeSelect.add(new OnChangeAjaxBehavior(){
+
+		degreeSelect.add(new OnChangeAjaxBehavior() {
 
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
-		
+
 		add(degreeSelect);
 	}
 }

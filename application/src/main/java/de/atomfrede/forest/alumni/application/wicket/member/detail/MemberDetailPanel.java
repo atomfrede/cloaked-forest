@@ -9,20 +9,22 @@ import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 
 @SuppressWarnings("serial")
-public class MemberDetailPanel extends Panel{
+public class MemberDetailPanel extends Panel {
 
 	@SpringBean
-	MemberDao memberDao;
-	
-	Type editType;
-	Long memberId;
-	
+	private MemberDao memberDao;
+
+	private Type editType;
+	private Long memberId;
+
 	public MemberDetailPanel(String id, Type editType, Long memberId) {
 		super(id);
 		this.editType = editType;
 		this.memberId = memberId;
-		
-		MembersDetailForm form = new MembersDetailForm("member-form", this.editType, new AbstractEntityModel<Member>(Member.class, memberId));
+
+		MembersDetailForm form = new MembersDetailForm("member-form",
+				this.editType, new AbstractEntityModel<Member>(Member.class,
+						memberId));
 		add(form);
 	}
 

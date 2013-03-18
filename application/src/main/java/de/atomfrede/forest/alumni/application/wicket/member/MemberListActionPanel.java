@@ -33,86 +33,95 @@ import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 public class MemberListActionPanel extends Panel {
 
 	@SpringBean
-	MemberDao memberDao;
-	
+	private MemberDao memberDao;
+
 	@SpringBean
-	CsvExporter csvExporter;
-	
-	BootstrapLink<Void> newMember;
-	BootstrapLink<Void> csvDownload;
-	TextField<String> nameFilter;
-	Form<String> filterForm;
-	String currentFilter = "";
-	
+	private CsvExporter csvExporter;
+
+	private BootstrapLink<Void> newMember;
+	private BootstrapLink<Void> csvDownload;
+	private TextField<String> nameFilter;
+	private Form<String> filterForm;
+	private String currentFilter = "";
+
 	public MemberListActionPanel(String id) {
 		super(id);
 		filterForm = new Form<String>("filter-form");
-		nameFilter = new TextField<String>("name-filter", new PropertyModel<String>(this, "currentFilter"));
-		
+		nameFilter = new TextField<String>("name-filter",
+				new PropertyModel<String>(this, "currentFilter"));
+
 		nameFilter.setOutputMarkupId(true);
-		
+
 		filterForm.add(nameFilter);
 		filterForm.setOutputMarkupId(true);
 		add(filterForm);
-		
+
 		addNewMember();
 		addCsvDownload();
 		setOutputMarkupId(true);
 	}
-	
 
-	
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				MemberListActionPanel.class, "member.css")));
 	}
-	
-	private void addNewMember(){
-		newMember = new BootstrapLink<Void>("btn-new-member", Buttons.Type.Primary) {
+
+	private void addNewMember() {
+		newMember = new BootstrapLink<Void>("btn-new-member",
+				Buttons.Type.Primary) {
 
 			@Override
 			public void onClick() {
 				onNewMember();
 			}
 		};
-		
-		newMember.setIconType(IconType.plussign).setLabel(Model.of(_("member.action.new")));
+
+		newMember.setIconType(IconType.plussign).setLabel(
+				Model.of(_("member.action.new")));
 		add(newMember);
 	}
-	
-	private void addCsvDownload(){
-		csvDownload = new BootstrapLink<Void>("btn-csv-download", Buttons.Type.Default) {
+
+	private void addCsvDownload() {
+		csvDownload = new BootstrapLink<Void>("btn-csv-download",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
 				File file = csvExporter.generateCsvFile();
-				if(file != null){
-					try{
-						IResource resource = new ByteArrayResource("text/csv", FileUtils.readFileToByteArray(file), "members.csv");
-						IRequestHandler handler = new ResourceRequestHandler(resource, null);
-						getRequestCycle().scheduleRequestHandlerAfterCurrent(handler);
-					}catch(IOException ioe){
-						
+				if (file != null) {
+					try {
+						IResource resource = new ByteArrayResource("text/csv",
+								FileUtils.readFileToByteArray(file),
+								"members.csv");
+						IRequestHandler handler = new ResourceRequestHandler(
+								resource, null);
+						getRequestCycle().scheduleRequestHandlerAfterCurrent(
+								handler);
+					} catch (IOException ioe) {
+
 					}
 				}
-				
+
 			}
 		};
-		
-		csvDownload.setIconType(IconType.file).setLabel(Model.of(_("member.action.csv"))).setInverted(false);
-		
+
+		csvDownload.setIconType(IconType.file)
+				.setLabel(Model.of(_("member.action.csv"))).setInverted(false);
+
 		add(csvDownload);
 	}
-	
-	private void onNewMember(){
+
+	private void onNewMember() {
 		PageParameters params = new PageParameters();
 		params.add(MemberDetailPage.EDIT_TYPE, Type.Create);
 		params.add(MemberDetailPage.MEMBER_ID, "-1");
 		setResponsePage(MemberDetailPage.class, params);
 	}
-	
-	
+
+	public TextField<String> getNameFilter() {
+		return nameFilter;
+	}
 
 }

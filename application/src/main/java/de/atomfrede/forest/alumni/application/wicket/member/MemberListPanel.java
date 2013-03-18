@@ -63,12 +63,12 @@ public class MemberListPanel extends Panel{
 	}
 	
 	private void addFilter(){
-		actionPanel.nameFilter.add(new OnChangeAjaxBehavior() {
+		actionPanel.getNameFilter().add(new OnChangeAjaxBehavior() {
 			
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				// TODO Auto-generated method stub
-				String input = actionPanel.nameFilter.getConvertedInput();
+				String input = actionPanel.getNameFilter().getConvertedInput();
 				doFilter(input);
 				target.add(wmc);
 			}

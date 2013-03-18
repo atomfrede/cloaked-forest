@@ -12,7 +12,7 @@ public class CustomSelectOption extends SelectOption {
 		super(id, new Model(displayValue));
 	}
 
-	public  void onComponentTagBody(final MarkupStream markupStream,
+	public void onComponentTagBody(final MarkupStream markupStream,
 			final ComponentTag openTag) {
 		replaceComponentTagBody(markupStream, openTag,
 				getDefaultModelObjectAsString());

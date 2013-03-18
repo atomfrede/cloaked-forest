@@ -13,8 +13,8 @@ public class SectorSelectOption extends SelectOption<Sector> {
 	public SectorSelectOption(String id, Sector sector) {
 		super(id, new CompoundPropertyModel<Sector>(sector));
 	}
-	
-	public  void onComponentTagBody(final MarkupStream markupStream,
+
+	public void onComponentTagBody(final MarkupStream markupStream,
 			final ComponentTag openTag) {
 		replaceComponentTagBody(markupStream, openTag,
 				getDefaultModelObjectAsString());

@@ -12,7 +12,7 @@ public class UserSession<T extends UserAuthModel> extends WebSession implements
 	 * 
 	 */
 	private static final long serialVersionUID = 4564013929977304560L;
-	
+
 	// default user, ex. AnonymousUser
 	protected T defaultUser;
 	// current user
@@ -24,13 +24,13 @@ public class UserSession<T extends UserAuthModel> extends WebSession implements
 
 	public UserSession(Request request, T defaultUser) {
 		super(request);
-		
-		if(defaultUser == null){
+
+		if (defaultUser == null) {
 			throw new IllegalArgumentException("Default User can't be null.");
 		}
-		
+
 		this.defaultUser = defaultUser;
-        setUser(defaultUser);
+		setUser(defaultUser);
 	}
 
 	@Override
@@ -42,11 +42,11 @@ public class UserSession<T extends UserAuthModel> extends WebSession implements
 	public void setUser(T user) {
 		this.user = user;
 	}
-	
+
 	@Override
-    public void invalidate() {
-    	super.invalidate();
-    	setUser(defaultUser);
-    }
+	public void invalidate() {
+		super.invalidate();
+		setUser(defaultUser);
+	}
 
 }

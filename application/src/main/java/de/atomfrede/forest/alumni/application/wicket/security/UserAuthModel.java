@@ -29,8 +29,9 @@ public class UserAuthModel extends AbstractEntityModel<User> {
 	@Override
 	public User getObject() {
 		try {
-			//FIXME CHeck why this throws an exception for newly created/registered users
-			// saying no hibernate session is available 
+			// FIXME CHeck why this throws an exception for newly
+			// created/registered users
+			// saying no hibernate session is available
 			entity.getId();
 		} catch (Exception e) {
 			entity = null;

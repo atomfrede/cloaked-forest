@@ -2,17 +2,10 @@ package de.atomfrede.forest.alumni.application.wicket.member.detail;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
-import org.apache.wicket.markup.head.CssHeaderItem;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
-import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.resource.CssResourceReference;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.Bootstrap;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 import de.atomfrede.forest.alumni.application.wicket.member.MemberDetailPageListener;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
@@ -29,12 +22,12 @@ public class MemberDetailPage extends BasePage<Void> implements
 	}
 
 	@SpringBean
-	MemberDao memberDao;
+	private MemberDao memberDao;
 
-	Label header, subHeader;
+	private Label header, subHeader;
 
-	Type mEditType;
-	Long mMemberId = null;
+	private Type mEditType;
+	private Long mMemberId = null;
 
 	public MemberDetailPage(PageParameters params) {
 		super();

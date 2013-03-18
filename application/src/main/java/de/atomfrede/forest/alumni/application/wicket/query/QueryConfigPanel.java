@@ -19,26 +19,26 @@ import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
 @SuppressWarnings("serial")
-public class QueryConfigPanel extends Panel{
+public class QueryConfigPanel extends Panel {
 
 	@SpringBean
-	DegreeDao degreeDao;
-	
-	Label header, subHeader;
-	ProfessionFilterPanel professionFilterPanel;
-	
+	private DegreeDao degreeDao;
+
+	private Label header, subHeader;
+	private ProfessionFilterPanel professionFilterPanel;
+
 	public QueryConfigPanel(String id) {
 		super(id);
 		header = new Label("page-header", _("query.header"));
 		subHeader = new Label("page-sub-header", _("query.sub.header"));
-		
+
 		add(header);
 		add(subHeader);
-		
+
 		add(new QueryConfigForm("query-form"));
 	}
-	
-	private void setupDegreeFilter(){
+
+	private void setupDegreeFilter() {
 		List<Degree> degrees = degreeDao.findAll();
 
 		Select<Degree> degreeSelect = new Select<Degree>("degree-select",
@@ -55,7 +55,7 @@ public class QueryConfigPanel extends Panel{
 
 		add(degreeSelect);
 	}
-	
+
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);

@@ -25,7 +25,6 @@ public class JQPlotBehaviour extends Behavior {
 	private static final ResourceReference JQPLOT_CSS = new CssResourceReference(
 			JQPlotBehaviour.class, "jquery.jqplot.min.css");
 
-
 	private Chart<?> chart;
 	private String divId;
 
@@ -37,8 +36,9 @@ public class JQPlotBehaviour extends Behavior {
 	@Override
 	public void renderHead(Component component, IHeaderResponse response) {
 		super.renderHead(component, response);
-		response.render(JavaScriptHeaderItem.forReference(Application.get().getJavaScriptLibrarySettings().getJQueryReference()));
-		
+		response.render(JavaScriptHeaderItem.forReference(Application.get()
+				.getJavaScriptLibrarySettings().getJQueryReference()));
+
 		response.render(JavaScriptHeaderItem.forReference(JQPLOT_JS));
 		response.render(CssHeaderItem.forReference(JQPLOT_CSS));
 

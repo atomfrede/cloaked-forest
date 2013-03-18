@@ -29,13 +29,13 @@ import de.atomfrede.forest.alumni.service.user.UserService;
 public class LoginForm extends AbstractBaseForm<User> {
 
 	@SpringBean
-	UserService userService;
+	private UserService userService;
 
-	TextField<String> usernameTextField;
-	PasswordTextField passwordTextField;
-	NotificationPanel feedbackPanel;
-	WebMarkupContainer usernameContainer, passwordContainer;
-	
+	private TextField<String> usernameTextField;
+	private PasswordTextField passwordTextField;
+	private NotificationPanel feedbackPanel;
+	private WebMarkupContainer usernameContainer, passwordContainer;
+
 	public LoginForm(String id, UserAuthModel model) {
 		super(id, new CompoundPropertyModel<User>(model));
 
@@ -90,20 +90,22 @@ public class LoginForm extends AbstractBaseForm<User> {
 		if (user == null) {
 			// Put a generic error message like user not found or password
 			// incorrect
-			error(new NotificationMessage(Model.of("Benutzer nicht gefunden oder Password nicht korrekt.")));
+			error(new NotificationMessage(
+					Model.of("Benutzer nicht gefunden oder Password nicht korrekt.")));
 			return;
 		} else {
 			// Check if the password is correct for the user found by the
 			// provided username
-			if(!user.isPassword(password)){
-				error(new NotificationMessage(Model.of("Benutzer nicht gefunden oder Password nicht korrekt.")));
+			if (!user.isPassword(password)) {
+				error(new NotificationMessage(
+						Model.of("Benutzer nicht gefunden oder Password nicht korrekt.")));
 				return;
 			}
 		}
 		getSession().setUser(new UserAuthModel(User.class, user.getId()));
 
-//		LogoutPage.reset();
-		
+		// LogoutPage.reset();
+
 		setResponsePage(getApp().getHomePage());
 		return;
 

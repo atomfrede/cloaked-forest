@@ -8,13 +8,13 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 
 @SuppressWarnings("serial")
-public class CompanySelectOption extends SelectOption<Company>{
+public class CompanySelectOption extends SelectOption<Company> {
 
 	public CompanySelectOption(String id, Company company) {
 		super(id, new CompoundPropertyModel<Company>(company));
 	}
-	
-	public  void onComponentTagBody(final MarkupStream markupStream,
+
+	public void onComponentTagBody(final MarkupStream markupStream,
 			final ComponentTag openTag) {
 		replaceComponentTagBody(markupStream, openTag,
 				getDefaultModelObjectAsString());

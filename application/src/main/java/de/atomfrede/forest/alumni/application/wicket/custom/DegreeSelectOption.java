@@ -8,13 +8,13 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
 @SuppressWarnings("serial")
-public class DegreeSelectOption  extends SelectOption<Degree> {
+public class DegreeSelectOption extends SelectOption<Degree> {
 
 	public DegreeSelectOption(String id, Degree degree) {
 		super(id, new CompoundPropertyModel<Degree>(degree));
 	}
 
-	public  void onComponentTagBody(final MarkupStream markupStream,
+	public void onComponentTagBody(final MarkupStream markupStream,
 			final ComponentTag openTag) {
 		replaceComponentTagBody(markupStream, openTag,
 				getDefaultModelObjectAsString());

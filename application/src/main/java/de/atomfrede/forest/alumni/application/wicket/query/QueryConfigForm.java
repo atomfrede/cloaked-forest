@@ -26,29 +26,27 @@ import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.query.Query;
-import de.atomfrede.forest.alumni.service.query.SubQuery;
-import de.atomfrede.forest.alumni.service.query.SubQuery.Conjunction;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 import de.atomfrede.forest.alumni.service.query.filter.Filter.Type;
 
 @SuppressWarnings("serial")
-public class QueryConfigForm extends BootstrapForm<Void>{
+public class QueryConfigForm extends BootstrapForm<Void> {
 
 	@SpringBean
-	CsvExporter csvExporter;
-	
-	ProfessionFilterPanel professionFilterPanel;
-	DegreeFilterPanel degreeFilter;
-	
-	BootstrapLink<Void> csvDownload;
-	
+	private CsvExporter csvExporter;
+
+	private ProfessionFilterPanel professionFilterPanel;
+	private DegreeFilterPanel degreeFilter;
+
+	private BootstrapLink<Void> csvDownload;
+
 	public QueryConfigForm(String componentId) {
 		super(componentId);
 		setupProfessionFilter();
 		setupDegreeFilter();
-		
+
 		addCsvDownload();
-		
+
 		AjaxButton submitBtn = new AjaxButton("submit-btn", this) {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -59,60 +57,66 @@ public class QueryConfigForm extends BootstrapForm<Void>{
 			protected void onError(AjaxRequestTarget target, Form<?> form) {
 			}
 		};
-		
+
 		add(submitBtn);
 	}
-	
-	private void setupDegreeFilter(){
+
+	private void setupDegreeFilter() {
 		degreeFilter = new DegreeFilterPanel("degree-filter");
 		add(degreeFilter);
 	}
-	
-	private void setupProfessionFilter(){
+
+	private void setupProfessionFilter() {
 		professionFilterPanel = new ProfessionFilterPanel("profession-filter");
 		add(professionFilterPanel);
-		
+
 	}
 
-	private Query<Member> setupQuery(){
+	private Query<Member> setupQuery() {
 		Query<Member> query = new Query<>(Member.class);
 
 		Degree degree = degreeFilter.getSelectedDegree();
-		if(degree != null && degree.getId() != null){
+		if (degree != null && degree.getId() != null) {
 			Filter degFilter = new Filter("degree", degree, Type.EQ);
 			query.addFilter(degFilter);
 		}
-		
+
 		String profession = professionFilterPanel.getValue();
-		if(profession != null){
+		if (profession != null) {
 			Filter profFilter = new Filter("profession", profession, Type.EQ);
 			query.addFilter(profFilter);
 		}
-		
+
 		return query;
-		
+
 	}
-	
-	private void addCsvDownload(){
-		csvDownload = new BootstrapLink<Void>("btn-csv-download", Buttons.Type.Default) {
+
+	private void addCsvDownload() {
+		csvDownload = new BootstrapLink<Void>("btn-csv-download",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
 				File file = csvExporter.generateCsvFile(setupQuery());
-				if(file != null){
-					try{
-						IResource resource = new ByteArrayResource("text/csv", FileUtils.readFileToByteArray(file), "members.csv");
-						IRequestHandler handler = new ResourceRequestHandler(resource, null);
-						getRequestCycle().scheduleRequestHandlerAfterCurrent(handler);
-					}catch(IOException ioe){
-						
+				if (file != null) {
+					try {
+						IResource resource = new ByteArrayResource("text/csv",
+								FileUtils.readFileToByteArray(file),
+								"members.csv");
+						IRequestHandler handler = new ResourceRequestHandler(
+								resource, null);
+						getRequestCycle().scheduleRequestHandlerAfterCurrent(
+								handler);
+					} catch (IOException ioe) {
+
 					}
 				}
 			}
 		};
-		
-		csvDownload.setIconType(IconType.file).setLabel(Model.of(_("member.action.csv"))).setInverted(false);
-		
+
+		csvDownload.setIconType(IconType.file)
+				.setLabel(Model.of(_("member.action.csv"))).setInverted(false);
+
 		add(csvDownload);
 	}
 

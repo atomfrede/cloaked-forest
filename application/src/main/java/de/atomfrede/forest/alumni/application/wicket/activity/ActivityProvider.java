@@ -15,16 +15,15 @@ import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 public class ActivityProvider implements IDataProvider<Activity> {
 
 	@SpringBean
-	ActivityDao activityDao;
-	
-	public ActivityProvider(){
+	private ActivityDao activityDao;
+
+	public ActivityProvider() {
 		Injector.get().inject(this);
 	}
-	
+
 	@Override
 	public void detach() {
-		
-		
+
 	}
 
 	@Override

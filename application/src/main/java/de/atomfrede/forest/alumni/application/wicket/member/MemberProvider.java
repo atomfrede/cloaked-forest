@@ -1,6 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.member;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,19 +14,19 @@ import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 
 @SuppressWarnings("serial")
-public class MemberProvider implements IDataProvider<Member>{
-	
+public class MemberProvider implements IDataProvider<Member> {
+
 	@SpringBean
-	MemberDao memberDao;
-	
+	private MemberDao memberDao;
+
 	long count;
-	
+
 	String nameFilter;
-	
-	public MemberProvider(){
+
+	public MemberProvider() {
 		Injector.get().inject(this);
 	}
-	
+
 	@Override
 	public void detach() {
 		// TODO Auto-generated method stub
@@ -35,14 +34,15 @@ public class MemberProvider implements IDataProvider<Member>{
 
 	@Override
 	public Iterator<? extends Member> iterator(long offset, long count) {
-		if(isFilteredByName()){
-			FilterElement elem = new FilterElement().propertyName("lastname").filter(nameFilter);
+		if (isFilteredByName()) {
+			FilterElement elem = new FilterElement().propertyName("lastname")
+					.filter(nameFilter);
 			List<Member> members = memberDao.list(offset, count, elem);
 			count = members.size();
 			return members.iterator();
 		}
 		return memberDao.list(offset, count, "lastname", false).iterator();
-		
+
 	}
 
 	@Override
@@ -52,15 +52,16 @@ public class MemberProvider implements IDataProvider<Member>{
 
 	@Override
 	public long size() {
-		if(isFilteredByName()){
-			FilterElement elem = new FilterElement().propertyName("lastname").filter(nameFilter);
+		if (isFilteredByName()) {
+			FilterElement elem = new FilterElement().propertyName("lastname")
+					.filter(nameFilter);
 			List<Member> members = memberDao.list(0, memberDao.count(), elem);
 			return members.size();
 		}
 		return memberDao.count();
 	}
-	
-	private boolean isFilteredByName(){
+
+	private boolean isFilteredByName() {
 		return (nameFilter != null && !"".equals(nameFilter.trim()));
 	}
 

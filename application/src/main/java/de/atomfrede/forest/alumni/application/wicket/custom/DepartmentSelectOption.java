@@ -8,15 +8,15 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 
 @SuppressWarnings("serial")
-public class DepartmentSelectOption extends SelectOption<Department>{
+public class DepartmentSelectOption extends SelectOption<Department> {
 
 	public DepartmentSelectOption(String id, Department department) {
 		super(id, new CompoundPropertyModel<Department>(department));
 	}
-	
-	public  void onComponentTagBody(final MarkupStream markupStream,
+
+	public void onComponentTagBody(final MarkupStream markupStream,
 			final ComponentTag openTag) {
-			replaceComponentTagBody(markupStream, openTag,
-					getDefaultModelObjectAsString());
+		replaceComponentTagBody(markupStream, openTag,
+				getDefaultModelObjectAsString());
 	}
 }

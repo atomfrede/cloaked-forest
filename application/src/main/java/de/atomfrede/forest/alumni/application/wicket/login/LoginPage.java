@@ -15,27 +15,26 @@ import de.atomfrede.forest.alumni.service.user.UsernameAlreadyTakenException;
 public class LoginPage extends AbstractAuthPage<Void> {
 
 	@SpringBean
-	public UserService userService;
-	
+	private UserService userService;
 
 	public LoginPage() {
 		super();
 		commonInit(new PageParameters());
 		addDummyUser();
-		
+
 		UserAuthModel userModel = new UserAuthModel(User.class, -1L);
 		add(new LoginPanel("loginPanel", userModel));
 	}
-	
-	private void addDummyUser(){
+
+	private void addDummyUser() {
 		try {
-			User fred = userService.createUser("fred", "Frederik", "Hahne", "fred@mail.de", "fred");
-			
+			User fred = userService.createUser("fred", "Frederik", "Hahne",
+					"fred@mail.de", "fred");
+
 		} catch (UsernameAlreadyTakenException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
 
 }

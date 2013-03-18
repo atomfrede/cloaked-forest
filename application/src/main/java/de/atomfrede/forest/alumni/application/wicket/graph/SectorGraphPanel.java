@@ -27,16 +27,17 @@ public class SectorGraphPanel extends Panel {
 		super(id);
 		setupGraph();
 	}
-	
-	private void setupGraph(){
-		BarChart<Integer> barchart = new BarChart<>(_("graph.member.sector.header").getString());
-		
+
+	private void setupGraph() {
+		BarChart<Integer> barchart = new BarChart<>(_(
+				"graph.member.sector.header").getString());
+
 		Map<String, Integer> values = memberService.getMembersPerSector();
-		
-		String[] ticks = values.keySet().toArray(new String[]{});
+
+		String[] ticks = values.keySet().toArray(new String[] {});
 		Integer[] intValues = new Integer[values.size()];
 		int count = 0;
-		for(String key:values.keySet()){
+		for (String key : values.keySet()) {
 			intValues[count] = values.get(key);
 			count++;
 		}
@@ -44,16 +45,17 @@ public class SectorGraphPanel extends Panel {
 		barchart.getXAxis().setTicks(ticks);
 		TickOptions tickOptions = new TickOptions();
 		tickOptions.setAngle(-45);
-		
-		barchart.getAxesDefaults().setTickRenderer(JqPlotResources.CanvasAxisTickRenderer);
+
+		barchart.getAxesDefaults().setTickRenderer(
+				JqPlotResources.CanvasAxisTickRenderer);
 		barchart.getAxesDefaults().setTickOptions(tickOptions);
-		
-//		RendererOptions ro = new RendererOptions();
-//		ro.setBarDirection("horizontal");
-//		barchart.getYAxis().setRenderer(JqPlotResources.CategoryAxisRenderer);
-//		barchart.getYAxis().setTicks(ticks);
-//		barchart.getSeriesDefaults().setRendererOptions(ro);
-		
+
+		// RendererOptions ro = new RendererOptions();
+		// ro.setBarDirection("horizontal");
+		// barchart.getYAxis().setRenderer(JqPlotResources.CategoryAxisRenderer);
+		// barchart.getYAxis().setTicks(ticks);
+		// barchart.getSeriesDefaults().setRendererOptions(ro);
+
 		add(new JQPlotChart("chart1", barchart));
 	}
 }

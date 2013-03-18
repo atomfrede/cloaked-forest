@@ -19,11 +19,11 @@ import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
 public class ProfessionFilterPanel extends Panel {
 
 	@SpringBean
-	ProfessionService professionService;
+	private ProfessionService professionService;
 
-	String value;
+	private String value;
 
-	Typeahead<String> typeahead;
+	private Typeahead<String> typeahead;
 
 	public ProfessionFilterPanel(String id) {
 		super(id);
