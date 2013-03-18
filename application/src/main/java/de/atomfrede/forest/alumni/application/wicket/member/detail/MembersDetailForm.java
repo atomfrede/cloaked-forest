@@ -63,65 +63,65 @@ import de.atomfrede.forest.alumni.service.member.MemberService;
 public class MembersDetailForm extends BootstrapForm<Member> {
 
 	@SpringBean
-	DegreeDao degreeDao;
+	protected DegreeDao degreeDao;
 
 	@SpringBean
-	SectorDao sectorDao;
+	protected SectorDao sectorDao;
 
 	@SpringBean
-	CompanyDao companyDao;
+	protected CompanyDao companyDao;
 
 	@SpringBean
-	ActivityDao activityDao;
+	protected ActivityDao activityDao;
 
 	@SpringBean
-	DepartmentDao departmentDao;
+	protected DepartmentDao departmentDao;
 
 	@SpringBean
-	MemberService memberService;
+	protected MemberService memberService;
 
-	List<Company> companies;
-	List<Department> departments;
-	
-	Sector emptySector;
-	Company emptyCompany;
-	Department emptyDepartment;
-	
-	
-	Type editType;
-	Degree selectedDegree;
-	Sector selectedSector;
-	Company selectedCompany;
-	Department selectedDepartment;
+	protected List<Company> companies;
+	protected List<Department> departments;
 
-	Select<Sector> sectorSelect;
-	Select<Company> companySelect;
-	Select<Department> departmentSelect;
+	protected Sector emptySector;
+	protected Company emptyCompany;
+	protected Department emptyDepartment;
 
-	NotificationPanel feedbackPanel;
+	protected Type editType;
+	protected Degree selectedDegree;
+	protected Sector selectedSector;
+	protected Company selectedCompany;
+	protected Department selectedDepartment;
 
-	WebMarkupContainer firstnameWrapper, lastnameWrapper, personalMailWrapper, selectWrapper;
+	protected Select<Sector> sectorSelect;
+	protected Select<Company> companySelect;
+	protected Select<Department> departmentSelect;
 
-	RequiredTextField<String> firstname, lastname, personalMail;
-	TextField<String> personalAddon, profession, salutation,
-			graduationYear, personalStreet, personalTown, personalPostcode,
-			workMail, personalMobile, personalFax, personalPhone,
-			personalInternet, workPhone, workMobile, workFax, workInternet;
-	DateTextField entryDate;
+	protected NotificationPanel feedbackPanel;
+
+	protected WebMarkupContainer firstnameWrapper, lastnameWrapper, personalMailWrapper,
+			selectWrapper;
+
+	protected RequiredTextField<String> firstname, lastname, personalMail;
+	protected TextField<String> personalAddon, profession, salutation, graduationYear,
+			personalStreet, personalTown, personalPostcode, workMail,
+			personalMobile, personalFax, personalPhone, personalInternet,
+			workPhone, workMobile, workFax, workInternet;
+	protected DateTextField entryDate;
 
 	DataView<Activity> activities;
 
 	// Now the data for this formfields. To reuse this panel for new (=non
 	// existing entities we don't use the model directly...)
-	String _salutation, _title, _firstname, _lastname;
-	Date _entryDate;
-	String _personalStreet, _personalNumber, _personalAddon, _personalPostcode,
+	protected String _salutation, _title, _firstname, _lastname;
+	protected Date _entryDate;
+	protected String _personalStreet, _personalNumber, _personalAddon, _personalPostcode,
 			_personalTown, _personalMail, _personalMobile, _personalPhone,
 			_personalFax, _personalInternet;
-	String _graduationYear, _profession;
-	String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
+	protected String _graduationYear, _profession;
+	protected String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
 
-	Map<String, Boolean> activityName_checked = new HashMap<>();
+	protected Map<String, Boolean> activityName_checked = new HashMap<>();
 
 	public MembersDetailForm(String id, Type editType,
 			AbstractEntityModel<Member> model) {
@@ -147,18 +147,18 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				target.add(personalMailWrapper);
 			}
 		};
-		
+
 		add(submitBtn);
-		
+
 		emptySector = new Sector();
 		emptySector.setSector(_("model.empty").getString());
-		
+
 		emptyCompany = new Company();
 		emptyCompany.setCompany(_("model.empty", "---").getString());
-		
+
 		emptyDepartment = new Department();
 		emptyDepartment.setDepartment(_("model.empty", "---").getString());
-		
+
 		initFormValues(model);
 
 		setupPersonalTab();
@@ -215,7 +215,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			selectedSector = mem.getSector();
 			selectedCompany = mem.getCompany();
 			selectedDepartment = mem.getDepartment();
-			
 
 			for (Activity act : activityDao.findAll()) {
 				if (mem.getActivities().contains(act)) {
@@ -238,9 +237,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	 * Sets up the third ('work') tab
 	 */
 	private void setupWorkTab() {
-		
+
 		selectWrapper = new WebMarkupContainer("select-wrapper");
-		
+
 		workMail = new TextField<String>("work.mail",
 				new PropertyModel<String>(this, "_workMail"));
 		workMail.add(EmailAddressValidator.getInstance());
@@ -258,18 +257,17 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		add(workInternet);
 		add(workMobile);
 		add(workPhone);
-		
+
 		setupWorkSelectors();
 
-		
 	}
 
 	private void setupWorkSelectors() {
 		// Branche
 		List<Sector> sectors = sectorDao.findAll();
-		
+
 		sectors.add(0, emptySector);
-		
+
 		sectorSelect = new Select<Sector>("sector-select",
 				new PropertyModel<Sector>(this, "selectedSector"));
 
@@ -283,9 +281,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		});
 
 		sectorSelect.setOutputMarkupId(true);
-		
+
 		sectorSelect.add(new OnChangeAjaxBehavior() {
-			
+
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				updateSelectors();
@@ -293,13 +291,12 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				target.appendJavaScript("$('.selectpicker').selectpicker();");
 			}
 		});
-		
+
 		selectWrapper.add(sectorSelect);
 
 		// Firma
-		companies = companyDao.findAllByProperty("sector",
-				selectedSector);
-		
+		companies = companyDao.findAllByProperty("sector", selectedSector);
+
 		companies.add(0, emptyCompany);
 
 		companySelect = new Select<Company>("company-select",
@@ -314,9 +311,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		});
 
 		companySelect.setOutputMarkupId(true);
-		
+
 		companySelect.add(new OnChangeAjaxBehavior() {
-			
+
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				onCompanySelected();
@@ -324,17 +321,17 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				target.appendJavaScript("$('.selectpicker').selectpicker();");
 			}
 		});
-		
+
 		selectWrapper.add(companySelect);
-		
-		//Abteilung
+
+		// Abteilung
 		departments = new ArrayList<>();
-		
-		
+
 		if (selectedCompany != null) {
-			departments = departmentDao.findAllByProperty("company", selectedCompany);
+			departments = departmentDao.findAllByProperty("company",
+					selectedCompany);
 		}
-		departments.add(0,emptyDepartment);
+		departments.add(0, emptyDepartment);
 		departmentSelect = new Select<Department>("department-select",
 				new PropertyModel<Department>(this, "selectedDepartment"));
 
@@ -349,45 +346,46 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 		departmentSelect.setOutputMarkupId(true);
 		selectWrapper.add(departmentSelect);
-		
+
 		selectWrapper.setOutputMarkupId(true);
-		
+
 		add(selectWrapper);
 	}
 
-	private void updateSelectors(){
-		if(selectedSector.getId() != null){
-			companies = companyDao.findAllByProperty("sector",
-					selectedSector);
-		}else{
+	private void updateSelectors() {
+		if (selectedSector.getId() != null) {
+			companies = companyDao.findAllByProperty("sector", selectedSector);
+		} else {
 			companies = new ArrayList<>();
 			selectedCompany = emptyCompany;
 		}
 		companies.add(0, emptyCompany);
 
-		companySelect.addOrReplace(new ListView<Company>("company-options", companies) {
+		companySelect.addOrReplace(new ListView<Company>("company-options",
+				companies) {
 			@Override
 			protected void populateItem(ListItem<Company> item) {
 				item.add(new CompanySelectOption("company-option", item
 						.getModelObject()));
 			}
 		});
-		
+
 		onCompanySelected();
 	}
-	
-	private void onCompanySelected(){
-		if(selectedCompany != null && selectedCompany.getId() != null){
-			departments = departmentDao.findAllByProperty("company", selectedCompany);
+
+	private void onCompanySelected() {
+		if (selectedCompany != null && selectedCompany.getId() != null) {
+			departments = departmentDao.findAllByProperty("company",
+					selectedCompany);
 			departments.add(0, emptyDepartment);
-			
-		}else{
+
+		} else {
 			departments = new ArrayList<>();
 			departments.add(0, emptyDepartment);
 		}
-		
-		departmentSelect.addOrReplace(new ListView<Department>("department-options",
-				departments) {
+
+		departmentSelect.addOrReplace(new ListView<Department>(
+				"department-options", departments) {
 			@Override
 			protected void populateItem(ListItem<Department> item) {
 				item.add(new DepartmentSelectOption("department-option", item
@@ -395,6 +393,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			}
 		});
 	}
+
 	/**
 	 * Sets up the first ('personal') tab.
 	 */
@@ -584,39 +583,38 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			member.setFirstname(_firstname);
 			member.setLastname(_lastname);
 		}
-		
-		//Here we have now definitly a member, so set all fields
+
+		// Here we have now definitly a member, so set all fields
 		member.setSalutation(_salutation);
-		
-		if(selectedDegree != null){
+
+		if (selectedDegree != null) {
 			member.setTitle(selectedDegree.getShortForm());
-		}else{
+		} else {
 			member.setTitle(null);
 		}
-		
+
 		member.setEntryDate(_entryDate);
 		member.setDegree(selectedDegree);
 		member.setProfession(_profession);
 		member.setYearOfGraduation(_graduationYear);
-		if(selectedDepartment.getId() != null){
+		if (selectedDepartment.getId() != null) {
 			member.setDepartment(selectedDepartment);
-		}else{
+		} else {
 			member.setDepartment(null);
 		}
-		if(selectedCompany.getId() != null){
+		if (selectedCompany.getId() != null) {
 			member.setCompany(selectedCompany);
-		}else{
+		} else {
 			member.setCompany(null);
 		}
-		if(selectedSector.getId() != null){
+		if (selectedSector.getId() != null) {
 			member.setSector(selectedSector);
-		}else{
+		} else {
 			member.setSector(null);
 		}
-		
-		
+
 		ContactData cData = member.getContactData();
-		
+
 		cData.setStreet(_personalStreet);
 		cData.setNumber(_personalNumber);
 		cData.setAddon(_personalAddon);
@@ -627,33 +625,34 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		cData.setPhone(_personalPhone);
 		cData.setFax(_personalFax);
 		cData.setInternet(_personalInternet);
-		
+
 		cData.setEmailD(_workMail);
 		cData.setPhoneD(_workPhone);
 		cData.setMobileD(_workMobile);
 		cData.setFaxD(_workFax);
 		cData.setInternetD(_workInternet);
-		
-		if(selectedDepartment.getId() == null){
+
+		if (selectedDepartment.getId() == null) {
 			cData.setDepartment(null);
-		}else{
+		} else {
 			cData.setDepartment(selectedDepartment);
 		}
-		
-		//Now the tricky part, how to save the activities...
+
+		// Now the tricky part, how to save the activities...
 		Iterator<Item<Activity>> ite = activities.getItems();
-		
+
 		member.clearActivities();
-		while(ite.hasNext()){
+		while (ite.hasNext()) {
 			Item<Activity> cItem = ite.next();
-			if(Boolean.parseBoolean(cItem.get(0).getDefaultModelObjectAsString())){
+			if (Boolean.parseBoolean(cItem.get(0)
+					.getDefaultModelObjectAsString())) {
 				member.addActivity(cItem.getModelObject());
 			}
-			
+
 		}
-		
+
 		memberService.persist(member);
-		
+
 		// It Was succesfull, so display a notifications about this
 		NotificationMessage nf = new NotificationMessage(
 				Model.of("Gespeichert"));
