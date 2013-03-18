@@ -8,7 +8,6 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +20,11 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 
 	protected Class<EntityClass> clazz;
 	protected Session session;
-	
-	public AbstractDAO(Class<EntityClass> clazz){
+
+	public AbstractDAO(Class<EntityClass> clazz) {
 		this.clazz = clazz;
 	}
-	
+
 	@Resource
 	protected SessionFactory sessionFactory;
 
@@ -38,38 +37,39 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<EntityClass> list(long offset, long count) {
 		Session session = this.sessionFactory.getCurrentSession();
 
 		Criteria crit = session.createCriteria(getClazz());
-		crit.setFirstResult((int)offset);
-		crit.setMaxResults((int)count);
+		crit.setFirstResult((int) offset);
+		crit.setMaxResults((int) count);
 
 		return crit.list();
 	}
-	
+
 	@Transactional
 	public void persist(EntityClass entity) {
 		getSession().saveOrUpdate(entity);
 	}
-	
+
 	@Transactional
-	public void persistAll(List<EntityClass> entities){
+	public void persistAll(List<EntityClass> entities) {
 		Session se = getSession();
-		for(EntityClass entity:entities){
+		for (EntityClass entity : entities) {
 			se.saveOrUpdate(entity);
 		}
 	}
-	
+
 	@Transactional
 	public void remove(EntityClass entity) {
 		getSession().delete(entity);
 	}
-	
+
 	@Transactional
-	public void remove(Long id){
-		EntityClass objectToDelete = (EntityClass)getSession().load(getClazz(), id);
+	public void remove(Long id) {
+		EntityClass objectToDelete = (EntityClass) getSession().load(
+				getClazz(), id);
 		getSession().delete(objectToDelete);
 	}
 
@@ -79,7 +79,7 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 	public EntityClass findById(Long id) {
 		return (EntityClass) getSession().get(getClazz(), id);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
@@ -88,32 +88,34 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		List<EntityClass> entities = (List<EntityClass>) criteria.list();
 		return entities;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly= true)
-	public EntityClass findByProperty(String propertyName, Object propertyValue){
+	@Transactional(readOnly = true)
+	public EntityClass findByProperty(String propertyName, Object propertyValue) {
 		Criteria crit = getSession().createCriteria(clazz);
 		crit.add(Restrictions.eq(propertyName, propertyValue));
 		return (EntityClass) crit.uniqueResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly= true)
-	public List<EntityClass> findAllByProperty(String propertyName, Object propertyValue){
+	@Transactional(readOnly = true)
+	public List<EntityClass> findAllByProperty(String propertyName,
+			Object propertyValue) {
 		Criteria crit = getSession().createCriteria(clazz);
 		crit.add(Restrictions.eq(propertyName, propertyValue));
 		return crit.list();
 	}
-	
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public long count() {
-		return ((Long) getSession().createQuery("select count(*) from "+clazz.getSimpleName())
-				.uniqueResult()).intValue();
+		return ((Long) getSession().createQuery(
+				"select count(*) from " + clazz.getSimpleName()).uniqueResult())
+				.intValue();
 	}
-	
+
 	@Override
-	public Class<EntityClass> getClazz(){
+	public Class<EntityClass> getClazz() {
 		return clazz;
 	}
 }
