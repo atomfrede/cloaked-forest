@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface QueryService {
 
-	public List<?> queryDatabase(Query<?> query);
+	List<?> queryDatabase(Query<?> query);
 }
