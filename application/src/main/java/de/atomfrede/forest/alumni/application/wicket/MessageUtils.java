@@ -3,12 +3,13 @@ package de.atomfrede.forest.alumni.application.wicket;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 
-public class MessageUtils {
+public final class MessageUtils {
 
-	private MessageUtils(){
+	private MessageUtils() {
 		super();
-		//No public default Constructor
+		// No public default Constructor
 	}
+
 	/**
 	 * Shortcut to create message translation model
 	 * 
@@ -17,6 +18,7 @@ public class MessageUtils {
 	 * @return
 	 */
 	public static StringResourceModel _(String message, Object... args) {
-		return new StringResourceModel(message, new Model<Object[]>(args), message);
+		return new StringResourceModel(message, new Model<Object[]>(args),
+				message);
 	}
 }
