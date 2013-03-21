@@ -82,7 +82,7 @@ public class MemberListPanel extends Panel {
 	}
 
 	protected void doFilter(String input) {
-		getMemberProvider().nameFilter = input;
+		getMemberProvider().setNameFilter(input);
 	}
 
 	private void populateItems() {

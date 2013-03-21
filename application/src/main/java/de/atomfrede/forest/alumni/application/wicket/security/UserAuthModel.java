@@ -59,4 +59,12 @@ public class UserAuthModel extends AbstractEntityModel<User> {
 		}
 	}
 
+	public boolean isAnonymous() {
+		return isAnonymous;
+	}
+
+	public void setAnonymous(boolean isAnonymous) {
+		this.isAnonymous = isAnonymous;
+	}
+
 }

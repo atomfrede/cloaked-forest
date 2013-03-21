@@ -34,7 +34,7 @@ public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy {
 
 		@SuppressWarnings("rawtypes")
 		UserSession session = (UserSession) Session.get();
-		if (session.getUser().isAnonymous) {
+		if (session.getUser().isAnonymous()) {
 			throw new RestartResponseAtInterceptPageException(LoginPage.class);
 		}
 		return true;
