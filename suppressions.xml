@@ -7,4 +7,8 @@
 <suppressions>
 	<suppress checks="MagicNumberCheck" files="ConverterExecutor.java" />
 	<suppress checks="MagicNumberCheck" files="CsvExporter.java" />
+	<suppress checks="HiddenFieldCheck" files="ContactData.java"/>
+	<suppress checks="HiddenFieldCheck" files="Member.java"/>
+	<suppress checks="HiddenFieldCheck" files="Degree.java"/>
+	<suppress checks="HiddenFieldCheck" files="Department.java"/>
 </suppressions>

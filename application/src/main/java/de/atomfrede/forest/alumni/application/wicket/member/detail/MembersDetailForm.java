@@ -15,6 +15,7 @@ import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.markup.html.form.select.Select;
+import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -97,16 +98,18 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	private Select<Company> companySelect;
 	private Select<Department> departmentSelect;
 
+	private Select<String> salutationSelect;
+
 	private NotificationPanel feedbackPanel;
 
-	private WebMarkupContainer firstnameWrapper, lastnameWrapper, personalMailWrapper,
-			selectWrapper;
+	private WebMarkupContainer firstnameWrapper, lastnameWrapper,
+			personalMailWrapper, selectWrapper;
 
 	private RequiredTextField<String> firstname, lastname, personalMail;
-	private TextField<String> personalAddon, profession, salutation, graduationYear,
+	private TextField<String> personalAddon, profession, graduationYear,
 			personalStreet, personalTown, personalPostcode, workMail,
 			personalMobile, personalFax, personalPhone, personalInternet,
-			workPhone, workMobile, workFax, workInternet;
+			workPhone, workMobile, workFax, workInternet, personalNumber;
 	private DateTextField entryDate;
 
 	DataView<Activity> activities;
@@ -115,9 +118,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	// existing entities we don't use the model directly...)
 	private String _salutation, _firstname, _lastname;
 	private Date _entryDate;
-	private String _personalStreet, _personalNumber, _personalAddon, _personalPostcode,
-			_personalTown, _personalMail, _personalMobile, _personalPhone,
-			_personalFax, _personalInternet;
+	private String _personalStreet, _personalNumber, _personalAddon,
+			_personalPostcode, _personalTown, _personalMail, _personalMobile,
+			_personalPhone, _personalFax, _personalInternet;
 	private String _graduationYear, _profession;
 	private String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
 
@@ -411,8 +414,24 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		add(lastnameWrapper);
 		add(personalMailWrapper);
 
-		salutation = new TextField<String>("salutation",
+		/*
+		 * Select<Degree> degreeSelect = new Select<Degree>("degree-select", new
+		 * PropertyModel<Degree>(this, "selectedDegree"));
+		 * 
+		 * degreeSelect.add(new ListView<Degree>("degree-options", degrees) {
+		 * 
+		 * @Override protected void populateItem(ListItem<Degree> item) {
+		 * item.add(new DegreeSelectOption("degree-option", item
+		 * .getModelObject())); } });
+		 */
+		salutationSelect = new Select<String>("salutation-select",
 				new PropertyModel<String>(this, "_salutation"));
+
+		salutationSelect.add(new SelectOption<String>("male-select", Model
+				.of(_("salutation.male").getString())));
+		salutationSelect.add(new SelectOption<String>("female-select", Model.of(_(
+				"salutation.male").getString())));
+
 		firstname = new RequiredTextField<String>("firstname",
 				new PropertyModel<String>(this, "_firstname"));
 		lastname = new RequiredTextField<String>("lastname",
@@ -421,6 +440,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		firstnameWrapper.add(firstname);
 		lastnameWrapper.add(lastname);
 
+		personalNumber = new TextField<String>("personal.number",
+				new PropertyModel<String>(this, "_personalNumber"));
 		personalAddon = new TextField<String>("personal.addon",
 				new PropertyModel<String>(this, "_personalAddon"));
 		personalFax = new TextField<String>("personal.fax",
@@ -442,6 +463,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		personalMail.add(EmailAddressValidator.getInstance());
 
 		add(personalAddon);
+		add(personalNumber);
 		add(personalPostcode);
 		add(personalStreet);
 		add(personalTown);
@@ -451,7 +473,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		add(personalPhone);
 		add(personalInternet);
 
-		add(salutation);
+		add(salutationSelect);
 
 		DateTextFieldConfig conf = new DateTextFieldConfig();
 		conf.withView(DateTextFieldConfig.View.Year);

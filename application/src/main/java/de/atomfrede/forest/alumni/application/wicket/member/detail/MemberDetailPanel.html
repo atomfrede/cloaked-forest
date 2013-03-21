@@ -18,7 +18,10 @@
 								<fieldset>
 									<legend><wicket:message key="member.detail.personal"/></legend>
 									<label><wicket:message key="member.detail.salutation" /></label> 
-									<input class="input-xlarge" wicket:id="salutation" type="text" wicket:message="placeholder:member.detail.salutation"> 
+									<select wicket:id="salutation-select" class="selectpicker">
+										<option wicket:id="female-select" ><wicket:message key="salutation.female"/></option>
+										<option wicket:id="male-select" ><wicket:message key="salutation.male"/></option>
+									</select>
 									<div wicket:id="member.detail.firstname.wrapper" class="control-group">
 										<label><wicket:message key="member.detail.firstname" /></label> 
 										<input class="input-xlarge" wicket:id="firstname" type="text" wicket:message="placeholder:member.detail.firstname.placeholder"> 
@@ -38,7 +41,7 @@
 									<label><wicket:message key="member.detail.personal.street.and.number" /></label> 
 									<div class="controls controls-row">
 										<input class="span6" wicket:id="personal.street" type="text" wicket:message="placeholder:member.detail.personal.street.placeholder"> 
-										<input class="span2" type="text" wicket:message="placeholder:member.detail.number.placeholder">
+										<input class="span2" wicket:id="personal.number" type="text" wicket:message="placeholder:member.detail.number.placeholder">
 									</div>
 									<label><wicket:message key="member.detail.personal.addon" /></label>
 									<input class="input-xlarge span8" wicket:id="personal.addon" type="text" wicket:message="placeholder:member.detail.personal.addon.placeholder">
