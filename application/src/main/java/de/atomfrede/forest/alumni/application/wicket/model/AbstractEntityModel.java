@@ -15,19 +15,16 @@ import de.atomfrede.forest.alumni.service.EntityLoader;
 public class AbstractEntityModel<T extends AbstractEntity> implements
 		IModel<T>, IClusterable, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1926446968284768121L;
 
 	@SpringBean
-	public EntityLoader mEntityLoader;
+	protected EntityLoader mEntityLoader;
 
-	public Serializable id;
+	protected Serializable id;
 
-	public T entity;
+	protected T entity;
 
-	public Class<? extends AbstractEntity> clazz;
+	protected Class<? extends AbstractEntity> clazz;
 
 	public AbstractEntityModel(T entity) {
 		this.clazz = entity.getClass();

@@ -15,7 +15,7 @@ public class UserAuthModel extends AbstractEntityModel<User> {
 	 */
 	private static final long serialVersionUID = 5019674040250627202L;
 
-	boolean isAnonymous = true;
+	private boolean isAnonymous = true;
 
 	public UserAuthModel(Class<? extends User> clazz, Serializable id) {
 		super(clazz, id);
