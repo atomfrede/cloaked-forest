@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -26,20 +24,20 @@ public class Company extends AbstractEntity {
 
 	@Id
 	private Long id;
-	
+
 	@Column(name = "company_name")
 	private String company;
-	
+
 	@Column(name = "size")
 	private String size;
-	
+
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "sector", nullable = true)
 	private Sector sector;
-	
-	@OneToMany(cascade = { CascadeType.ALL }, mappedBy="department")
+
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "department")
 	private List<Department> departments;
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -72,9 +70,9 @@ public class Company extends AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public List<Department> getDepartments() {
-		if(departments == null){
+		if (departments == null) {
 			departments = new ArrayList<Department>();
 		}
 		return departments;
@@ -83,8 +81,8 @@ public class Company extends AbstractEntity {
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return company;
 	}
 

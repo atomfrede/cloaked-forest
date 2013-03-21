@@ -19,44 +19,44 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 	public MemberDaoImpl() {
 		super(Member.class);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	/**
 	 * Returns a list of members starting the the given offset up to the specific count.
 	 * Ordered ascending by lastname.
 	 */
-	public List<Member> list(long offset, long count, FilterElement...elements) {
+	public List<Member> list(long offset, long count, FilterElement... elements) {
 		Session session = this.sessionFactory.getCurrentSession();
 
 		Criteria crit = session.createCriteria(getClazz());
 		crit.addOrder(Order.asc("lastname"));
-		for(FilterElement elem:elements){
-			crit.add(Restrictions.ilike(elem.getPropertyName(), "%"+elem.getFilter()+"%"));
+		for (FilterElement elem : elements) {
+			crit.add(Restrictions.ilike(elem.getPropertyName(),
+					"%" + elem.getFilter() + "%"));
 		}
-		crit.setFirstResult((int)offset);
-		crit.setMaxResults((int)count);
+		crit.setFirstResult((int) offset);
+		crit.setMaxResults((int) count);
 
 		return crit.list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
-	public List<Member> list(long offset, long count, String orderProperty, boolean desc) {
+	@Transactional(readOnly = true)
+	public List<Member> list(long offset, long count, String orderProperty,
+			boolean desc) {
 		Session session = this.sessionFactory.getCurrentSession();
 
 		Criteria crit = session.createCriteria(getClazz());
-		if(desc){
+		if (desc) {
 			crit.addOrder(Order.desc(orderProperty));
-		}else{
+		} else {
 			crit.addOrder(Order.asc(orderProperty));
 		}
-		crit.setFirstResult((int)offset);
-		crit.setMaxResults((int)count);
-		
+		crit.setFirstResult((int) offset);
+		crit.setMaxResults((int) count);
+
 		return crit.list();
 	}
-	
-	
 
 }

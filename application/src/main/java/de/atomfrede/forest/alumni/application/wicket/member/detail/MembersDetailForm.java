@@ -38,6 +38,10 @@ import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.form.DateTextField;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.form.DateTextFieldConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
+import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
+import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
+import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
+import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
 import de.atomfrede.forest.alumni.application.wicket.activity.ActivityProvider;
 import de.atomfrede.forest.alumni.application.wicket.custom.CompanySelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
@@ -59,6 +63,7 @@ import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.member.MemberService;
+import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
 
 @SuppressWarnings("serial")
 public class MembersDetailForm extends BootstrapForm<Member> {
@@ -80,6 +85,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 	@SpringBean
 	private MemberService memberService;
+	
+	@SpringBean
+	private ProfessionService professionService;
 
 	private List<Company> companies;
 	private List<Department> departments;
@@ -106,10 +114,11 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			personalMailWrapper, selectWrapper;
 
 	private RequiredTextField<String> firstname, lastname, personalMail;
-	private TextField<String> personalAddon, profession, graduationYear,
+	private TextField<String> personalAddon, graduationYear,
 			personalStreet, personalTown, personalPostcode, workMail,
 			personalMobile, personalFax, personalPhone, personalInternet,
 			workPhone, workMobile, workFax, workInternet, personalNumber;
+	private Typeahead<String> profession;
 	private DateTextField entryDate;
 
 	DataView<Activity> activities;
@@ -488,8 +497,21 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	 * Sets up the second ('degree') tab
 	 */
 	private void setupDegreeTab() {
-		profession = new TextField<String>("profession",
-				new PropertyModel<String>(this, "_profession"));
+		
+		
+		 final IDataSource<String> dataSource = new IDataSource<String>() {
+
+			@Override
+			public List<String> load() {
+				return professionService.getTypeaheadProfession();
+			}
+		};
+
+		PropertyModel<String> model = new PropertyModel<>(this, "_profession");
+		profession = new Typeahead<String>("profession", model, dataSource,
+				new TypeaheadConfig().withNumberOfItems(15));
+		profession.size(SpanType.SPAN5);
+		
 		graduationYear = new TextField<String>("graduationyear",
 				new PropertyModel<String>(this, "_graduationYear"));
 

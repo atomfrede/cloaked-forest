@@ -8,7 +8,7 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 
 public interface MemberDao extends DAO<Member> {
 	
-	public List<Member> list(long offset, long count, FilterElement...elements);
+	List<Member> list(long offset, long count, FilterElement...elements);
 
-	public List<Member> list(long offset, long count, String orderProperty, boolean desc);
+	List<Member> list(long offset, long count, String orderProperty, boolean desc);
 }

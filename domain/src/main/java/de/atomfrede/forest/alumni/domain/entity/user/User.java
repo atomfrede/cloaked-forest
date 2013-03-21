@@ -15,11 +15,10 @@ import org.hibernate.annotations.Parameter;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 
-
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"username", "email" }))
-public class User extends AbstractEntity{
+public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = -8695856794737512171L;
 
@@ -53,17 +52,13 @@ public class User extends AbstractEntity{
 
 	@Column(name = "password")
 	protected String password;
-	
-
-
-
 
 	@Override
 	public Long getId() {
 		return id;
 	}
-	
-	private void setId(Long id){
+
+	private void setId(Long id) {
 		this.id = id;
 	}
 
@@ -115,25 +110,24 @@ public class User extends AbstractEntity{
 		// Model.setPassword in form already encrypted
 		return password.equals(plainText);
 	}
-	
-	public boolean isPasswordPlain(String plainPassword){
+
+	public boolean isPasswordPlain(String plainPassword) {
 		if (StringUtils.isEmpty(plainPassword)) {
 			return false;
 		}
-		
+
 		return password.equals(cryptPass(plainPassword));
 	}
 
-
-//	@Override
-//	public User toJsonTransferable() {
-//		User clone = new User();
-//		clone.setFirstname(firstname);
-//		clone.setLastname(lastname);
-//		clone.setUsername(username);
-//		clone.setEmail(email);
-//		clone.setId(getId());
-//		return clone;
-//	}
+	// @Override
+	// public User toJsonTransferable() {
+	// User clone = new User();
+	// clone.setFirstname(firstname);
+	// clone.setLastname(lastname);
+	// clone.setUsername(username);
+	// clone.setEmail(email);
+	// clone.setId(getId());
+	// return clone;
+	// }
 
 }

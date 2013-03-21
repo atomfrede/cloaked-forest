@@ -20,61 +20,61 @@ import de.atomfrede.forest.alumni.domain.entity.department.Department;
 public class ContactData extends AbstractEntity {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@OneToOne
 	@JoinColumn(name = "department", nullable = true)
 	private Department department;
-	
-	@Column(name ="street")
+
+	@Column(name = "street")
 	private String street;
-	
+
 	@Column(name = "number")
 	private String number;
-	
+
 	@Column(name = "addon")
 	private String addon;
-	
+
 	@Column(name = "postcode")
 	private String postCode;
-	
+
 	@Column(name = "town")
 	private String town;
-	
+
 	@Column(name = "country")
 	private String country;
-	
+
 	@Column(name = "internet")
 	private String internet;
-	
+
 	@Column(name = "phone")
 	private String phone;
-	
+
 	@Column(name = "fax")
 	private String fax;
-	
+
 	@Column(name = "mobile")
 	private String mobile;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "phoneD")
 	private String phoneD;
-	
+
 	@Column(name = "faxD")
 	private String faxD;
-	
+
 	@Column(name = "mobileD")
 	private String mobileD;
-	
-	@Column(name ="emailD")
+
+	@Column(name = "emailD")
 	private String emailD;
-	
+
 	@Column(name = "internetD")
 	private String internetD;
-	
+
 	@Override
 	public Long getId() {
 		return id;
