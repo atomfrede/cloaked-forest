@@ -6,7 +6,6 @@ import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
-import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
@@ -30,10 +29,11 @@ import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserSession;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 
+@SuppressWarnings("serial")
 public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	protected User currentUser;
-	Label pageTitel;
+	protected Label pageTitel;
 
 	public BasePage() {
 		super();
