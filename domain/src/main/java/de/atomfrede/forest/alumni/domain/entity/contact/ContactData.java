@@ -1,6 +1,5 @@
 package de.atomfrede.forest.alumni.domain.entity.contact;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

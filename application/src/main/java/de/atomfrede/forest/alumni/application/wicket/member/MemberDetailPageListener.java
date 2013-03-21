@@ -4,5 +4,5 @@ import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailP
 
 public interface MemberDetailPageListener {
 
-	public void editTypeChanged(Type newEditType);
+	void editTypeChanged(Type newEditType);
 }

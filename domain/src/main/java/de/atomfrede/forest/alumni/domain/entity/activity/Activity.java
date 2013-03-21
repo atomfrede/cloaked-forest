@@ -15,10 +15,10 @@ public class Activity extends AbstractEntity {
 
 	@Id
 	private Long id;
-	
-	@Column(name="activity")
+
+	@Column(name = "activity")
 	private String activity;
-	
+
 	@Override
 	public Long getId() {
 		return id;
