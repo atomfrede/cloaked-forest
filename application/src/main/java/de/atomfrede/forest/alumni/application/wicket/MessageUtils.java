@@ -5,6 +5,10 @@ import org.apache.wicket.model.StringResourceModel;
 
 public class MessageUtils {
 
+	private MessageUtils(){
+		super();
+		//No public default Constructor
+	}
 	/**
 	 * Shortcut to create message translation model
 	 * 
