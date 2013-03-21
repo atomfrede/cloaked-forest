@@ -1,14 +1,10 @@
 package de.atomfrede.forest.alumni.domain.entity.department;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
@@ -22,35 +18,35 @@ public class Department extends AbstractEntity {
 
 	@Id
 	private Long id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="company_fk")
+	@JoinColumn(name = "company_fk")
 	private Company company;
-	
+
 	@Column(name = "department")
 	private String department;
-	
-	@Column(name ="street")
+
+	@Column(name = "street")
 	private String street;
-	
+
 	@Column(name = "number")
 	private String number;
-	
+
 	@Column(name = "addon")
 	private String addon;
-	
+
 	@Column(name = "postcode")
 	private String postCode;
-	
+
 	@Column(name = "town")
 	private String town;
-	
+
 	@Column(name = "country")
 	private String country;
-	
+
 	@Column(name = "internet")
 	private String internet;
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -131,10 +127,9 @@ public class Department extends AbstractEntity {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return department;
 	}
-	
-	
+
 }

@@ -4,12 +4,12 @@ public class FilterElement {
 
 	String propertyName;
 	String filter;
-	
-	public FilterElement propertyName(String propertyName){
+
+	public FilterElement propertyName(String propertyName) {
 		this.propertyName = propertyName;
 		return this;
 	}
-	
+
 	public FilterElement filter(String filter) {
 		this.filter = filter;
 		return this;
@@ -22,6 +22,5 @@ public class FilterElement {
 	public String getFilter() {
 		return filter;
 	}
-	
-	
+
 }

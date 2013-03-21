@@ -13,18 +13,18 @@ import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "sector")
-public class Sector extends AbstractEntity{
+public class Sector extends AbstractEntity {
 
 	@Id
 	private Long id;
-	
-	@Column(name="sector")
+
+	@Column(name = "sector")
 	private String sector;
-	
-	public void setId(Long id){
+
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -37,8 +37,8 @@ public class Sector extends AbstractEntity{
 	public void setSector(String sector) {
 		this.sector = sector;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return sector;
 	}
 
