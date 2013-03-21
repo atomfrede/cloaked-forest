@@ -378,10 +378,10 @@ public class ConverterExecutor {
 
 	private void readtblrelmitgliedbranche() {
 		List<Member> membersDb = memberDao.findAll();
-		Map<Long, Member> memberId_member = new HashMap<Long, Member>();
+		Map<Long, Member> cMemberId_member = new HashMap<Long, Member>();
 
 		for (Member mem : membersDb) {
-			memberId_member.put(mem.getId(), mem);
+			cMemberId_member.put(mem.getId(), mem);
 		}
 
 		try {
@@ -395,7 +395,7 @@ public class ConverterExecutor {
 				String brancheId = values[1];
 				String abteilungId = values[2];
 
-				Member mem = memberId_member.get(Long.parseLong(mitgliedId));
+				Member mem = cMemberId_member.get(Long.parseLong(mitgliedId));
 				mem.setSector(sectorId_sector.get(Long.parseLong(brancheId)));
 				try {
 					mem.setDepartment(departmentId_department.get(Long
@@ -424,15 +424,15 @@ public class ConverterExecutor {
 		List<Department> departmentsDb = departmentDao.findAll();
 		List<ContactData> contactData = new ArrayList<ContactData>();
 
-		Map<Long, Member> memberId_member = new HashMap<Long, Member>();
-		Map<Long, Department> departmentId_department = new HashMap<Long, Department>();
+		Map<Long, Member> cMemberId_member = new HashMap<Long, Member>();
+		Map<Long, Department> cDepartmentId_department = new HashMap<Long, Department>();
 
 		for (Member mem : membersDb) {
-			memberId_member.put(mem.getId(), mem);
+			cMemberId_member.put(mem.getId(), mem);
 		}
 
 		for (Department dep : departmentsDb) {
-			departmentId_department.put(dep.getId(), dep);
+			cDepartmentId_department.put(dep.getId(), dep);
 		}
 
 		try {
@@ -465,7 +465,7 @@ public class ConverterExecutor {
 				contact.setAddon(zusatz);
 				contact.setCountry(land);
 				try {
-					Department dep = departmentId_department.get(Long
+					Department dep = cDepartmentId_department.get(Long
 							.parseLong(abteilungsId));
 					if (dep != null) {
 						System.out.println("Setting Department with ID "
@@ -492,7 +492,7 @@ public class ConverterExecutor {
 
 				contactDao.persist(contact);
 
-				Member mem = memberId_member.get(Long.parseLong(mitgliedId));
+				Member mem = cMemberId_member.get(Long.parseLong(mitgliedId));
 				mem.setContactData(contact);
 				if (contact.getDepartment() != null) {
 					ContactData data = contactDao.findById(contact.getId());

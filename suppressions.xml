@@ -11,4 +11,10 @@
 	<suppress checks="HiddenFieldCheck" files="Member.java"/>
 	<suppress checks="HiddenFieldCheck" files="Degree.java"/>
 	<suppress checks="HiddenFieldCheck" files="Department.java"/>
+	<suppress checks="HiddenFieldCheck" files="Company.java"/>
+	<suppress checks="HiddenFieldCheck" files="Sector.java"/>
+	<suppress checks="HiddenFieldCheck" files="User.java"/>
+	<suppress checks="HiddenFieldCheck" files="Filter.java"/>
+	<suppress checks="HiddenFieldCheck" files="AbstractDAO.java"/>
+	<suppress checks="HiddenFieldCheck" files="Department.java"/>
 </suppressions>
