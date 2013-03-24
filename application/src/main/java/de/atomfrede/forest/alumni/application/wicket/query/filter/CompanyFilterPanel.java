@@ -13,21 +13,26 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
-import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
+import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
+import de.atomfrede.forest.alumni.service.company.CompanyService;
 
 @SuppressWarnings("serial")
-public class ProfessionFilterPanel extends Panel {
+public class CompanyFilterPanel extends Panel {
 
 	@SpringBean
-	private ProfessionService professionService;
+	private CompanyService companyService;
+	
+	@SpringBean
+	private CompanyDao companyDao;
 
-	private String value;
+	private String company;
 
 	private Typeahead<String> typeahead;
 
-	public ProfessionFilterPanel(String id) {
+	public CompanyFilterPanel(String id) {
 		super(id);
-		add(addTypeahead("typeahead"));
+		add(addTypeahead("typeahead-company"));
 		setupInput();
 	}
 
@@ -36,13 +41,13 @@ public class ProfessionFilterPanel extends Panel {
 
 			@Override
 			public List<String> load() {
-				return professionService.getTypeaheadProfession();
+				return companyService.getTypeAheadCompanies();
 			}
 		};
 
-		PropertyModel<String> model = new PropertyModel<>(this, "value");
+		PropertyModel<String> model = new PropertyModel<>(this, "company");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(8));
+				new TypeaheadConfig().withNumberOfItems(10));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;
@@ -55,14 +60,16 @@ public class ProfessionFilterPanel extends Panel {
 			protected void onUpdate(AjaxRequestTarget target) {
 				// Nothing special to do here, just to update the model value
 				// without require to submit the form explicitly.
-
 			}
 		});
 	}
 
-	public String getValue() {
-		System.out.println("Value Prof is "+value);
-		return value;
+	/**
+	 * Returns the company with the name currently entered inside the typeahead input field.
+	 * @return
+	 */
+	public Company getValue() {
+		System.out.println("Value Comp is "+company);
+		return companyDao.findByProperty("company", company);
 	}
-
 }
