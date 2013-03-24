@@ -61,7 +61,6 @@ public class ProfessionFilterPanel extends Panel {
 	}
 
 	public String getValue() {
-		System.out.println("Value Prof is "+value);
 		return value;
 	}
 

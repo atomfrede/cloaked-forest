@@ -69,7 +69,6 @@ public class CompanyFilterPanel extends Panel {
 	 * @return
 	 */
 	public Company getValue() {
-		System.out.println("Value Comp is "+company);
 		return companyDao.findByProperty("company", company);
 	}
 }
