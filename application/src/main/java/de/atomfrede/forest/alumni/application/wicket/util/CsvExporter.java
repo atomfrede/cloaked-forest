@@ -33,7 +33,7 @@ public class CsvExporter {
 	}
 
 	private String[] createHeader() {
-		String[] header = new String[14];
+		String[] header = new String[18];
 
 		header[0] = "Anrede";
 		header[1] = "Abschluss/Titel";
@@ -49,12 +49,17 @@ public class CsvExporter {
 		header[11] = "Firma/Arbeitgeber";
 		header[12] = "Abteilung";
 		header[13] = "Branche";
+		
+		header[14] = "Mail (dienstlich)";
+		header[15] = "Telefon (privat)";
+		header[16] = "Mobil (privat)";
+		header[17] = "Mobile (dienstlich)";
 
 		return header;
 	}
 
 	private String[] createLine(Member member) {
-		String[] line = new String[14];
+		String[] line = new String[18];
 		line[0] = member.getSalutation();
 		if (member.getDegree() != null) {
 			line[1] = member.getDegree().getShortForm();
@@ -98,6 +103,23 @@ public class CsvExporter {
 		} else {
 			line[13] = "-/-";
 		}
+		
+		if(cData.getEmailD() != null && !cData.getEmailD().equals("NULL")){
+			line[14] = cData.getEmailD();
+		}
+		
+		if(cData.getPhone() != null && !cData.getPhone().equals("NULL")){
+			line[15] = cData.getPhone();
+		}
+		
+		if(cData.getMobile() != null && !cData.getMobile().equals("NULL")){
+			line[16] = cData.getMobile();
+		}
+		
+		if(cData.getMobileD() != null && !cData.getMobileD().equals("NULL")){
+			line[17] = cData.getMobileD();
+		}
+		
 		return line;
 	}
 
