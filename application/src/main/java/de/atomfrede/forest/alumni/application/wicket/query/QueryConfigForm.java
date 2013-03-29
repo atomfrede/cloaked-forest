@@ -20,6 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
+import de.atomfrede.forest.alumni.application.wicket.query.filter.ActivityFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.CompanyFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.DegreeFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.ProfessionFilterPanel;
@@ -40,6 +41,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private ProfessionFilterPanel professionFilterPanel;
 	private DegreeFilterPanel degreeFilter;
 	private CompanyFilterPanel companyFilterPanel;
+	private ActivityFilterPanel activityFilterPanel;
 
 	private BootstrapLink<Void> csvDownload;
 
@@ -48,6 +50,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		setupProfessionFilter();
 		setupDegreeFilter();
 		setupCompanyFilter();
+		setupActivityFilter();
 
 		addCsvDownload();
 
@@ -74,10 +77,15 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		professionFilterPanel = new ProfessionFilterPanel("profession-filter");
 		add(professionFilterPanel);
 	}
-	
-	private void setupCompanyFilter(){
+
+	private void setupCompanyFilter() {
 		companyFilterPanel = new CompanyFilterPanel("company-filter");
 		add(companyFilterPanel);
+	}
+
+	private void setupActivityFilter() {
+		activityFilterPanel = new ActivityFilterPanel("activity-filter");
+		add(activityFilterPanel);
 	}
 
 	private Query<Member> setupQuery() {
@@ -94,9 +102,9 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 			Filter profFilter = new Filter("profession", profession, Type.EQ);
 			query.addFilter(profFilter);
 		}
-		
+
 		Company company = companyFilterPanel.getValue();
-		if(company != null){
+		if (company != null) {
 			Filter compFilter = new Filter("company", company, Type.EQ);
 			query.addFilter(compFilter);
 		}
