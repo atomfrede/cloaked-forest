@@ -24,10 +24,12 @@ import de.atomfrede.forest.alumni.application.wicket.query.filter.ActivityFilter
 import de.atomfrede.forest.alumni.application.wicket.query.filter.CompanyFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.DegreeFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.ProfessionFilterPanel;
+import de.atomfrede.forest.alumni.application.wicket.query.filter.SectorFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.query.Query;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 import de.atomfrede.forest.alumni.service.query.filter.Filter.Type;
@@ -42,6 +44,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private DegreeFilterPanel degreeFilter;
 	private CompanyFilterPanel companyFilterPanel;
 	private ActivityFilterPanel activityFilterPanel;
+	private SectorFilterPanel sectorFilterPanel;
 
 	private BootstrapLink<Void> csvDownload;
 
@@ -51,6 +54,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		setupDegreeFilter();
 		setupCompanyFilter();
 		setupActivityFilter();
+		setupSectorFilter();
 
 		addCsvDownload();
 
@@ -86,6 +90,12 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private void setupActivityFilter() {
 		activityFilterPanel = new ActivityFilterPanel("activity-filter");
 		add(activityFilterPanel);
+		activityFilterPanel.setVisible(false);
+	}
+	
+	private void setupSectorFilter(){
+		sectorFilterPanel = new SectorFilterPanel("sector-filter");
+		add(sectorFilterPanel);
 	}
 
 	private Query<Member> setupQuery() {
@@ -107,6 +117,12 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		if (company != null) {
 			Filter compFilter = new Filter("company", company, Type.EQ);
 			query.addFilter(compFilter);
+		}
+		
+		Sector sector = sectorFilterPanel.getValue();
+		if(sector != null){
+			Filter sectorFilter = new Filter("sector", sector, Type.EQ);
+			query.addFilter(sectorFilter);
 		}
 
 		return query;
