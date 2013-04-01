@@ -33,7 +33,7 @@ public class CsvExporter {
 	}
 
 	private String[] createHeader() {
-		String[] header = new String[18];
+		String[] header = new String[21];
 
 		header[0] = "Anrede";
 		header[1] = "Abschluss/Titel";
@@ -49,17 +49,21 @@ public class CsvExporter {
 		header[11] = "Firma/Arbeitgeber";
 		header[12] = "Abteilung";
 		header[13] = "Branche";
-		
+
 		header[14] = "Mail (dienstlich)";
 		header[15] = "Telefon (privat)";
 		header[16] = "Mobil (privat)";
 		header[17] = "Mobile (dienstlich)";
 
+		header[18] = "Straße/Hausnummer (dienstlich)";
+		header[19] = "PLZ (dienstlich)";
+		header[20] = "Ort (dienstlich)";
+
 		return header;
 	}
 
 	private String[] createLine(Member member) {
-		String[] line = new String[18];
+		String[] line = new String[21];
 		line[0] = member.getSalutation();
 		if (member.getDegree() != null) {
 			line[1] = member.getDegree().getShortForm();
@@ -103,23 +107,35 @@ public class CsvExporter {
 		} else {
 			line[13] = "-/-";
 		}
-		
-		if(cData.getEmailD() != null && !cData.getEmailD().equals("NULL")){
+
+		if (cData.getEmailD() != null && !cData.getEmailD().equals("NULL")) {
 			line[14] = cData.getEmailD();
 		}
-		
-		if(cData.getPhone() != null && !cData.getPhone().equals("NULL")){
+
+		if (cData.getPhone() != null && !cData.getPhone().equals("NULL")) {
 			line[15] = cData.getPhone();
 		}
-		
-		if(cData.getMobile() != null && !cData.getMobile().equals("NULL")){
+
+		if (cData.getMobile() != null && !cData.getMobile().equals("NULL")) {
 			line[16] = cData.getMobile();
 		}
-		
-		if(cData.getMobileD() != null && !cData.getMobileD().equals("NULL")){
+
+		if (cData.getMobileD() != null && !cData.getMobileD().equals("NULL")) {
 			line[17] = cData.getMobileD();
 		}
-		
+
+		// Now the adress for work
+		if (member.getDepartment() != null) {
+			String streetWork = member.getDepartment().getStreet();
+			String numberWork = member.getDepartment().getNumber();
+			String postCodeWork = member.getDepartment().getPostCode();
+			String townWork = member.getDepartment().getTown();
+
+			line[18] = streetWork + " " + numberWork;
+			line[19] = postCodeWork;
+			line[20] = townWork;
+		}
+
 		return line;
 	}
 
