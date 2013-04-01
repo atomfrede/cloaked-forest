@@ -2,6 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
+import org.apache.commons.mail.Email;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
@@ -23,6 +24,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.custom.MultilineTextContentModal;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
@@ -45,7 +47,8 @@ public class MemberListPanel extends Panel {
 	private MemberProvider memberProvider;
 	private DataView<Member> members;
 	private WebMarkupContainer wmc;
-	private TextContentModal modal;
+	private TextContentModal modalWarning;
+	private MultilineTextContentModal modalInfo;
 
 	public MemberListPanel(String id) {
 		super(id);
@@ -58,6 +61,7 @@ public class MemberListPanel extends Panel {
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
+		setupModalInfo();
 
 	}
 
@@ -66,7 +70,6 @@ public class MemberListPanel extends Panel {
 
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
-				// TODO Auto-generated method stub
 				String input = actionPanel.getNameFilter().getConvertedInput();
 				doFilter(input);
 				target.add(wmc);
@@ -81,10 +84,19 @@ public class MemberListPanel extends Panel {
 
 	}
 
+	/**
+	 * Filtering the displayed results by setting a filter value into the
+	 * provier.
+	 * 
+	 * @param input
+	 */
 	protected void doFilter(String input) {
 		getMemberProvider().setNameFilter(input);
 	}
 
+	/**
+	 * Populates the list view repeater with content.
+	 */
 	private void populateItems() {
 
 		members = new DataView<Member>("members", getMemberProvider()) {
@@ -127,6 +139,17 @@ public class MemberListPanel extends Panel {
 				final long memberId = member.getId();
 				final String firstname = member.getFirstname();
 				final String lastname = member.getLastname();
+
+				BootstrapLink<Void> infoUser = new BootstrapLink<Void>(
+						"action-info", Buttons.Type.Default) {
+					public void onClick() {
+						infoMember(memberId);
+					}
+				};
+
+				infoUser.setIconType(IconType.infosign)
+						.setSize(Buttons.Size.Mini).setInverted(false);
+
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
 						"action-edit", Buttons.Type.Default) {
 
@@ -152,6 +175,7 @@ public class MemberListPanel extends Panel {
 				deleteUser.setIconType(IconType.remove).setSize(
 						Buttons.Size.Mini);
 
+				item.add(infoUser);
 				item.add(editUser);
 				item.add(deleteUser);
 			}
@@ -164,17 +188,60 @@ public class MemberListPanel extends Panel {
 		add(wmc);
 	}
 
-	void setupModal() {
-		modal = new TextContentModal("modal-prompt", Model.of("Hallo Welt"));
-		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modal);
+	private void setupModalInfo() {
+		modalInfo = new MultilineTextContentModal("modal-info",
+				Model.of("Info"));
+		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
+		add(modalInfo);
 	}
 
-	public MemberProvider getMemberProvider() {
+	private void setupModal() {
+		modalWarning = new TextContentModal("modal-prompt",
+				Model.of("Hallo Welt"));
+		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
+		add(modalWarning);
+	}
+
+	private MemberProvider getMemberProvider() {
 		if (memberProvider == null) {
 			memberProvider = new MemberProvider();
 		}
 		return memberProvider;
+	}
+
+	private void infoMember(final long id) {
+		Member mem = memberDao.findById(id);
+
+		String header = "";
+		if (mem.getDegree() != null && mem.getDegree().getShortForm() != null) {
+			header = header + mem.getDegree().getShortForm();
+		}
+
+		header = header + " " + mem.getFirstname() + " " + mem.getLastname();
+		String street = mem.getContactData().getStreet() + " "
+				+ mem.getContactData().getNumber();
+		String postTown = mem.getContactData().getPostCode() + " "
+				+ mem.getContactData().getTown();
+		String mailPrivate = mem.getContactData().getEmail();
+
+		String content = _("member.info.modal", mem.getSalutation(),
+				mem.getFirstname(), mem.getLastname(), street, postTown,
+				mailPrivate).getString();
+
+		final MultilineTextContentModal modal = new MultilineTextContentModal(
+				"modal-info", Model.of(content));
+		modal.setOutputMarkupId(true);
+		modal.addCloseButton(Model.of(_("global.close").getString()));
+		modal.header(Model.of(header));
+
+		modal.setEscapeModelStrings(false);
+
+		this.modalInfo.replaceWith(modal);
+		this.modalInfo = modal;
+		this.modalWarning.setVisible(false);
+		modalInfo.setEscapeModelStrings(false);
+		modalInfo.show(true);
+
 	}
 
 	private void deleteMember(final long id, String firstname, String lastname) {
@@ -209,9 +276,10 @@ public class MemberListPanel extends Panel {
 		};
 
 		modal.addButton(doDelete);
-		this.modal.replaceWith(modal);
-		modal.show(true);
-		this.modal = modal;
+		this.modalWarning.replaceWith(modal);
+		this.modalWarning = modal;
+		this.modalInfo.setVisible(false);
+		modalWarning.show(true);
 	}
 
 	private void doDeleteMember(long id) {

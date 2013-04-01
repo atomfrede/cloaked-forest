@@ -32,8 +32,11 @@ public class WicketApplication extends WebApplication implements
 	@Override
 	protected void init() {
 		super.init();
-		Bootstrap.install(WicketApplication.get(),
-				new BootstrapSettings());
+
+		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
+		getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
+
+		Bootstrap.install(WicketApplication.get(), new BootstrapSettings());
 
 		configureBootstrap();
 
@@ -71,9 +74,10 @@ public class WicketApplication extends WebApplication implements
 		settings.setThemeProvider(themeProvider);
 
 		Bootstrap.install(this, settings);
-		
-	        // wicket markup leads to ui problems because css selectors doesn't match.
-				 this.getMarkupSettings().setStripWicketTags(true);
+
+		// wicket markup leads to ui problems because css selectors doesn't
+		// match.
+		this.getMarkupSettings().setStripWicketTags(true);
 	}
 
 	@Override

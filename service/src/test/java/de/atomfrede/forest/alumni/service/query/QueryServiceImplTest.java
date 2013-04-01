@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.atomfrede.forest.alumni.domain.dao.activity.ActivityDao;
 import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
@@ -37,6 +37,9 @@ public class QueryServiceImplTest {
 
 	@Autowired
 	MemberDao memberDao;
+	
+	@Autowired
+	ActivityDao activityDao;
 
 	@Autowired
 	QueryService queryService;
@@ -98,6 +101,11 @@ public class QueryServiceImplTest {
 		memberService.deleteMember(max);
 	}
 
+	@Test
+	public void queryActivityTest(){
+		
+	}
+	
 	@Test
 	public void querySimpleProperty() {
 		Query<Member> memberQuery = new Query<>(Member.class);
