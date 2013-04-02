@@ -26,6 +26,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.custom.MultilineTextContentModal;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
+import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
@@ -48,7 +49,7 @@ public class MemberListPanel extends Panel {
 	private DataView<Member> members;
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
-	private MultilineTextContentModal modalInfo;
+	private BusinessCardModal modalInfo;
 
 	public MemberListPanel(String id) {
 		super(id);
@@ -189,8 +190,7 @@ public class MemberListPanel extends Panel {
 	}
 
 	private void setupModalInfo() {
-		modalInfo = new MultilineTextContentModal("modal-info",
-				Model.of("Info"));
+		modalInfo = new BusinessCardModal("modal-info", null);
 		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalInfo);
 	}
@@ -228,8 +228,8 @@ public class MemberListPanel extends Panel {
 				mem.getFirstname(), mem.getLastname(), street, postTown,
 				mailPrivate).getString();
 
-		final MultilineTextContentModal modal = new MultilineTextContentModal(
-				"modal-info", Model.of(content));
+		final BusinessCardModal modal = new BusinessCardModal(
+				"modal-info", id);
 		modal.setOutputMarkupId(true);
 		modal.addCloseButton(Model.of(_("global.close").getString()));
 		modal.header(Model.of(header));
