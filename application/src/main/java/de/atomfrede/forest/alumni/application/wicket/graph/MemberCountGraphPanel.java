@@ -30,8 +30,19 @@ public class MemberCountGraphPanel extends Panel {
 	public MemberCountGraphPanel(String id) {
 		super(id);
 		setupGraph();
+		
+		/*
+		 *  $('#chart1').bind('jqplotDataClick',
+            function (ev, seriesIndex, pointIndex, data) {                
+                alert(1);
+            }
+        );
+		 */
 	}
 
+	/**
+	 * Build plot data.
+	 */
 	private void setupGraph() {
 		try {
 			DateTime dt = new DateTime(System.currentTimeMillis());

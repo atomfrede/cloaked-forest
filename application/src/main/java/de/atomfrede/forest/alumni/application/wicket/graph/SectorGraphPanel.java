@@ -49,7 +49,7 @@ public class SectorGraphPanel extends Panel {
 		barchart.getAxesDefaults().setTickRenderer(
 				JqPlotResources.CanvasAxisTickRenderer);
 		barchart.getAxesDefaults().setTickOptions(tickOptions);
-
+		
 		// RendererOptions ro = new RendererOptions();
 		// ro.setBarDirection("horizontal");
 		// barchart.getYAxis().setRenderer(JqPlotResources.CategoryAxisRenderer);
