@@ -581,7 +581,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				.forScript("$('.selectpicker').selectpicker();"));
 		response.render(OnDomReadyHeaderItem
 				.forScript("$('input.checkboxes-pretty').prettyCheckable({color: 'red'});"));
-
 	}
 
 	@Override
