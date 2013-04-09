@@ -21,6 +21,16 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Member> findAll() {
+		Criteria criteria = getSession().createCriteria(getClazz());
+		criteria.addOrder(Order.asc("lastname"));
+		List<Member> entities = (List<Member>) criteria.list();
+		return entities;
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	/**
 	 * Returns a list of members starting the the given offset up to the specific count.
