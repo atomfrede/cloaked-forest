@@ -2,10 +2,12 @@ package de.atomfrede.forest.alumni.application.wicket.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -13,11 +15,13 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
+import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 
 @Component
 public class PdfExporter {
 
+	static final String BOOTSTRAP = "";
 
 	@Autowired
 	private MemberDao memberDao;
@@ -31,6 +35,7 @@ public class PdfExporter {
 	 * @return
 	 */
 	private String getHeaderAndStyles() {
+
 		StringBuilder headerAndStyles = new StringBuilder(
 				"<!DOCTYPE html><html><head>");
 
@@ -40,18 +45,22 @@ public class PdfExporter {
 				.append("<style type=\"text/css\">@page {@bottom-right { content:\"Seite \" counter(page) \" von \" counter(pages); }}  ");
 		headerAndStyles.append("@page {@bottom-center {content:\"Abrufdatum: "
 				+ date + "\"}}");
-		headerAndStyles.append(".header{width: 100%; padding: 5px;}");
 		headerAndStyles
-				.append(".name{width: 40%; align:left; text-align: left;}");
-		headerAndStyles
-				.append(".degree{width: 40%; align:right; text-align: right;}");
-		headerAndStyles.append(".address{width: 100%; }");
+				.append(".member-header{width: 100%; padding: 5px; font-weight: bold; background-color: #DDDDDD;}");
+
+		headerAndStyles.append(".address{width: 100%;  overflow: auto;}");
 		headerAndStyles
 				.append(".address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
 		headerAndStyles
 				.append(".work-address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
 		headerAndStyles
-				.append("body { font-family: 'Ubuntu',Tahoma,sans-serif;}");
+				.append("body { font-family: 'Ubuntu',Tahoma,sans-serif; height: 100%;}");
+		headerAndStyles.append(".address-left {   float: left; width: 50%;}");
+
+		headerAndStyles.append(".address-right { margin: 0 0 0 50%;}");
+		
+		headerAndStyles.append(".member-entry { page-break-inside: avoid;}");
+	
 		headerAndStyles.append("</style>");
 		headerAndStyles.append("</head>");
 		headerAndStyles.append("<body>");
@@ -63,13 +72,16 @@ public class PdfExporter {
 		StringBuilder sb = new StringBuilder();
 
 		// First the header div..
-		sb.append("<div class=\"header\">");
+		
+		sb.append("<div class=\"member-entry\">");
+		
+		sb.append("<div class=\"member-header\">");
 
-		sb.append("<div class=\"name\">");
+		sb.append("<div class=\"name \">");
 		sb.append(member.getLastname() + ", " + member.getFirstname() + " ");
 		sb.append("</div>");
 
-		sb.append("<div class=\"degree\">");
+		sb.append("<div class=\"degree \">");
 		if (member.getDegree() != null) {
 			sb.append(member.getDegree().getShortForm() + " ");
 		}
@@ -96,14 +108,109 @@ public class PdfExporter {
 
 		sb.append("<div class=\"work-address\">");
 		sb.append("<div class=\"work-address-header\">Dienstadresse</div>");
-		// TODO add work address here.
+		sb.append(getWorkAddress(member));
+		sb.append("</div>");
 		sb.append("</div>");
 		sb.append("</div>");
 
 		return sb.toString();
 	}
 
-	private String getPrivateAddress(Member member) {
+	private String getWorkAddress(Member member){
+		StringBuilder sb = new StringBuilder();
+		StringBuilder leftBuilder = new StringBuilder();
+		StringBuilder rightBuilder = new StringBuilder();
+		
+		Department dep = null;
+		
+		if(member.getDepartment() != null){
+			dep = member.getDepartment();
+			if(member.getCompany() != null){
+				leftBuilder.append(member.getCompany().getCompany());
+				leftBuilder.append("<br/>");
+			}else if(dep.getCompany() != null){
+				leftBuilder.append(dep.getCompany().getCompany());
+				leftBuilder.append("<br/>");
+			}
+			leftBuilder.append(dep.getDepartment()+"<br/>");
+			leftBuilder.append(dep.getStreet()+" "+dep.getNumber()+"<br/>");
+			leftBuilder.append(dep.getAddon()+"<br/>");
+			leftBuilder.append(dep.getPostCode()+" "+dep.getTown()+"<br/>");
+			leftBuilder.append(dep.getCountry());
+			
+		}
+		
+		{
+			ContactData cData = member.getContactData();
+			
+			rightBuilder.append("<table>");
+
+			rightBuilder.append("<tr>");
+			rightBuilder.append("<td>Tel: </td>");
+			rightBuilder.append("<td>");
+			if (cData.getPhoneD() != null
+					&& StringCheckUtil.isStringSet(cData.getPhoneD())) {
+				rightBuilder.append(cData.getPhoneD());
+			}
+			rightBuilder.append("</td>");
+			rightBuilder.append("</tr>");
+
+			rightBuilder.append("<tr>");
+			rightBuilder.append("<td>Fax: </td>");
+			rightBuilder.append("<td>");
+			if (cData.getFaxD() != null
+					&& StringCheckUtil.isStringSet(cData.getFaxD())) {
+				rightBuilder.append(cData.getFaxD());
+			}
+			rightBuilder.append("</td>");
+			rightBuilder.append("</tr>");
+
+			rightBuilder.append("<tr>");
+			rightBuilder.append("<td>Mobil: </td>");
+			rightBuilder.append("<td>");
+			if (cData.getMobileD() != null
+					&& StringCheckUtil.isStringSet(cData.getMobileD())) {
+				rightBuilder.append(cData.getMobileD());
+			}
+			rightBuilder.append("</td>");
+			rightBuilder.append("</tr>");
+
+			rightBuilder.append("<tr>");
+			rightBuilder.append("<td>eMail: </td>");
+			rightBuilder.append("<td>");
+			if (cData.getEmailD() != null
+					&& StringCheckUtil.isStringSet(cData.getEmailD())) {
+				rightBuilder.append(cData.getEmailD());
+			}
+			rightBuilder.append("</td>");
+			rightBuilder.append("</tr>");
+
+			rightBuilder.append("<tr>");
+			rightBuilder.append("<td>Internet: </td>");
+			rightBuilder.append("<td>");
+			if (cData.getInternetD() != null
+					&& StringCheckUtil.isStringSet(cData.getInternetD())) {
+				rightBuilder.append(cData.getInternetD());
+			}
+			rightBuilder.append("</td>");
+			rightBuilder.append("</tr>");
+
+			rightBuilder.append("</table>");
+		}
+		
+		sb.append("<div class=\"address-left\">");
+		sb.append(leftBuilder.toString());
+		sb.append("</div>");
+		
+		sb.append("<div class=\"address-right\">");
+		sb.append(rightBuilder.toString());
+		sb.append("</div>");
+		
+		
+		return sb.toString();
+	}
+	
+ 	private String getPrivateAddress(Member member) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<div class=\"address-left\">");
@@ -212,7 +319,6 @@ public class PdfExporter {
 			sb.append("</tr>");
 
 			sb.append("</table>");
-
 		}
 		sb.append("</div>");
 		return sb.toString();
@@ -226,6 +332,8 @@ public class PdfExporter {
 	 */
 	private String getSectorAndActivity(Member member) {
 		StringBuilder sb = new StringBuilder();
+		
+		
 		sb.append("<div class=\"sector\">");
 
 		sb.append("<table>");
@@ -276,7 +384,8 @@ public class PdfExporter {
 			content.append(header.toString());
 
 			for (Member mem : memberDao.findAll()) {
-				content.append(getEntryForMember(mem));
+				//Replacing all & with the htmnl entity...
+				content.append(getEntryForMember(mem).replaceAll("&", "&amp;"));
 			}
 
 			content.append("</body></html>");
