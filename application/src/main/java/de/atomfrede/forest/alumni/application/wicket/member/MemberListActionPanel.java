@@ -27,6 +27,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
+import de.atomfrede.forest.alumni.application.wicket.util.PdfExporter;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 
 @SuppressWarnings("serial")
@@ -37,9 +38,13 @@ public class MemberListActionPanel extends Panel {
 
 	@SpringBean
 	private CsvExporter csvExporter;
+	
+	@SpringBean
+	private PdfExporter pdfExporter;
 
 	private BootstrapLink<Void> newMember;
 	private BootstrapLink<Void> csvDownload;
+	private BootstrapLink<Void> pdfDownload;
 	private TextField<String> nameFilter;
 	private Form<String> filterForm;
 	private String currentFilter = "";
@@ -58,6 +63,7 @@ public class MemberListActionPanel extends Panel {
 
 		addNewMember();
 		addCsvDownload();
+		addPdfDownload();
 		setOutputMarkupId(true);
 	}
 
@@ -81,6 +87,37 @@ public class MemberListActionPanel extends Panel {
 		newMember.setIconType(IconType.plussign).setLabel(
 				Model.of(_("member.action.new")));
 		add(newMember);
+	}
+
+	private void addPdfDownload() {
+		pdfDownload = new BootstrapLink<Void>("btn-pdf-download",
+				Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				File file = pdfExporter.generatePdfFile();
+				if(file != null){
+					try{
+						IResource resource = new ByteArrayResource("application/pdf",
+								FileUtils.readFileToByteArray(file),
+								"members.pdf");
+						IRequestHandler handler = new ResourceRequestHandler(
+								resource, null);
+						getRequestCycle().scheduleRequestHandlerAfterCurrent(
+								handler);
+					}catch (IOException ioe){
+						
+					}
+				}
+
+			}
+
+		};
+		
+		pdfDownload.setIconType(IconType.file)
+		.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
+		
+		add(pdfDownload);
 	}
 
 	private void addCsvDownload() {
