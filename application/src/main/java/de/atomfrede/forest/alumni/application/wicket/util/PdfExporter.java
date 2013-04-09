@@ -6,10 +6,8 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.HtmlUtils;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
@@ -20,7 +18,6 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 @Component
 public class PdfExporter {
 
-	public static final String PDF = "<html><h1>Hello World</h1></html>";
 
 	@Autowired
 	private MemberDao memberDao;
@@ -221,6 +218,12 @@ public class PdfExporter {
 		return sb.toString();
 	}
 
+	/**
+	 * Returns the (X)HTML code for sector and activity of the given member.
+	 * 
+	 * @param member
+	 * @return
+	 */
 	private String getSectorAndActivity(Member member) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div class=\"sector\">");
@@ -256,6 +259,11 @@ public class PdfExporter {
 		return sb.toString();
 	}
 
+	/**
+	 * Generate a PDF of all Members.
+	 * 
+	 * @return
+	 */
 	public File generatePdfFile() {
 		try {
 			File tempPdfFile = File.createTempFile("members", "pdf");
@@ -275,7 +283,7 @@ public class PdfExporter {
 
 			// String escapedHtml =
 			// StringEscapeUtils.escapeHtml4(content.toString());
-//			String escapedHtml = HtmlUtils.htmlEscape(content.toString());
+			// String escapedHtml = HtmlUtils.htmlEscape(content.toString());
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.setDocumentFromString(content.toString());
 			renderer.layout();
