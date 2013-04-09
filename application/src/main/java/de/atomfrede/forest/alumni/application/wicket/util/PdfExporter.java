@@ -28,7 +28,14 @@ public class PdfExporter {
 		StringBuilder headerAndStyles = new StringBuilder(
 				"<!DOCTYPE html><html><head>");
 		
-		headerAndStyles.append("<style type=\"text/css\">@page {@bottom-right { content:\"Page \" counter(page) \" of \" counter(pages); }}</style>  ");
+		headerAndStyles.append("<style type=\"text/css\">@page {@bottom-right { content:\"Page \" counter(page) \" of \" counter(pages); }}  ");
+		headerAndStyles.append(".header{width: 100%; padding: 5px;}");
+		headerAndStyles.append(".name{width: 40%; align:left; text-align: left;}");
+		headerAndStyles.append(".degree{width: 40%; align:right; text-align: right;}");
+		headerAndStyles.append(".address{width: 100%; }");
+		headerAndStyles.append(".address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
+		headerAndStyles.append(".work-address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
+		headerAndStyles.append("</style>");
 		headerAndStyles.append("</head>");
 
 		return headerAndStyles.toString();
@@ -40,11 +47,11 @@ public class PdfExporter {
 		// First the header div..
 		sb.append("<div class=\"header\">");
 
-		sb.append("<span class=\"name\">");
+		sb.append("<div class=\"name\">");
 		sb.append(member.getLastname() + ", " + member.getFirstname() + " ");
-		sb.append("</span>");
+		sb.append("</div>");
 
-		sb.append("<span class=\"degree\">");
+		sb.append("<div class=\"degree\">");
 		if (member.getDegree() != null) {
 			sb.append(member.getDegree().getShortForm() + " ");
 		}
@@ -58,7 +65,7 @@ public class PdfExporter {
 			sb.append("(" + member.getYearOfGraduation() + ")");
 		}
 
-		sb.append("</span>");
+		sb.append("</div>");
 		sb.append("</div>");
 
 		sb.append(getSectorAndActivity(member));
@@ -66,12 +73,12 @@ public class PdfExporter {
 		sb.append("<div class=\"addresses\">");
 
 		sb.append("<div class=\"address\">");
-		sb.append("<span class=\"address-header\">Privatadresse</span>");
+		sb.append("<div class=\"address-header\">Privatadresse</div>");
 		sb.append(getPrivateAddress(member));
 		sb.append("</div>");
 
 		sb.append("<div class=\"work-address\">");
-		sb.append("<span class=\"work-address-header\">Dienstadresse</span>");
+		sb.append("<div class=\"work-address-header\">Dienstadresse</div>");
 		// TODO add work address here.
 		sb.append("</div>");
 		sb.append("</div>");
@@ -86,14 +93,7 @@ public class PdfExporter {
 		
 		if(member.getContactData() != null){
 			ContactData cData = member.getContactData();
-			/*
-			 * Herr
-Michael Altgen
-Kaakweg 1c
-37077 Göttingen
-michael_altgen@web.de
-+49 (0)176 640 230 66
-			 */
+
 			if(member.getSalutation() != null && StringCheckUtil.isStringSet(member.getSalutation())){
 				sb.append(member.getSalutation());
 			}
@@ -128,28 +128,62 @@ michael_altgen@web.de
 				sb.append(cData.getCountry());
 			}
 			sb.append("<br/>");
+		
+		
+			sb.append("</div>");
 			
-			if(cData.getEmail() != null && StringCheckUtil.isStringSet(cData.getEmail())){
-				sb.append(cData.getEmail());
-				sb.append("<br/>");
-			}
+			sb.append("<div class=\"address-right\">");
 			
-			if(cData.getMobile() != null && StringCheckUtil.isStringSet(cData.getMobile())){
-				sb.append(cData.getMobile());
-				sb.append("<br/>");
-			}
+			sb.append("<table>");
 			
+			sb.append("<tr>");
+			sb.append("<td>Tel: </td>");
+			sb.append("<td>");
 			if(cData.getPhone() != null && StringCheckUtil.isStringSet(cData.getPhone())){
 				sb.append(cData.getPhone());
-				sb.append("<br/>");
 			}
+			sb.append("</td>");
+			sb.append("</tr>");
+			
+			sb.append("<tr>");
+			sb.append("<td>Fax: </td>");
+			sb.append("<td>");
+			if(cData.getFax() != null && StringCheckUtil.isStringSet(cData.getFax())){
+				sb.append(cData.getFax());
+			}
+			sb.append("</td>");
+			sb.append("</tr>");
+			
+			sb.append("<tr>");
+			sb.append("<td>Mobil: </td>");
+			sb.append("<td>");
+			if(cData.getMobile() != null && StringCheckUtil.isStringSet(cData.getMobile())){
+				sb.append(cData.getMobile());
+			}
+			sb.append("</td>");
+			sb.append("</tr>");
+			
+			sb.append("<tr>");
+			sb.append("<td>eMail: </td>");
+			sb.append("<td>");
+			if(cData.getEmail() != null && StringCheckUtil.isStringSet(cData.getEmail())){
+				sb.append(cData.getEmail());
+			}
+			sb.append("</td>");
+			sb.append("</tr>");
+			
+			sb.append("<tr>");
+			sb.append("<td>Internet: </td>");
+			sb.append("<td>");
+			if(cData.getInternet() != null && StringCheckUtil.isStringSet(cData.getInternet())){
+				sb.append(cData.getInternet());
+			}
+			sb.append("</td>");
+			sb.append("</tr>");
+			
+			sb.append("</table>");
 			
 		}
-		
-		sb.append("</div>");
-		
-		sb.append("<div class=\"address-right\">");
-		//TODO add phone and other contacts here
 		sb.append("</div>");
 		return sb.toString();
 	}
