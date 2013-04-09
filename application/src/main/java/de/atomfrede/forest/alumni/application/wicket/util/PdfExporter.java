@@ -3,6 +3,8 @@ package de.atomfrede.forest.alumni.application.wicket.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,19 +26,28 @@ public class PdfExporter {
 	public PdfExporter() {
 	}
 
+	/**
+	 * Returns header and required CSS styles.
+	 * @return
+	 */
 	private String getHeaderAndStyles() {
 		StringBuilder headerAndStyles = new StringBuilder(
 				"<!DOCTYPE html><html><head>");
 		
-		headerAndStyles.append("<style type=\"text/css\">@page {@bottom-right { content:\"Page \" counter(page) \" of \" counter(pages); }}  ");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+		String date = dateFormatter.format(new Date());
+		headerAndStyles.append("<style type=\"text/css\">@page {@bottom-right { content:\"Seite \" counter(page) \" von \" counter(pages); }}  ");
+		headerAndStyles.append("@page {@bottom-center {content:\"Abrufdatum: "+date+"\"}}");
 		headerAndStyles.append(".header{width: 100%; padding: 5px;}");
 		headerAndStyles.append(".name{width: 40%; align:left; text-align: left;}");
 		headerAndStyles.append(".degree{width: 40%; align:right; text-align: right;}");
 		headerAndStyles.append(".address{width: 100%; }");
 		headerAndStyles.append(".address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
 		headerAndStyles.append(".work-address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
+		headerAndStyles.append("body { font-family: 'Ubuntu',Tahoma,sans-serif;}");
 		headerAndStyles.append("</style>");
 		headerAndStyles.append("</head>");
+		headerAndStyles.append("<body>");
 
 		return headerAndStyles.toString();
 	}
@@ -238,7 +249,7 @@ public class PdfExporter {
 				content.append(getEntryForMember(mem));
 			}
 
-			content.append("</html>");
+			content.append("</body></html>");
 
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.setDocumentFromString(content.toString());
