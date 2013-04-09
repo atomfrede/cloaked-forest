@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.domain.entity.member;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -90,7 +91,7 @@ public class Member extends AbstractEntity {
 	}
 
 	public java.util.Date getEntryDate() {
-		return entryDate;
+		return (Date) entryDate.clone();
 	}
 
 	public void setEntryDate(java.util.Date entryDate) {
