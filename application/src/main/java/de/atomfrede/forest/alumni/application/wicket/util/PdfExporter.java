@@ -60,6 +60,8 @@ public class PdfExporter {
 		headerAndStyles.append(".address-right { margin: 0 0 0 50%;}");
 		
 		headerAndStyles.append(".member-entry { page-break-inside: avoid;}");
+		
+		headerAndStyles.append(".degree {padding-left: 10px;}");
 	
 		headerAndStyles.append("</style>");
 		headerAndStyles.append("</head>");
