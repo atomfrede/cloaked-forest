@@ -619,6 +619,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				((MemberDetailPageListener) getPage())
 						.editTypeChanged(editType);
 			}
+			
+			setModel(new AbstractEntityModel<Member>(member));
 		} else {
 			member = getModelObject();
 			member.setFirstname(_firstname);

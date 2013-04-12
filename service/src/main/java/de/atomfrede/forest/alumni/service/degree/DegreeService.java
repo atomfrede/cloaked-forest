@@ -11,7 +11,7 @@ public interface DegreeService extends EntityService<Degree>{
 
 	boolean deleteDegree(Degree degree);
 
-	boolean deleteMember(long id);
+	boolean deleteDegree(long id);
 	
 	List<Degree> list(long offset, long count, String orderProperty,
 			boolean desc);

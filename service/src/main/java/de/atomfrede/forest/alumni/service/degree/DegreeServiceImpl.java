@@ -87,7 +87,7 @@ public class DegreeServiceImpl implements DegreeService {
 	}
 
 	@Override
-	public boolean deleteMember(long id) {
+	public boolean deleteDegree(long id) {
 		degreeDao.remove(id);
 		return true;
 	}

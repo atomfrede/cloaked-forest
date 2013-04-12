@@ -7,17 +7,17 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 
+import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage.Type;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberDetailPageListener;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
-import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.degree.DegreeService;
 
 @SuppressWarnings("serial")
@@ -117,10 +117,18 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 		if (editType == Type.Create) {
 			degree = degreeService.createDegree(_title, _short);
 			editType = Type.Edit;
+			setModel(new AbstractEntityModel<Degree>(degree));
 		} else {
 			degree = getModelObject();
 			degree.setTitle(_title);
 			degree.setShortForm(_short);
+			
+			degreeService.persist(degree);
 		}
+		
+		NotificationMessage nf = new NotificationMessage(
+				Model.of("Gespeichert"));
+		nf.hideAfter(Duration.seconds(3));
+		success(nf);
 	}
 }
