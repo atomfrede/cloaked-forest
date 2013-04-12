@@ -4,26 +4,21 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<form wicket:id="detail-form">
-			<div class="row-fluid">
 				<div wicket:id="feedbackPanel"></div>
-				<div class="span12">
 					<fieldset>
-						<legend><wicket:message key="member.detail.personal"/></legend>
-							<div wicket:id="degree.detail.short.wrapper" class="control-group">
-								<label><wicket:message key="degree.detail.short" /></label> 
-								<input class="input-xlarge" wicket:id="short" type="text" wicket:message="placeholder:detail.detail.short.placeholder"> 
-							</div>
-							<div wicket:id="degree.detail.title.wrapper" class="control-group">
-								<label><wicket:message key="degree.detail.title" /></label> 
-								<input class="input-xlarge" wicket:id="title" type="text" wicket:message="placeholder:degree.detail.title.placeholder">
-							</div>
+						<div wicket:id="degree.detail.short.wrapper" class="control-group">
+							<label><wicket:message key="degree.detail.short" /></label> 
+							<input class="input-xlarge" wicket:id="degree.short" type="text" wicket:message="placeholder:degree.detail.short.placeholder"> 
+						</div>
+						<div wicket:id="degree.detail.title.wrapper" class="control-group">
+							<label><wicket:message key="degree.detail.title" /></label> 
+							<input class="input-xlarge" wicket:id="degree.title" type="text" wicket:message="placeholder:degree.detail.title.placeholder">
+						</div>
 					</fieldset>
-				</div>
 				<div class="form-actions">
 					<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
 					<button type="button" class="btn"><wicket:message key="global.cancel"/></button>
 				</div>
-			</div>
 			</form>
 		</div>
 	</div>

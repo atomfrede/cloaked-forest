@@ -7,6 +7,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -30,8 +31,10 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 
 	private WebMarkupContainer shortWrapper, titleWrapper;
 
-	private RequiredTextField<String> titleInput, shortInput;
+	private RequiredTextField<String> titleInput;
 
+	private TextField<String> shortInput;
+	
 	private String _title, _short;
 
 	private Type editType;
@@ -84,9 +87,9 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 		add(titleWrapper);
 		add(shortWrapper);
 
-		titleInput = new RequiredTextField<>("title",
+		titleInput = new RequiredTextField<>("degree.title",
 				new PropertyModel<String>(this, "_title"));
-		shortInput = new RequiredTextField<>("short",
+		shortInput = new TextField<>("degree.short",
 				new PropertyModel<String>(this, "_short"));
 
 		titleWrapper.add(titleInput);

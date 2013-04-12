@@ -11,6 +11,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
@@ -20,9 +21,12 @@ import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.MemberListActionPanel;
 import de.atomfrede.forest.alumni.application.wicket.member.MemberProvider;
+import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
@@ -83,22 +87,12 @@ public class DegreeListPanel extends Panel{
 				final String shortForm = degree.getShortForm();
 				final String title = degree.getTitle();
 
-				BootstrapLink<Void> infoUser = new BootstrapLink<Void>(
-						"action-info", Buttons.Type.Default) {
-					public void onClick() {
-//						infoMember(memberId);
-					}
-				};
-
-				infoUser.setIconType(IconType.infosign)
-						.setSize(Buttons.Size.Mini).setInverted(false);
-
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
 						"action-edit", Buttons.Type.Default) {
 
 					@Override
 					public void onClick() {
-//						editMember(memberId);
+						editDegree(degreeId);
 
 					}
 				};
@@ -118,7 +112,6 @@ public class DegreeListPanel extends Panel{
 				deleteUser.setIconType(IconType.remove).setSize(
 						Buttons.Size.Mini);
 
-				item.add(infoUser);
 				item.add(editUser);
 				item.add(deleteUser);
 			}
@@ -131,14 +124,21 @@ public class DegreeListPanel extends Panel{
 		add(wmc);
 	}
 	
+	private void editDegree(long id) {
+		PageParameters params = new PageParameters();
+		params.add(DegreeDetailPage.EDIT_TYPE, Type.Edit);
+		params.add(DegreeDetailPage.DEGREE_ID, id);
+		setResponsePage(DegreeDetailPage.class, params);
+	}
+	
 	private void deleteDegree(final long id, String shortFrom, String title) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",
-				Model.of(_("modal.text", shortFrom, title).getString()));
+				Model.of(_("modal.degree.text", title, shortFrom).getString()));
 		modal.setOutputMarkupId(true);
 
 		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		modal.header(Model.of(_("modal.header", shortFrom, title)
+		modal.header(Model.of(_("modal.degree.header", title, shortFrom)
 				.getString()));
 
 		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_(
