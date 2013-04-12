@@ -22,7 +22,11 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 public class PdfExporter {
 
 	static final String BOOTSTRAP = "";
+	
+	//<img src="tanzmaus.png" alt="Tanzmaus">
+	static final String IMAGE = "https://raw.github.com/atomfrede/cloaked-forest/master/application/src/main/webapp/img/application.png";
 
+	static final String LOGO = "<div class=\"media\" data-src=\"application.png\" style=\"width: 177px; height: 60px\" /></div>";
 	@Autowired
 	private MemberDao memberDao;
 
@@ -45,6 +49,19 @@ public class PdfExporter {
 				.append("<style type=\"text/css\">@page {@bottom-right { content:\"Seite \" counter(page) \" von \" counter(pages); }}  ");
 		headerAndStyles.append("@page {@bottom-center {content:\"Abrufdatum: "
 				+ date + "\"}}");
+		
+		headerAndStyles.append("@page{margin-bottom: 1.5in;}");
+		headerAndStyles.append("@page {"+
+  "@bottom-left {"+
+    "content: element(pageHeader);"+
+  "}"+
+"}"+
+"#pageHeader{"+
+  "position: running(pageHeader);" +
+"}");
+
+		headerAndStyles.append("logo-image{ margin-bottom: 50px; padding-bottom: 50px;" +
+				"}");
 		headerAndStyles
 				.append(".member-header{width: 100%; padding: 5px; font-weight: bold; background-color: #DDDDDD;}");
 
@@ -64,6 +81,7 @@ public class PdfExporter {
 		headerAndStyles.append(".degree {padding-left: 10px;}");
 		
 		headerAndStyles.append(".addresses {padding: 10px;}");
+		
 	
 		headerAndStyles.append("</style>");
 		headerAndStyles.append("</head>");
@@ -385,19 +403,28 @@ public class PdfExporter {
 
 			StringBuilder content = new StringBuilder();
 
+			
 			content.append(header.toString());
+			
+			content.append("<div class=\"pageHeader\" id=\"pageHeader\"><img class=\"logo-image\" src=\""+IMAGE+"\" style=\" height: 60px;\"/></div>");
+//			content.append("<div class=\"header\"><div class=\"media\" data-src=\"application.png\" style=\"width: 177px; height: 60px\" /></div>");
+			
+
 
 			for (Member mem : memberDao.findAll()) {
 				//Replacing all & with the htmnl entity...
 				content.append(getEntryForMember(mem).replaceAll("&", "&amp;"));
 			}
 
+		
+			
 			content.append("</body></html>");
 
 			// String escapedHtml =
 			// StringEscapeUtils.escapeHtml4(content.toString());
 			// String escapedHtml = HtmlUtils.htmlEscape(content.toString());
 			ITextRenderer renderer = new ITextRenderer();
+			renderer.getSharedContext().setReplacedElementFactory(new MediaReplacedElementFactory(renderer.getSharedContext().getReplacedElementFactory()));
 			renderer.setDocumentFromString(content.toString());
 			renderer.layout();
 			OutputStream outputStream = new FileOutputStream(tempPdfFile);
