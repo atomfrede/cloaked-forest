@@ -407,22 +407,14 @@ public class PdfExporter {
 			content.append(header.toString());
 			
 			content.append("<div class=\"pageHeader\" id=\"pageHeader\"><img class=\"logo-image\" src=\""+IMAGE+"\" style=\" height: 60px;\"/></div>");
-//			content.append("<div class=\"header\"><div class=\"media\" data-src=\"application.png\" style=\"width: 177px; height: 60px\" /></div>");
-			
-
 
 			for (Member mem : memberDao.findAll()) {
 				//Replacing all & with the htmnl entity...
 				content.append(getEntryForMember(mem).replaceAll("&", "&amp;"));
 			}
-
-		
 			
 			content.append("</body></html>");
 
-			// String escapedHtml =
-			// StringEscapeUtils.escapeHtml4(content.toString());
-			// String escapedHtml = HtmlUtils.htmlEscape(content.toString());
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.getSharedContext().setReplacedElementFactory(new MediaReplacedElementFactory(renderer.getSharedContext().getReplacedElementFactory()));
 			renderer.setDocumentFromString(content.toString());
