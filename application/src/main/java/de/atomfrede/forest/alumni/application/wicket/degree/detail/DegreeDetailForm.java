@@ -1,5 +1,8 @@
 package de.atomfrede.forest.alumni.application.wicket.degree.detail;
 
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -13,9 +16,12 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 
+import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
+import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
@@ -62,6 +68,17 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 		};
 
 		add(submitBtn);
+		
+		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel", Buttons.Type.Default){
+
+			@Override
+			public void onClick() {
+				setResponsePage(DegreePage.class);
+			}
+		};
+		cancel.setLabel(Model.of(_("global.cancel")));
+		
+		add(cancel);
 
 		initFormValues(model);
 

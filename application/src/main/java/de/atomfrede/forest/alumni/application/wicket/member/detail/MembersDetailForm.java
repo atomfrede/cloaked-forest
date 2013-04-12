@@ -33,6 +33,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
+import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.form.DateTextField;
@@ -47,6 +49,8 @@ import de.atomfrede.forest.alumni.application.wicket.custom.CompanySelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.DepartmentSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.SectorSelectOption;
+import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
+import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.MemberDetailPageListener;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
@@ -161,6 +165,18 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		};
 
 		add(submitBtn);
+		
+		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel", Buttons.Type.Default){
+
+			@Override
+			public void onClick() {
+				setResponsePage(Homepage.class);
+			}
+		};
+		
+		add(cancel);
+		
+		cancel.setLabel(Model.of(_("global.cancel")));
 
 		emptySector = new Sector();
 		emptySector.setSector(_("model.empty").getString());
