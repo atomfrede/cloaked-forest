@@ -21,6 +21,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
 import de.atomfrede.forest.alumni.application.wicket.base.footer.Footer;
+import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
 import de.atomfrede.forest.alumni.application.wicket.graph.GraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
@@ -112,6 +113,12 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				new NavbarButton<GraphPage>(
 						QueryPage.class, Model.of(_("nav.query").getString()))
 						.setIconType(IconType.filter)));
+		
+		navbar.addComponents(NavbarComponents.transform(
+				Navbar.ComponentPosition.LEFT,
+				new NavbarButton<DegreePage>(
+						DegreePage.class, Model.of(_("nav.degree").getString()))
+						.setIconType(IconType.tags)));
 
 		navbar.addComponents(new ImmutableNavbarComponent(
 				new NavbarButton<LogoutPage>(LogoutPage.class, Model

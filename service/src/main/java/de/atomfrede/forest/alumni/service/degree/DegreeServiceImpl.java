@@ -61,6 +61,7 @@ public class DegreeServiceImpl implements DegreeService {
 	@Override
 	public void persist(Degree entity) {
 		degreeDao.persist(entity);
+	}
 
 
 	@Override
