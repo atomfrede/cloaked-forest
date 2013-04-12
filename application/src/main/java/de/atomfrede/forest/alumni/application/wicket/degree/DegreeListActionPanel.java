@@ -9,7 +9,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
-import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 
 @SuppressWarnings("serial")
@@ -38,9 +38,9 @@ public class DegreeListActionPanel extends Panel{
 	}
 	
 	private void onNewDegree() {
-//		PageParameters params = new PageParameters();
-//		params.add(MemberDetailPage.EDIT_TYPE, Type.Create);
-//		params.add(MemberDetailPage.MEMBER_ID, "-1");
-//		setResponsePage(MemberDetailPage.class, params);
+		PageParameters params = new PageParameters();
+		params.add(DegreeDetailPage.EDIT_TYPE, Type.Create);
+		params.add(DegreeDetailPage.DEGREE_ID, "-1");
+		setResponsePage(DegreeDetailPage.class, params);
 	}
 }

@@ -74,6 +74,7 @@ public class DegreeServiceImpl implements DegreeService {
 		Degree deg = new Degree();
 		deg.setShortForm(shortform);
 		deg.setTitle(title);
+		deg.setId(System.currentTimeMillis());
 		
 		degreeDao.persist(deg);
 		return deg;
