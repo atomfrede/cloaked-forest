@@ -113,8 +113,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	private WebMarkupContainer firstnameWrapper, lastnameWrapper,
 			personalMailWrapper, selectWrapper;
 
-	private RequiredTextField<String> firstname, lastname, personalMail;
-	private TextField<String> personalAddon, graduationYear,
+	private RequiredTextField<String> firstname, lastname;
+	private TextField<String> personalMail, personalAddon, graduationYear,
 			personalStreet, personalTown, personalPostcode, workMail,
 			personalMobile, personalFax, personalPhone, personalInternet,
 			workPhone, workMobile, workFax, workInternet, personalNumber;
@@ -467,7 +467,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				new PropertyModel<String>(this, "_personalStreet"));
 		personalTown = new TextField<String>("personal.town",
 				new PropertyModel<String>(this, "_personalTown"));
-		personalMail = new RequiredTextField<String>("personal.mail",
+		personalMail = new TextField<String>("personal.mail",
 				new PropertyModel<String>(this, "_personalMail"));
 		personalMail.add(EmailAddressValidator.getInstance());
 
