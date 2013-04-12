@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/">
+<wicket:panel>
+	<div class="row-fluid">
+		<div class="span12">
+			<form wicket:id="detail-form">
+				<div wicket:id="feedbackPanel"></div>
+					<fieldset>
+							<label><wicket:message key="user.detail.firstname" /></label> 
+							<input class="input-xlarge" wicket:id="user.firstname" type="text" wicket:message="placeholder:user.detail.firstname.placeholder"> 
+							<label><wicket:message key="user.detail.lastname" /></label> 
+							<input class="input-xlarge" wicket:id="user.lastname" type="text" wicket:message="placeholder:user.detail.lastname.placeholder">
+						<div wicket:id="user.detail.username.wrapper" class="control-group">
+							<label><wicket:message key="user.detail.username" /></label> 
+							<input class="input-xlarge" wicket:id="user.username" type="text" wicket:message="placeholder:user.detail.username.placeholder"> 
+						</div>
+						<div wicket:id="user.detail.password.wrapper" class="control-group">
+							<label><wicket:message key="user.detail.password" /></label> 
+							<input class="input-xlarge" wicket:id="user.password" type="text" wicket:message="placeholder:user.detail.password.placeholder">
+						</div>
+					</fieldset>
+				<div class="form-actions">
+					<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
+					<a href="#" wicket:id="btn-cancel" class="btn" type="button"></a>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>
+</html>

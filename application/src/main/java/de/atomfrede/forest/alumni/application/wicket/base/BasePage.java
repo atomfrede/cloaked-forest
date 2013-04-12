@@ -28,6 +28,7 @@ import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
 import de.atomfrede.forest.alumni.application.wicket.query.QueryPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
 import de.atomfrede.forest.alumni.application.wicket.security.UserSession;
+import de.atomfrede.forest.alumni.application.wicket.user.UserPage;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 
 @SuppressWarnings("serial")
@@ -119,6 +120,12 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				new NavbarButton<DegreePage>(
 						DegreePage.class, Model.of(_("nav.degree").getString()))
 						.setIconType(IconType.tags)));
+		
+		navbar.addComponents(NavbarComponents.transform(
+				Navbar.ComponentPosition.RIGHT,
+				new NavbarButton<DegreePage>(
+						UserPage.class, Model.of(_("nav.users").getString()))
+						.setIconType(IconType.user)));
 
 		navbar.addComponents(new ImmutableNavbarComponent(
 				new NavbarButton<LogoutPage>(LogoutPage.class, Model

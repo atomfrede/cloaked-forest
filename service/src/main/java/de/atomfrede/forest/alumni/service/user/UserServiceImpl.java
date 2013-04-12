@@ -64,6 +64,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(String username, String firstname, String lastname,
+			String password) throws UsernameAlreadyTakenException {
+		return createUser(username, firstname, lastname, "", password);
+	}
+	
+	@Override
+	public User createUser(String username, String firstname, String lastname,
 			String email, String password) throws UsernameAlreadyTakenException {
 		User possibleUser = userDao.findByProperty("username", username);
 		if (possibleUser != null) {
@@ -88,5 +94,17 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.getByUserName(username);
 		return user == null;
 	}
+
+	@Override
+	public boolean deleteUser(long id) {
+		if(userDao.count() == 1){
+			//This is the last user!!! Don't remove it!
+			return false;
+		}
+		userDao.remove(id);
+		return true;
+	}
+
+	
 
 }

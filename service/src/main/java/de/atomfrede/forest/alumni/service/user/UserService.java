@@ -5,6 +5,8 @@ import de.atomfrede.forest.alumni.service.EntityService;
 
 public interface UserService extends EntityService<User> {
 
+	boolean deleteUser(long id);
+	
 	User getByUsername(String username);
 
 	/**
@@ -19,6 +21,8 @@ public interface UserService extends EntityService<User> {
 	 */
 	User createUser(String username, String firstname, String lastname,
 			String email, String password) throws UsernameAlreadyTakenException;
+	
+	User createUser(String username, String firstname, String lastname,String password) throws UsernameAlreadyTakenException;
 
 	boolean canCreateUser(String username);
 
