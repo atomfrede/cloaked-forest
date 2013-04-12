@@ -16,6 +16,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.member.MemberListActionPanel;
 import de.atomfrede.forest.alumni.application.wicket.member.MemberProvider;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
@@ -32,6 +33,9 @@ public class DegreeListPanel extends Panel{
 	
 	public DegreeListPanel(String id){
 		super(id);
+		
+		add(new DegreeListActionPanel("degree-action"));
+		
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
