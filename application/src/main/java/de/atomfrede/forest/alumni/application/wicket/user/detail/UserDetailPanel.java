@@ -9,7 +9,7 @@ import de.atomfrede.forest.alumni.domain.dao.user.UserDao;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 
 @SuppressWarnings("serial")
-public class UserDetailPanel extends Panel{
+public class UserDetailPanel extends Panel {
 
 	@SpringBean
 	private UserDao userDao;
@@ -22,9 +22,8 @@ public class UserDetailPanel extends Panel{
 		this.editType = editType;
 		this.userId = userId;
 
-		UserDetailForm form = new UserDetailForm("detail-form",
-				this.editType, new AbstractEntityModel<User>(User.class,
-						userId));
+		UserDetailForm form = new UserDetailForm("detail-form", this.editType,
+				new AbstractEntityModel<User>(User.class, userId));
 		add(form);
 	}
 }

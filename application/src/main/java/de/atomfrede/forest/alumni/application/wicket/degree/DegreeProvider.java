@@ -12,7 +12,7 @@ import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
 @SuppressWarnings("serial")
-public class DegreeProvider implements IDataProvider<Degree>{
+public class DegreeProvider implements IDataProvider<Degree> {
 
 	@SpringBean
 	private DegreeDao degreeDao;
@@ -40,6 +40,5 @@ public class DegreeProvider implements IDataProvider<Degree>{
 	public long size() {
 		return degreeDao.count();
 	}
-
 
 }

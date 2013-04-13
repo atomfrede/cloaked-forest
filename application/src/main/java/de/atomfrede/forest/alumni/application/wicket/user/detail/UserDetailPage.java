@@ -7,7 +7,7 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 
 @SuppressWarnings("serial")
-public class UserDetailPage extends BasePage<Void>{
+public class UserDetailPage extends BasePage<Void> {
 
 	public static final String EDIT_TYPE = "type";
 	public static final String USER_ID = "userID";
@@ -15,13 +15,13 @@ public class UserDetailPage extends BasePage<Void>{
 	public enum Type {
 		Edit, Create, Show
 	}
-	
+
 	@SpringBean
 	private DegreeDao degreeDao;
-	
+
 	private Type mEditType;
 	private Long mUserId = null;
-	
+
 	public UserDetailPage(PageParameters params) {
 		super();
 		if (params.get(EDIT_TYPE) != null) {

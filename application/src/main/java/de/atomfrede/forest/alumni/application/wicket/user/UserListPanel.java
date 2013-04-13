@@ -20,51 +20,50 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
-import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.user.detail.UserDetailPage;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 import de.atomfrede.forest.alumni.service.user.UserService;
 
 @SuppressWarnings("serial")
-public class UserListPanel extends Panel{
+public class UserListPanel extends Panel {
 
 	@SpringBean
 	private UserService userService;
-	
+
 	private UserProvider userProvider;
 	private DataView<User> users;
-	
+
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
-	
-	public UserListPanel(String id){
+
+	public UserListPanel(String id) {
 		super(id);
-		
+
 		add(new UserListActionPanel("user-action"));
-		
+
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 	}
-	
+
 	private UserProvider getUserProvider() {
 		if (userProvider == null) {
 			userProvider = new UserProvider();
 		}
 		return userProvider;
 	}
-	
+
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
 		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalWarning);
 	}
-	
+
 	private void populateItems() {
-		
+
 		users = new DataView<User>("users", getUserProvider()) {
 
 			@Override
@@ -77,16 +76,15 @@ public class UserListPanel extends Panel{
 						user, "lastname")));
 				item.add(new Label("user-username", new PropertyModel<String>(
 						user, "username")));
-				
 
 				final long userId = user.getId();
 				final String firstname = user.getFirstname();
 				final String lastname = user.getLastname();
 				final String username = user.getUsername();
-				
-				final String fullname = firstname+" "+lastname;
-//				final String shortForm = degree.getShortForm();
-//				final String title = degree.getTitle();
+
+				final String fullname = firstname + " " + lastname;
+				// final String shortForm = degree.getShortForm();
+				// final String title = degree.getTitle();
 
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
 						"action-edit", Buttons.Type.Default) {
@@ -123,14 +121,14 @@ public class UserListPanel extends Panel{
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", users));
 		add(wmc);
 	}
-	
+
 	private void editUser(long id) {
 		PageParameters params = new PageParameters();
 		params.add(UserDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(UserDetailPage.USER_ID, id);
 		setResponsePage(UserDetailPage.class, params);
 	}
-	
+
 	private void deleteUser(final long id, String username, String fullname) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",

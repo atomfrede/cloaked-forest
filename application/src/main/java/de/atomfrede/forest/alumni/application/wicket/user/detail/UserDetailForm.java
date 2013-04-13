@@ -1,6 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.user.detail;
 
-
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import org.apache.wicket.AttributeModifier;
@@ -9,7 +8,6 @@ import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
@@ -40,11 +38,11 @@ public class UserDetailForm extends BootstrapForm<User> {
 	private WebMarkupContainer usernameWrapper, passwordWrapper;
 
 	private RequiredTextField<String> username;
-	
+
 	private RequiredTextField<String> password;
 
 	private TextField<String> firstname, lastname;
-	
+
 	private String _firstname, _lastname, _username, _password;
 
 	private Type editType;
@@ -72,8 +70,9 @@ public class UserDetailForm extends BootstrapForm<User> {
 		};
 
 		add(submitBtn);
-		
-		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel", Buttons.Type.Default){
+
+		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -81,7 +80,7 @@ public class UserDetailForm extends BootstrapForm<User> {
 			}
 		};
 		cancel.setLabel(Model.of(_("global.cancel")));
-		
+
 		add(cancel);
 
 		initFormValues(model);
@@ -119,10 +118,12 @@ public class UserDetailForm extends BootstrapForm<User> {
 
 		passwordWrapper.add(password);
 		usernameWrapper.add(username);
-		
-		firstname = new TextField<>("user.firstname", new PropertyModel<String>(this, "_firstname"));
-		lastname = new TextField<>("user.lastname", new PropertyModel<String>(this, "_lastname"));
-		
+
+		firstname = new TextField<>("user.firstname",
+				new PropertyModel<String>(this, "_firstname"));
+		lastname = new TextField<>("user.lastname", new PropertyModel<String>(
+				this, "_lastname"));
+
 		add(firstname);
 		add(lastname);
 	}
@@ -135,12 +136,14 @@ public class UserDetailForm extends BootstrapForm<User> {
 		if (!username.isValid()) {
 			usernameWrapper.add(new AttributeAppender("class", " error"));
 		} else {
-			usernameWrapper.add(new AttributeModifier("class", "control-group"));
+			usernameWrapper
+					.add(new AttributeModifier("class", "control-group"));
 		}
 		if (!password.isValid()) {
 			passwordWrapper.add(new AttributeAppender("class", " error"));
 		} else {
-			passwordWrapper.add(new AttributeModifier("class", "control-group"));
+			passwordWrapper
+					.add(new AttributeModifier("class", "control-group"));
 		}
 
 	}
@@ -148,9 +151,10 @@ public class UserDetailForm extends BootstrapForm<User> {
 	@Override
 	public void onSubmit() {
 		User user = null;
-		try{
+		try {
 			if (editType == Type.Create) {
-				user = userService.createUser(_username, _firstname, _lastname, _password);
+				user = userService.createUser(_username, _firstname, _lastname,
+						_password);
 				editType = Type.Edit;
 				setModel(new AbstractEntityModel<User>(user));
 			} else {
@@ -158,19 +162,19 @@ public class UserDetailForm extends BootstrapForm<User> {
 				user.setFirstname(_firstname);
 				user.setLastname(_lastname);
 				user.setPassword(_password);
-				if(!userService.canCreateUser(_username)){
+				if (!userService.canCreateUser(_username)) {
 					throw new UsernameAlreadyTakenException();
 				}
 				user.setUsername(_username);
-				
+
 				userService.persist(user);
 			}
-			
+
 			NotificationMessage nf = new NotificationMessage(
 					Model.of("Gespeichert"));
 			nf.hideAfter(Duration.seconds(3));
 			success(nf);
-		}catch(UsernameAlreadyTakenException e){
+		} catch (UsernameAlreadyTakenException e) {
 			NotificationMessage nf = new NotificationMessage(
 					Model.of("Benutzername bereits vergeben"));
 			nf.hideAfter(Duration.seconds(3));

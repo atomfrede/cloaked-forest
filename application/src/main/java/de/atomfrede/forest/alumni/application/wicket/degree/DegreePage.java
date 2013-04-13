@@ -6,7 +6,7 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 
 @SuppressWarnings("serial")
 @MountPath(value = "/degrees", alt = "/degrees")
-public class DegreePage extends BasePage<Void>{
+public class DegreePage extends BasePage<Void> {
 
 	public DegreePage() {
 		super();

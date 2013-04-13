@@ -17,58 +17,51 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
-import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberListActionPanel;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberProvider;
-import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
-import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
-import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.degree.DegreeService;
 
 @SuppressWarnings("serial")
-public class DegreeListPanel extends Panel{
+public class DegreeListPanel extends Panel {
 
 	@SpringBean
 	private DegreeService degreeService;
-	
+
 	private DegreeProvider degreeProvider;
 	private DataView<Degree> degrees;
-	
+
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
-	
-	public DegreeListPanel(String id){
+
+	public DegreeListPanel(String id) {
 		super(id);
-		
+
 		add(new DegreeListActionPanel("degree-action"));
-		
+
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 	}
-	
+
 	private DegreeProvider getDegreeProvider() {
 		if (degreeProvider == null) {
 			degreeProvider = new DegreeProvider();
 		}
 		return degreeProvider;
 	}
-	
+
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
 		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalWarning);
 	}
-	
+
 	private void populateItems() {
 
 		degrees = new DataView<Degree>("degrees", getDegreeProvider()) {
@@ -77,11 +70,10 @@ public class DegreeListPanel extends Panel{
 			protected void populateItem(Item<Degree> item) {
 				final Degree degree = item.getModel().getObject();
 
-				item.add(new Label("degree-shortform", new PropertyModel<String>(
-						degree, "shortForm")));
+				item.add(new Label("degree-shortform",
+						new PropertyModel<String>(degree, "shortForm")));
 				item.add(new Label("degree-title", new PropertyModel<String>(
 						degree, "title")));
-				
 
 				final long degreeId = degree.getId();
 				final String shortForm = degree.getShortForm();
@@ -123,14 +115,14 @@ public class DegreeListPanel extends Panel{
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", degrees));
 		add(wmc);
 	}
-	
+
 	private void editDegree(long id) {
 		PageParameters params = new PageParameters();
 		params.add(DegreeDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(DegreeDetailPage.DEGREE_ID, id);
 		setResponsePage(DegreeDetailPage.class, params);
 	}
-	
+
 	private void deleteDegree(final long id, String shortFrom, String title) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",

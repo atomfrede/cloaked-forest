@@ -6,7 +6,7 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 
 @SuppressWarnings("serial")
 @MountPath(value = "/users", alt = "/users")
-public class UserPage extends BasePage<Void>{
+public class UserPage extends BasePage<Void> {
 
 	public UserPage() {
 		super();

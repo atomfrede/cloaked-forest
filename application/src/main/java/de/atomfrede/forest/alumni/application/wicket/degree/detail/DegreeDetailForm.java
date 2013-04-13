@@ -1,6 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.degree.detail;
 
-
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import org.apache.wicket.AttributeModifier;
@@ -40,7 +39,7 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 	private RequiredTextField<String> titleInput;
 
 	private TextField<String> shortInput;
-	
+
 	private String _title, _short;
 
 	private Type editType;
@@ -68,8 +67,9 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 		};
 
 		add(submitBtn);
-		
-		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel", Buttons.Type.Default){
+
+		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -77,7 +77,7 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 			}
 		};
 		cancel.setLabel(Model.of(_("global.cancel")));
-		
+
 		add(cancel);
 
 		initFormValues(model);
@@ -106,8 +106,8 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 
 		titleInput = new RequiredTextField<>("degree.title",
 				new PropertyModel<String>(this, "_title"));
-		shortInput = new TextField<>("degree.short",
-				new PropertyModel<String>(this, "_short"));
+		shortInput = new TextField<>("degree.short", new PropertyModel<String>(
+				this, "_short"));
 
 		titleWrapper.add(titleInput);
 		shortWrapper.add(shortInput);
@@ -142,10 +142,10 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 			degree = getModelObject();
 			degree.setTitle(_title);
 			degree.setShortForm(_short);
-			
+
 			degreeService.persist(degree);
 		}
-		
+
 		NotificationMessage nf = new NotificationMessage(
 				Model.of("Gespeichert"));
 		nf.hideAfter(Duration.seconds(3));

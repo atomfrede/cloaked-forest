@@ -12,7 +12,7 @@ import de.atomfrede.forest.alumni.domain.dao.user.UserDao;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 
 @SuppressWarnings("serial")
-public class UserProvider implements IDataProvider<User>{
+public class UserProvider implements IDataProvider<User> {
 
 	@SpringBean
 	private UserDao userDao;
@@ -40,6 +40,5 @@ public class UserProvider implements IDataProvider<User>{
 	public long size() {
 		return userDao.count();
 	}
-
 
 }

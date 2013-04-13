@@ -13,15 +13,15 @@ import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailP
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 
 @SuppressWarnings("serial")
-public class DegreeListActionPanel extends Panel{
+public class DegreeListActionPanel extends Panel {
 
 	private BootstrapLink<Void> newDegree;
-	
+
 	public DegreeListActionPanel(String id) {
 		super(id);
 		addNewDegree();
 	}
-	
+
 	private void addNewDegree() {
 		newDegree = new BootstrapLink<Void>("btn-new-degree",
 				Buttons.Type.Primary) {
@@ -36,7 +36,7 @@ public class DegreeListActionPanel extends Panel{
 				Model.of(_("degree.action.new")));
 		add(newDegree);
 	}
-	
+
 	private void onNewDegree() {
 		PageParameters params = new PageParameters();
 		params.add(DegreeDetailPage.EDIT_TYPE, Type.Create);

@@ -9,7 +9,7 @@ import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 
 @SuppressWarnings("serial")
-public class DegreeDetailPanel extends Panel{
+public class DegreeDetailPanel extends Panel {
 
 	@SpringBean
 	private DegreeDao degreeDao;

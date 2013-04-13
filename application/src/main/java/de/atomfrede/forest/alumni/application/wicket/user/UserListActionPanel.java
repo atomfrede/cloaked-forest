@@ -13,15 +13,15 @@ import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailP
 import de.atomfrede.forest.alumni.application.wicket.user.detail.UserDetailPage;
 
 @SuppressWarnings("serial")
-public class UserListActionPanel extends Panel{
+public class UserListActionPanel extends Panel {
 
 	private BootstrapLink<Void> newUser;
-	
+
 	public UserListActionPanel(String id) {
 		super(id);
 		addNewUser();
 	}
-	
+
 	private void addNewUser() {
 		newUser = new BootstrapLink<Void>("btn-new-degree",
 				Buttons.Type.Primary) {
@@ -36,7 +36,7 @@ public class UserListActionPanel extends Panel{
 				Model.of(_("user.action.new")));
 		add(newUser);
 	}
-	
+
 	private void onNewUser() {
 		PageParameters params = new PageParameters();
 		params.add(UserDetailPage.EDIT_TYPE, Type.Create);
