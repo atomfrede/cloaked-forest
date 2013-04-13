@@ -1,10 +1,8 @@
-package de.atomfrede.forest.alumni.application.wicket.member;
+package de.atomfrede.forest.alumni.application.wicket.query;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
-import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -24,6 +22,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
+import de.atomfrede.forest.alumni.application.wicket.member.MemberProvider;
 import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
@@ -32,70 +31,34 @@ import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.member.MemberService;
+import de.atomfrede.forest.alumni.service.query.Query;
 
 @SuppressWarnings("serial")
-public class MemberListPanel extends Panel {
+public class MemberResultsPanel extends Panel{
 
 	@SpringBean
 	private MemberDao memberDao;
 
 	@SpringBean
 	private MemberService memberService;
-
-	private MemberListActionPanel actionPanel;
-	private MemberProvider memberProvider;
+	
+	private MemberQueryProvider memberProvider;
 	private DataView<Member> members;
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
-
-	public MemberListPanel(String id) {
+	
+	public MemberResultsPanel(String id) {
 		super(id);
-
-		actionPanel = new MemberListActionPanel("members-action");
-		add(actionPanel);
-		addFilter();
+		
 		setOutputMarkupId(true);
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 		setupModalInfo();
-
 	}
-
-	private void addFilter() {
-		actionPanel.getNameFilter().add(new OnChangeAjaxBehavior() {
-
-			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
-				String input = actionPanel.getNameFilter().getConvertedInput();
-				doFilter(input);
-				target.add(wmc);
-			}
-
-			@Override
-			protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
-				super.updateAjaxAttributes(attributes);
-				// Do need to declare some additional Attributes?
-			}
-		});
-
-	}
-
-	/**
-	 * Filtering the displayed results by setting a filter value into the
-	 * provier.
-	 * 
-	 * @param input
-	 */
-	protected void doFilter(String input) {
-		getMemberProvider().setNameFilter(input);
-	}
-
-	/**
-	 * Populates the list view repeater with content.
-	 */
+	
 	private void populateItems() {
 
 		members = new DataView<Member>("members", getMemberProvider()) {
@@ -186,27 +149,31 @@ public class MemberListPanel extends Panel {
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
 		add(wmc);
 	}
-
-	private void setupModalInfo() {
-		modalInfo = new BusinessCardModal("modal-info", null);
-		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalInfo);
+	
+	protected void doFilter(Query query) {
+		getMemberProvider().setQuery(query);
 	}
-
+	
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
 		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalWarning);
 	}
-
-	private MemberProvider getMemberProvider() {
+	
+	private void setupModalInfo() {
+		modalInfo = new BusinessCardModal("modal-info", null);
+		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
+		add(modalInfo);
+	}
+	
+	private MemberQueryProvider getMemberProvider() {
 		if (memberProvider == null) {
-			memberProvider = new MemberProvider();
+			memberProvider = new MemberQueryProvider();
 		}
 		return memberProvider;
 	}
-
+	
 	private void infoMember(final long id) {
 		Member mem = memberDao.findById(id);
 

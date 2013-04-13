@@ -26,6 +26,8 @@ public class QueryConfigPanel extends Panel {
 
 	private Label header, subHeader;
 	private ProfessionFilterPanel professionFilterPanel;
+	
+	private MemberResultsPanel memberResultPanel;
 
 	public QueryConfigPanel(String id) {
 		super(id);

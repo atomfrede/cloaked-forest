@@ -49,6 +49,8 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private CompanyFilterPanel companyFilterPanel;
 	private ActivityFilterPanel activityFilterPanel;
 	private SectorFilterPanel sectorFilterPanel;
+	
+	private MemberResultsPanel memberResultPanel;
 
 	private BootstrapLink<Void> csvDownload;
 	private BootstrapLink<Void> pdfDownload;
@@ -60,6 +62,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		setupCompanyFilter();
 		setupActivityFilter();
 		setupSectorFilter();
+	
 
 		addCsvDownload();
 		addPdfDownload();
@@ -68,6 +71,9 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				// repaint the feedback panel so that it is hidden
+				Query<Member> query = setupQuery();
+				memberResultPanel.doFilter(query);
+				target.add(memberResultPanel);
 			}
 
 			@Override
@@ -76,6 +82,9 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		};
 
 		add(submitBtn);
+		
+		memberResultPanel = new MemberResultsPanel("member-results");
+		add(memberResultPanel);
 	}
 
 	private void setupDegreeFilter() {

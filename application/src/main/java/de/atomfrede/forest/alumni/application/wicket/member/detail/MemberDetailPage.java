@@ -16,9 +16,14 @@ public class MemberDetailPage extends BasePage<Void> implements
 
 	public static final String EDIT_TYPE = "type";
 	public static final String MEMBER_ID = "memberId";
+	public static final String FROM_PAGE = "fromPage";
 
 	public enum Type {
 		Edit, Create, Show
+	}
+	
+	public enum FromPage {
+		Homepage, QueryPage
 	}
 
 	@SpringBean
