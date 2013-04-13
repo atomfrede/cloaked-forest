@@ -20,10 +20,10 @@ public class DegreeServiceImpl implements DegreeService {
 
 	@Resource
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private DegreeDao degreeDao;
-	
+
 	public Session getSession() {
 		try {
 			return sessionFactory.getCurrentSession();
@@ -31,7 +31,7 @@ public class DegreeServiceImpl implements DegreeService {
 			return sessionFactory.openSession();
 		}
 	}
-	
+
 	@Override
 	public List<Degree> list(long offset, long count) {
 		return degreeDao.list(offset, count);
@@ -49,8 +49,7 @@ public class DegreeServiceImpl implements DegreeService {
 
 	@Override
 	public Degree findByProperty(String propertyName, Object propertyValue) {
-		// TODO Auto-generated method stub
-		return null;
+		return degreeDao.findByProperty(propertyName, propertyValue);
 	}
 
 	@Override
@@ -63,7 +62,6 @@ public class DegreeServiceImpl implements DegreeService {
 		degreeDao.persist(entity);
 	}
 
-
 	@Override
 	public long count() {
 		return degreeDao.count();
@@ -75,7 +73,7 @@ public class DegreeServiceImpl implements DegreeService {
 		deg.setShortForm(shortform);
 		deg.setTitle(title);
 		deg.setId(System.currentTimeMillis());
-		
+
 		degreeDao.persist(deg);
 		return deg;
 	}
