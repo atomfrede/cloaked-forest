@@ -26,6 +26,7 @@ import de.atomfrede.forest.alumni.application.wicket.query.filter.DegreeFilterPa
 import de.atomfrede.forest.alumni.application.wicket.query.filter.ProfessionFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.SectorFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
+import de.atomfrede.forest.alumni.application.wicket.util.PdfExporter;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
@@ -39,6 +40,9 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 
 	@SpringBean
 	private CsvExporter csvExporter;
+	
+	@SpringBean
+	private PdfExporter pdfExporter;
 
 	private ProfessionFilterPanel professionFilterPanel;
 	private DegreeFilterPanel degreeFilter;
@@ -47,6 +51,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private SectorFilterPanel sectorFilterPanel;
 
 	private BootstrapLink<Void> csvDownload;
+	private BootstrapLink<Void> pdfDownload;
 
 	public QueryConfigForm(String componentId) {
 		super(componentId);
@@ -57,6 +62,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		setupSectorFilter();
 
 		addCsvDownload();
+		addPdfDownload();
 
 		AjaxButton submitBtn = new AjaxButton("submit-btn", this) {
 			@Override
@@ -92,8 +98,8 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		add(activityFilterPanel);
 		activityFilterPanel.setVisible(false);
 	}
-	
-	private void setupSectorFilter(){
+
+	private void setupSectorFilter() {
 		sectorFilterPanel = new SectorFilterPanel("sector-filter");
 		add(sectorFilterPanel);
 	}
@@ -118,15 +124,47 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 			Filter compFilter = new Filter("company", company, Type.EQ);
 			query.addFilter(compFilter);
 		}
-		
+
 		Sector sector = sectorFilterPanel.getValue();
-		if(sector != null){
+		if (sector != null) {
 			Filter sectorFilter = new Filter("sector", sector, Type.EQ);
 			query.addFilter(sectorFilter);
 		}
 
 		return query;
 
+	}
+
+	private void addPdfDownload() {
+		pdfDownload = new BootstrapLink<Void>("btn-pdf-download",
+				Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				File file = pdfExporter.generatePdfFile(setupQuery());
+				if (file != null) {
+					try {
+						IResource resource = new ByteArrayResource(
+								"application/pdf",
+								FileUtils.readFileToByteArray(file),
+								"members.pdf");
+						IRequestHandler handler = new ResourceRequestHandler(
+								resource, null);
+						getRequestCycle().scheduleRequestHandlerAfterCurrent(
+								handler);
+					} catch (IOException ioe) {
+
+					}
+				}
+
+			}
+
+		};
+
+		pdfDownload.setIconType(IconType.file)
+				.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
+
+		add(pdfDownload);
 	}
 
 	private void addCsvDownload() {
