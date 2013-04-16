@@ -167,11 +167,15 @@ public class UserDetailForm extends BootstrapForm<User> {
 				if (_password != null && !_password.trim().equals("")) {
 					user.setPassword(_password);
 				}
-				if (!userService.canCreateUser(_username)) {
-					throw new UsernameAlreadyTakenException();
+				if(_username != null && !_username.trim().equals(user.getUsername())){
+					//Only check if username is already taken if the username is changed...
+					if (!userService.canCreateUser(_username)) {
+						throw new UsernameAlreadyTakenException();
+					}
+				}else if(_username != null && !_username.trim().equals("")){
+					user.setUsername(_username);
 				}
-				user.setUsername(_username);
-
+				
 				userService.persist(user);
 			}
 
