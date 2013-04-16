@@ -8,6 +8,7 @@ import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
@@ -39,7 +40,7 @@ public class UserDetailForm extends BootstrapForm<User> {
 
 	private RequiredTextField<String> username;
 
-	private RequiredTextField<String> password;
+	private PasswordTextField password;
 
 	private TextField<String> firstname, lastname;
 
@@ -83,9 +84,10 @@ public class UserDetailForm extends BootstrapForm<User> {
 
 		add(cancel);
 
+		setupInputs();
+
 		initFormValues(model);
 
-		setupInputs();
 	}
 
 	private void initFormValues(AbstractEntityModel<User> model) {
@@ -98,7 +100,8 @@ public class UserDetailForm extends BootstrapForm<User> {
 			_firstname = model.getObject().getFirstname();
 			_lastname = model.getObject().getLastname();
 			_username = model.getObject().getUsername();
-			_password = model.getObject().getPassword();
+			// _password = model.getObject().getPassword();
+			password.setRequired(false);
 		}
 	}
 
@@ -113,7 +116,7 @@ public class UserDetailForm extends BootstrapForm<User> {
 
 		username = new RequiredTextField<>("user.username",
 				new PropertyModel<String>(this, "_username"));
-		password = new RequiredTextField<String>("user.password",
+		password = new PasswordTextField("user.password",
 				new PropertyModel<String>(this, "_password"));
 
 		passwordWrapper.add(password);
@@ -161,7 +164,9 @@ public class UserDetailForm extends BootstrapForm<User> {
 				user = getModelObject();
 				user.setFirstname(_firstname);
 				user.setLastname(_lastname);
-				user.setPassword(_password);
+				if (_password != null && !_password.trim().equals("")) {
+					user.setPassword(_password);
+				}
 				if (!userService.canCreateUser(_username)) {
 					throw new UsernameAlreadyTakenException();
 				}
