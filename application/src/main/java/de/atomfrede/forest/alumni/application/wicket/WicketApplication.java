@@ -1,6 +1,7 @@
 package de.atomfrede.forest.alumni.application.wicket;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
@@ -50,7 +51,7 @@ public class WicketApplication extends WebApplication implements
 		getResourceSettings().setThrowExceptionOnMissingResource(false);
 
 		// enable ajax debug etc.
-		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
+		getDebugSettings().setDevelopmentUtilitiesEnabled(false);
 
 		new AnnotatedMountScanner().scanPackage(
 				"de.atomfrede.forest.alumni.application.*").mount(this);
@@ -95,6 +96,11 @@ public class WicketApplication extends WebApplication implements
 		UserSession<UserAuthModel> session = new UserSession<UserAuthModel>(
 				request);
 		return session;
+	}
+
+	@Override
+	public RuntimeConfigurationType getConfigurationType() {
+		return RuntimeConfigurationType.DEPLOYMENT;
 	}
 
 }
