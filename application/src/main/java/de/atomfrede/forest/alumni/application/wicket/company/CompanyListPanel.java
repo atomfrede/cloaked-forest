@@ -4,10 +4,12 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -92,9 +94,30 @@ public class CompanyListPanel extends Panel{
 				List<Department> departments = departmentDao.findAllByProperty("company", company);
 				
 				if(departments != null){
-					item.add(new Label("company-departments", Model.of(departments.size()+"")));
+					Link<Void> link = new Link<Void>("company-departments") {
+
+						@Override
+						public void onClick() {
+							// TODO Auto-generated method stub
+							
+						}
+					};
+					
+					link.add(new Label("label", Model.of(departments.size()+"")));
+					item.add(link);
 				}else{
-					item.add(new Label("company-departments", Model.of(0+"")));
+					Link<Void> link = new Link<Void>("company-departments") {
+
+						@Override
+						public void onClick() {
+							// TODO Auto-generated method stub
+							
+						}
+					};
+					
+					link.add(new Label("label", Model.of(0+"")));
+					link.setEnabled(false);
+					item.add(link);
 				}
 				
 
