@@ -23,6 +23,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
@@ -128,7 +129,7 @@ public class CompanyListPanel extends Panel{
 
 					@Override
 					public void onClick() {
-						editDegree(companyId);
+						editCompany(companyId);
 
 					}
 				};
@@ -140,7 +141,7 @@ public class CompanyListPanel extends Panel{
 
 					@Override
 					public void onClick() {
-//						deleteDegree(degreeId, shortForm, title);
+						deleteCompany(companyId, title);
 
 					}
 
@@ -160,11 +161,12 @@ public class CompanyListPanel extends Panel{
 		add(wmc);
 	}
 	
-	private void editDegree(long id) {
+	private void editCompany(long id) {
+		//TODO correct params
 		PageParameters params = new PageParameters();
 		params.add(DegreeDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(DegreeDetailPage.DEGREE_ID, id);
-		setResponsePage(DegreeDetailPage.class, params);
+		setResponsePage(CompanyDetailPage.class, params);
 	}
 
 	private void deleteCompany(final long id, String title) {

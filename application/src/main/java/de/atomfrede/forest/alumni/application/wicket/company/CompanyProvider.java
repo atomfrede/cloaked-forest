@@ -11,6 +11,7 @@ import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 
+@SuppressWarnings("serial")
 public class CompanyProvider implements IDataProvider<Company>{
 
 	@SpringBean

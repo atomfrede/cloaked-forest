@@ -8,4 +8,8 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 @MountPath(value = "/sectors")
 public class SectorPage extends BasePage<Void>{
 
+	public SectorPage(){
+		super();
+		add(new SectorListPanel("sectors"));
+	}
 }
