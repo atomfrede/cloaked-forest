@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 
 @Service(value = "sectorService")
