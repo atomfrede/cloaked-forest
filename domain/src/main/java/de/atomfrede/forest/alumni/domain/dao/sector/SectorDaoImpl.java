@@ -11,4 +11,5 @@ public class SectorDaoImpl extends AbstractDAO<Sector> implements SectorDao {
 	public SectorDaoImpl() {
 		super(Sector.class);
 	}
+
 }

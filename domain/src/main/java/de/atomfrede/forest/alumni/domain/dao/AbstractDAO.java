@@ -8,11 +8,13 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
 
 @Repository
 public abstract class AbstractDAO<EntityClass extends AbstractEntity>
@@ -36,6 +38,25 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		}
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<EntityClass> list(long offset, long count, String orderProperty,
+			boolean desc) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Criteria crit = session.createCriteria(getClazz());
+		if (desc) {
+			crit.addOrder(Order.desc(orderProperty));
+		} else {
+			crit.addOrder(Order.asc(orderProperty));
+		}
+		crit.setFirstResult((int) offset);
+		crit.setMaxResults((int) count);
+
+		return crit.list();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<EntityClass> list(long offset, long count) {
