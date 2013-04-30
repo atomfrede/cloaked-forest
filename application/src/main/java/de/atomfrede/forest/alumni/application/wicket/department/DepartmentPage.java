@@ -8,4 +8,8 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 @MountPath(value = "/departments")
 public class DepartmentPage extends BasePage<Void> {
 
+	public DepartmentPage(){
+		super();
+		add(new DepartmentListPanel("departments"));
+	}
 }
