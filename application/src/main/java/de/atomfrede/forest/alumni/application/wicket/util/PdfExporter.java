@@ -77,7 +77,9 @@ public class PdfExporter {
 
 		headerAndStyles.append(".member-entry { page-break-inside: avoid;}");
 
-		headerAndStyles.append(".degree {padding-left: 10px;}");
+		headerAndStyles.append(".degree {float: right; text-align: right; font-weight: normal; background-color: #DDDDDD;}");
+		
+		headerAndStyles.append(".name {background-color: #DDDDDD;}");
 
 		headerAndStyles.append(".addresses {padding: 10px;}");
 
@@ -97,12 +99,18 @@ public class PdfExporter {
 
 		sb.append("<div class=\"member-header\">");
 
-		sb.append("<div class=\"name \">");
-		sb.append(member.getLastname() + ", " + member.getFirstname() + " ");
-		sb.append("</div>");
+		sb.append("<span class=\"name \">");
+		if (StringCheckUtil.isStringSet(member.getTitle())) {
+			sb.append(member.getLastname() + ", " + member.getTitle() + " "
+					+ member.getFirstname() + " ");
+		} else {
+			sb.append(member.getLastname() + ", " + member.getFirstname() + " ");
+		}
 
-		sb.append("<div class=\"degree \">");
-		if (member.getDegree() != null) {
+		sb.append("</span>");
+
+		sb.append("<span class=\"degree \">");
+		if (member.getDegree() != null && !StringCheckUtil.isStringSet(member.getTitle())) {
 			sb.append(member.getDegree().getShortForm() + " ");
 		}
 		if (member.getProfession() != null
@@ -111,10 +119,10 @@ public class PdfExporter {
 		}
 		if (member.getYearOfGraduation() != null
 				&& StringCheckUtil.isStringSet(member.getYearOfGraduation())) {
-			sb.append("(" + member.getYearOfGraduation() + ")");
+			sb.append(member.getYearOfGraduation());
 		}
 
-		sb.append("</div>");
+		sb.append("</span>");
 		sb.append("</div>");
 
 		sb.append(getSectorAndActivity(member));
@@ -407,7 +415,8 @@ public class PdfExporter {
 			}
 
 			content.append("</body></html>");
-
+			
+			System.out.println(content.toString());
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.getSharedContext().setReplacedElementFactory(
 					new MediaReplacedElementFactory(renderer.getSharedContext()

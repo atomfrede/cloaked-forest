@@ -105,7 +105,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	protected Navbar newNavbar(String markupId) {
 		Navbar navbar = new Navbar(markupId);
 
-		navbar.setPosition(Navbar.Position.TOP);
+		navbar.setPosition(Navbar.Position.STATIC_TOP);
 
 		// show brand name
 		navbar.brandName(Model.of(_("global.page.title").getString()));
