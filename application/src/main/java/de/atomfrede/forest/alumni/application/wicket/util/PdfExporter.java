@@ -66,9 +66,9 @@ public class PdfExporter {
 
 		headerAndStyles.append(".address{width: 100%;  overflow: auto;}");
 		headerAndStyles
-				.append(".address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
+				.append(".address-header{ width: 100%; padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
 		headerAndStyles
-				.append(".work-address-header{ width: 100%; padding: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
+				.append(".work-address-header{ width: 100%; padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
 		headerAndStyles
 				.append("body { font-family: 'Ubuntu',Tahoma,sans-serif; height: 100%;}");
 		headerAndStyles.append(".address-left {   float: left; width: 50%;}");
@@ -77,8 +77,9 @@ public class PdfExporter {
 
 		headerAndStyles.append(".member-entry { page-break-inside: avoid;}");
 
-		headerAndStyles.append(".degree {float: right; text-align: right; font-weight: normal; background-color: #DDDDDD;}");
-		
+		headerAndStyles
+				.append(".degree {float: right; text-align: right; font-weight: normal; background-color: #DDDDDD;}");
+
 		headerAndStyles.append(".name {background-color: #DDDDDD;}");
 
 		headerAndStyles.append(".addresses {padding: 10px;}");
@@ -110,7 +111,8 @@ public class PdfExporter {
 		sb.append("</span>");
 
 		sb.append("<span class=\"degree \">");
-		if (member.getDegree() != null && !StringCheckUtil.isStringSet(member.getTitle())) {
+		if (member.getDegree() != null
+				&& !StringCheckUtil.isStringSet(member.getTitle())) {
 			sb.append(member.getDegree().getShortForm() + " ");
 		}
 		if (member.getProfession() != null
@@ -154,10 +156,12 @@ public class PdfExporter {
 		if (member.getDepartment() != null) {
 			dep = member.getDepartment();
 			if (member.getCompany() != null) {
-				leftBuilder.append(member.getCompany().getCompany());
+				leftBuilder.append("<b>" + member.getCompany().getCompany()
+						+ "</b>");
 				leftBuilder.append("<br/>");
 			} else if (dep.getCompany() != null) {
-				leftBuilder.append(dep.getCompany().getCompany());
+				leftBuilder.append("<b>" + dep.getCompany().getCompany()
+						+ "</b>");
 				leftBuilder.append("<br/>");
 			}
 			leftBuilder.append(dep.getDepartment() + "<br/>");
@@ -415,8 +419,8 @@ public class PdfExporter {
 			}
 
 			content.append("</body></html>");
-			
-			System.out.println(content.toString());
+
+			// System.out.println(content.toString());
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.getSharedContext().setReplacedElementFactory(
 					new MediaReplacedElementFactory(renderer.getSharedContext()
