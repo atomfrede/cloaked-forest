@@ -167,7 +167,7 @@ public class PdfExporter {
 		StringBuilder rightBuilder = new StringBuilder();
 
 		Department dep = null;
-
+		
 		if (member.getDepartment() != null) {
 			dep = member.getDepartment();
 			if (member.getCompany() != null) {
@@ -182,7 +182,9 @@ public class PdfExporter {
 			leftBuilder.append(dep.getDepartment() + "<br/>");
 			leftBuilder.append(dep.getStreet() + " " + dep.getNumber()
 					+ "<br/>");
-			leftBuilder.append(dep.getAddon() + "<br/>");
+			if (StringCheckUtil.isStringSet(dep.getAddon())) {
+				leftBuilder.append(dep.getAddon() + "<br/>");
+			}
 			leftBuilder.append(dep.getPostCode() + " " + dep.getTown()
 					+ "<br/>");
 			leftBuilder.append(dep.getCountry());
@@ -280,6 +282,9 @@ public class PdfExporter {
 					&& StringCheckUtil.isStringSet(member.getDegree()
 							.getShortForm())) {
 				sb.append(member.getDegree().getShortForm() + " ");
+				sb.append(member.getFirstname() + " " + member.getLastname()
+						+ " ");
+			} else {
 				sb.append(member.getFirstname() + " " + member.getLastname()
 						+ " ");
 			}

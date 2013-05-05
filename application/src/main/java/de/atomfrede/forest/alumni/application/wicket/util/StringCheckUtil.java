@@ -17,6 +17,6 @@ public class StringCheckUtil {
 	 * @return true iff the given string is not null and the content is not equal to NULL
 	 */
 	public static boolean isStringSet(String toCheck) {
-		return toCheck != null && !toCheck.trim().equals("NULL");
+		return toCheck != null && !toCheck.trim().equalsIgnoreCase("NULL");
 	}
 }
