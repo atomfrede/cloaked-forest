@@ -73,7 +73,8 @@ public class PdfExporter {
 				.append("body { font-family: 'Ubuntu',Tahoma,sans-serif; height: 100%;}");
 		headerAndStyles.append(".address-left {   float: left; width: 50%;}");
 
-		headerAndStyles.append(".address-right { margin: 0 0 0 50%;}");
+		// headerAndStyles.append(".address-right { margin: 0 0 0 50%;}");
+		headerAndStyles.append(".address-right { float:right; width: 48%;}");
 
 		headerAndStyles.append(".member-entry { page-break-inside: avoid;}");
 
@@ -83,6 +84,20 @@ public class PdfExporter {
 		headerAndStyles.append(".name {background-color: #DDDDDD;}");
 
 		headerAndStyles.append(".addresses {padding: 10px;}");
+		headerAndStyles
+				.append(".addresses-inner {width: 100%; height: 150px;}");
+
+		/*
+		 * table td{ border:1px solid #000000; word-wrap:break-word;
+		 * white-space:normal; overflow:hidden; text-align:left;
+		 * line-height:16px; height:16px;
+		 * 
+		 * }
+		 */
+		headerAndStyles.append("table {table-layout: fixed;}");
+		headerAndStyles
+				.append("table td {word-wrap: break-word; text-align: left;}");
+		headerAndStyles.append(".table-left {width: 25%;}");
 
 		headerAndStyles.append("</style>");
 		headerAndStyles.append("</head>");
@@ -177,10 +192,10 @@ public class PdfExporter {
 		{
 			ContactData cData = member.getContactData();
 
-			rightBuilder.append("<table>");
+			rightBuilder.append("<table style=\"width:100%;\">");
 
 			rightBuilder.append("<tr>");
-			rightBuilder.append("<td>Tel: </td>");
+			rightBuilder.append("<td class=\"table-left\">Tel: </td>");
 			rightBuilder.append("<td>");
 			if (cData.getPhoneD() != null
 					&& StringCheckUtil.isStringSet(cData.getPhoneD())) {
@@ -190,7 +205,7 @@ public class PdfExporter {
 			rightBuilder.append("</tr>");
 
 			rightBuilder.append("<tr>");
-			rightBuilder.append("<td>Fax: </td>");
+			rightBuilder.append("<td class=\"table-left\">Fax: </td>");
 			rightBuilder.append("<td>");
 			if (cData.getFaxD() != null
 					&& StringCheckUtil.isStringSet(cData.getFaxD())) {
@@ -200,7 +215,7 @@ public class PdfExporter {
 			rightBuilder.append("</tr>");
 
 			rightBuilder.append("<tr>");
-			rightBuilder.append("<td>Mobil: </td>");
+			rightBuilder.append("<td class=\"table-left\">Mobil: </td>");
 			rightBuilder.append("<td>");
 			if (cData.getMobileD() != null
 					&& StringCheckUtil.isStringSet(cData.getMobileD())) {
@@ -210,7 +225,7 @@ public class PdfExporter {
 			rightBuilder.append("</tr>");
 
 			rightBuilder.append("<tr>");
-			rightBuilder.append("<td>eMail: </td>");
+			rightBuilder.append("<td class=\"table-left\">eMail: </td>");
 			rightBuilder.append("<td>");
 			if (cData.getEmailD() != null
 					&& StringCheckUtil.isStringSet(cData.getEmailD())) {
@@ -220,7 +235,7 @@ public class PdfExporter {
 			rightBuilder.append("</tr>");
 
 			rightBuilder.append("<tr>");
-			rightBuilder.append("<td>Internet: </td>");
+			rightBuilder.append("<td class=\"table-left\">Internet: </td>");
 			rightBuilder.append("<td>");
 			if (cData.getInternetD() != null
 					&& StringCheckUtil.isStringSet(cData.getInternetD())) {
@@ -232,12 +247,14 @@ public class PdfExporter {
 			rightBuilder.append("</table>");
 		}
 
+		sb.append("<div class=\"addresses-inner\">");
 		sb.append("<div class=\"address-left\">");
 		sb.append(leftBuilder.toString());
 		sb.append("</div>");
 
 		sb.append("<div class=\"address-right\">");
 		sb.append(rightBuilder.toString());
+		sb.append("</div>");
 		sb.append("</div>");
 
 		return sb.toString();
@@ -246,6 +263,7 @@ public class PdfExporter {
 	private String getPrivateAddress(Member member) {
 		StringBuilder sb = new StringBuilder();
 
+		sb.append("<div class=\"addresses-inner\">");
 		sb.append("<div class=\"address-left\">");
 
 		if (member.getContactData() != null) {
@@ -299,10 +317,10 @@ public class PdfExporter {
 
 			sb.append("<div class=\"address-right\">");
 
-			sb.append("<table>");
+			sb.append("<table style=\"width: 100%;\">");
 
 			sb.append("<tr>");
-			sb.append("<td>Tel: </td>");
+			sb.append("<td class=\"table-left \">Tel: </td>");
 			sb.append("<td>");
 			if (cData.getPhone() != null
 					&& StringCheckUtil.isStringSet(cData.getPhone())) {
@@ -312,7 +330,7 @@ public class PdfExporter {
 			sb.append("</tr>");
 
 			sb.append("<tr>");
-			sb.append("<td>Fax: </td>");
+			sb.append("<td class=\"table-left \">Fax: </td>");
 			sb.append("<td>");
 			if (cData.getFax() != null
 					&& StringCheckUtil.isStringSet(cData.getFax())) {
@@ -322,7 +340,7 @@ public class PdfExporter {
 			sb.append("</tr>");
 
 			sb.append("<tr>");
-			sb.append("<td>Mobil: </td>");
+			sb.append("<td class=\"table-left \">Mobil: </td>");
 			sb.append("<td>");
 			if (cData.getMobile() != null
 					&& StringCheckUtil.isStringSet(cData.getMobile())) {
@@ -332,7 +350,7 @@ public class PdfExporter {
 			sb.append("</tr>");
 
 			sb.append("<tr>");
-			sb.append("<td>eMail: </td>");
+			sb.append("<td class=\"table-left\">eMail: </td>");
 			sb.append("<td>");
 			if (cData.getEmail() != null
 					&& StringCheckUtil.isStringSet(cData.getEmail())) {
@@ -342,7 +360,7 @@ public class PdfExporter {
 			sb.append("</tr>");
 
 			sb.append("<tr>");
-			sb.append("<td>Internet: </td>");
+			sb.append("<td class=\"table-left\">Internet: </td>");
 			sb.append("<td>");
 			if (cData.getInternet() != null
 					&& StringCheckUtil.isStringSet(cData.getInternet())) {
@@ -353,6 +371,7 @@ public class PdfExporter {
 
 			sb.append("</table>");
 		}
+		sb.append("</div>");
 		sb.append("</div>");
 		return sb.toString();
 	}
@@ -420,7 +439,6 @@ public class PdfExporter {
 
 			content.append("</body></html>");
 
-			// System.out.println(content.toString());
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.getSharedContext().setReplacedElementFactory(
 					new MediaReplacedElementFactory(renderer.getSharedContext()
