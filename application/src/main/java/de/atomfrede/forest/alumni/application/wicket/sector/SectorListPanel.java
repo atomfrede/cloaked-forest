@@ -80,21 +80,8 @@ public class SectorListPanel extends Panel{
 				editUser.setIconType(IconType.pencil)
 						.setSize(Buttons.Size.Mini).setInverted(false);
 
-				BootstrapLink<Void> deleteUser = new BootstrapLink<Void>(
-						"action-delete", Buttons.Type.Danger) {
-
-					@Override
-					public void onClick() {
-						//deleteCompany(companyId, title);
-
-					}
-
-				};
-				deleteUser.setIconType(IconType.remove).setSize(
-						Buttons.Size.Mini);
 
 				item.add(editUser);
-				item.add(deleteUser);
 			}
 
 		};
