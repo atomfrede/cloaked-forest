@@ -2,6 +2,8 @@ package de.atomfrede.forest.alumni.service.sector;
 
 import java.util.List;
 
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
+
 public interface SectorService {
 
 	/**
@@ -9,4 +11,8 @@ public interface SectorService {
 	 * @return
 	 */
 	List<String> getTypeAheadSectors();
+	
+	Sector createSector(String sector);
+	
+	boolean alreadyExisting(String sector);
 }
