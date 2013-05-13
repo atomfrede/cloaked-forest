@@ -9,6 +9,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
@@ -16,6 +17,11 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
+import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.member.MemberListActionPanel;
+import de.atomfrede.forest.alumni.application.wicket.sector.detail.SectorDetailPage;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
 
@@ -25,6 +31,8 @@ public class SectorListPanel extends Panel{
 	@SpringBean
 	private SectorService sectorService;
 	
+	private SectorListActionPanel actionPanel;
+	
 	private SectorProvider sectorProvider;
 	private DataView<Sector> sectors;
 
@@ -33,6 +41,9 @@ public class SectorListPanel extends Panel{
 	
 	public SectorListPanel(String id) {
 		super(id);
+		
+		actionPanel = new SectorListActionPanel("sector-action");
+		add(actionPanel);
 		
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
@@ -66,14 +77,13 @@ public class SectorListPanel extends Panel{
 						new PropertyModel<String>(sector, "sector")));
 
 				final long sectorId = sector.getId();
-				final String title = sector.getSector();
 
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
 						"action-edit", Buttons.Type.Default) {
 
 					@Override
 					public void onClick() {
-						//editCompany(companyId);
+						editSector(sectorId);
 
 					}
 				};
@@ -90,5 +100,12 @@ public class SectorListPanel extends Panel{
 		wmc.add(sectors);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", sectors));
 		add(wmc);
+	}
+	
+	private void editSector(Long sectorId){
+		PageParameters params = new PageParameters();
+		params.add(SectorDetailPage.EDIT_TYPE, Type.Edit);
+		params.add(SectorDetailPage.SECTOR_ID, sectorId);
+		setResponsePage(SectorDetailPage.class, params);
 	}
 }

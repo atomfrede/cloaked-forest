@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/">
+<wicket:panel>
+	<div class="row-fluid">
+		<div class="span12">
+			<form wicket:id="sector-form">
+			<div class="row-fluid">
+				<div wicket:id="feedbackPanel"></div>
+			</div>
+			<div class="span5">
+				<fieldset>
+					<div wicket:id="sector.wrapper" class="control-group">
+						<label><wicket:message key="sector" /></label> 
+						<input class="input-xlarge" wicket:id="sector" type="text" wicket:message="placeholder:sector.placeholder"> 
+					</div>
+				</fieldset>
+			</div>
+			<div class="form-actions">
+					<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
+					<a href="#" wicket:id="btn-cancel" class="btn" type="button"></a>
+			</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>
+</html>
