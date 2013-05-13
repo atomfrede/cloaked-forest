@@ -9,7 +9,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
-import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.user.detail.UserDetailPage;
 
 @SuppressWarnings("serial")

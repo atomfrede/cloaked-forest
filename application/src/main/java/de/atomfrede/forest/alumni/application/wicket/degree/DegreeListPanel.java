@@ -20,8 +20,8 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
-import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage.Type;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.service.degree.DegreeService;
 

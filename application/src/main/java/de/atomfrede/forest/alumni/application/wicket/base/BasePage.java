@@ -45,6 +45,10 @@ import de.atomfrede.forest.alumni.domain.entity.user.User;
 @SuppressWarnings("serial")
 public abstract class BasePage<T> extends GenericWebPage<T> {
 
+	public enum Type {
+		Edit, Create, Show
+	}
+	
 	protected User currentUser;
 	protected Label pageTitel;
 
