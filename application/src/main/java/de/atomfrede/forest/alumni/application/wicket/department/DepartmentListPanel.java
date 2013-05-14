@@ -17,6 +17,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.sector.SectorProvider;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
@@ -64,9 +65,12 @@ public class DepartmentListPanel extends Panel{
 			@Override
 			protected void populateItem(Item<Department> item) {
 				final Department department = item.getModel().getObject();
-
+				final Company departmentCompany = department.getCompany();
+				
 				item.add(new Label("department-name",
 						new PropertyModel<String>(department, "department")));
+				
+				item.add(new Label("department-company", new PropertyModel<String>(departmentCompany, "company")));
 
 				final long departmentId = department.getId();
 				final String title = department.getDepartment();
