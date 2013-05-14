@@ -4,8 +4,6 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.util.List;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -18,15 +16,12 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
-import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
-import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
@@ -136,21 +131,7 @@ public class CompanyListPanel extends Panel{
 				editUser.setIconType(IconType.pencil)
 						.setSize(Buttons.Size.Mini).setInverted(false);
 
-				BootstrapLink<Void> deleteUser = new BootstrapLink<Void>(
-						"action-delete", Buttons.Type.Danger) {
-
-					@Override
-					public void onClick() {
-						deleteCompany(companyId, title);
-
-					}
-
-				};
-				deleteUser.setIconType(IconType.remove).setSize(
-						Buttons.Size.Mini);
-
 				item.add(editUser);
-				item.add(deleteUser);
 			}
 
 		};
@@ -162,51 +143,9 @@ public class CompanyListPanel extends Panel{
 	}
 	
 	private void editCompany(long id) {
-		//TODO correct params
 		PageParameters params = new PageParameters();
-		params.add(DegreeDetailPage.EDIT_TYPE, Type.Edit);
-		params.add(DegreeDetailPage.DEGREE_ID, id);
+		params.add(CompanyDetailPage.EDIT_TYPE, Type.Edit);
+		params.add(CompanyDetailPage.COMPANY_ID, id);
 		setResponsePage(CompanyDetailPage.class, params);
-	}
-
-	private void deleteCompany(final long id, String title) {
-
-		final TextContentModal modal = new TextContentModal("modal-prompt",
-				Model.of(_("modal.company.text", title).getString()));
-		modal.setOutputMarkupId(true);
-
-		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		modal.header(Model.of(_("modal.company.header", title)
-				.getString()));
-
-		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_(
-				"modal.delete", "").getString())) {
-
-			@Override
-			protected void onConfigure() {
-				super.onConfigure();
-
-				setBody(getDefaultModel());
-				add(new ButtonBehavior(Buttons.Type.Danger));
-				// add(new IconBehavior(IconType.remove));
-			}
-
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				doDeleteCompany(id);
-				target.appendJavaScript("$('.modal').modal('close');");
-				setResponsePage(DegreePage.class);
-
-			}
-		};
-
-		modal.addButton(doDelete);
-		this.modalWarning.replaceWith(modal);
-		this.modalWarning = modal;
-		modalWarning.show(true);
-	}
-
-	private void doDeleteCompany(long id) {
-//		degreeService.deleteDegree(id);
 	}
 }
