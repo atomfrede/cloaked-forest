@@ -50,8 +50,8 @@ public class CompanyListPanel extends Panel{
 	public CompanyListPanel(String id) {
 		super(id);
 
-//		add(new DegreeListActionPanel("degree-action"));
-
+		add(new CompanyListActionPanel("company-action"));
+		
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
