@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/">
+<wicket:panel>
+	<div class="row-fluid">
+		<div class="span12">
+			<form wicket:id="company-form">
+			<div class="row-fluid">
+				<div wicket:id="feedbackPanel"></div>
+			</div>
+			<div class="span12">
+				<fieldset>
+					<div wicket:id="company.wrapper" class="control-group">
+						<label><wicket:message key="member.headers.company.name" /></label> 
+						<input class="input-xlarge" wicket:id="company" type="text" wicket:message="placeholder:company.placeholder"> 
+					</div>
+					<label><wicket:message key="member.headers.company.size" /></label> 
+					<input class="input-xlarge" wicket:id="size" type="text" wicket:message="placeholder:company.size.placeholder"> 
+					<label><wicket:message key="member.headers.sector.sector" /></label> 
+					<input autocomplete="off" class="input-xlarge" wicket:id="sector" type="text" wicket:message="placeholder:company.sector.placeholder"> 
+				</fieldset>
+			</div>
+			<div class="form-actions">
+					<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
+					<a href="#" wicket:id="btn-cancel" class="btn" type="button"></a>
+			</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>
+</html>

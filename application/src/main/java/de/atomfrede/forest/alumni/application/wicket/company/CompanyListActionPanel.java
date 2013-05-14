@@ -43,6 +43,6 @@ public class CompanyListActionPanel extends Panel{
 		PageParameters params = new PageParameters();
 		params.add(CompanyDetailPage.EDIT_TYPE, Type.Create);
 		params.add(CompanyDetailPage.COMPANY_ID, "-1");
-		setResponsePage(SectorDetailPage.class, params);
+		setResponsePage(CompanyDetailPage.class, params);
 	}
 }

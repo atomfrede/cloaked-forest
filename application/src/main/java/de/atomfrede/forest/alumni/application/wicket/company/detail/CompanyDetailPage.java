@@ -12,7 +12,7 @@ public class CompanyDetailPage extends BasePage<Void> {
 	public static final String FROM_PAGE = "fromPage";
 	
 	private Type mEditType;
-	private Long mSectorId;
+	private Long mConpanyId;
 	
 	public CompanyDetailPage(PageParameters params){
 		super();
@@ -20,9 +20,9 @@ public class CompanyDetailPage extends BasePage<Void> {
 			mEditType = Type.valueOf(params.get(EDIT_TYPE).toString());
 		}
 		if(params.get(COMPANY_ID) != null){
-			mSectorId = Long.parseLong(params.get(COMPANY_ID).toString());
+			mConpanyId = Long.parseLong(params.get(COMPANY_ID).toString());
 		}
 		
-//		add(new SectorDetailPanel("details", mEditType, mSectorId));
+		add(new CompanyDetailPanel("details", mEditType, mConpanyId));
 	}
 }
