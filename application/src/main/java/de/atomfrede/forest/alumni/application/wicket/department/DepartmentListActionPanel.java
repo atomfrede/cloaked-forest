@@ -1,4 +1,4 @@
-package de.atomfrede.forest.alumni.application.wicket.company;
+package de.atomfrede.forest.alumni.application.wicket.department;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
@@ -12,32 +12,31 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
 
-@SuppressWarnings("serial")
-public class CompanyListActionPanel extends Panel{
+public class DepartmentListActionPanel extends Panel{
 
-	private BootstrapLink<Void> newCompany;
+private BootstrapLink<Void> newDepartment;
 	
-	public CompanyListActionPanel(String id) {
+	public DepartmentListActionPanel(String id) {
 		super(id);
-		addNewCompany();;
+		addNewDepartment();;
 	}
 	
-	private void addNewCompany() {
-		newCompany = new BootstrapLink<Void>("btn-new-company",
+	private void addNewDepartment() {
+		newDepartment = new BootstrapLink<Void>("btn-new-department",
 				Buttons.Type.Primary) {
 
 			@Override
 			public void onClick() {
-				onNewCompany();
+				onNewDepartment();
 			}
 		};
 
-		newCompany.setIconType(IconType.plussign).setLabel(
-				Model.of(_("company.action.new")));
-		add(newCompany);
+		newDepartment.setIconType(IconType.plussign).setLabel(
+				Model.of(_("department.action.new")));
+		add(newDepartment);
 	}
 	
-	private void onNewCompany(){
+	private void onNewDepartment(){
 		PageParameters params = new PageParameters();
 		params.add(CompanyDetailPage.EDIT_TYPE, Type.Create);
 		params.add(CompanyDetailPage.COMPANY_ID, "-1");

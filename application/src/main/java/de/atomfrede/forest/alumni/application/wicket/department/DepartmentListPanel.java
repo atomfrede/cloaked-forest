@@ -17,6 +17,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.company.CompanyListActionPanel;
 import de.atomfrede.forest.alumni.application.wicket.sector.SectorProvider;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
@@ -45,6 +46,8 @@ public class DepartmentListPanel extends Panel {
 	
 	public DepartmentListPanel(String id, Long companyId) {
 		super(id);
+		
+		add(new DepartmentListActionPanel("department-action"));
 		
 		this.mCompanyId = companyId;
 		
