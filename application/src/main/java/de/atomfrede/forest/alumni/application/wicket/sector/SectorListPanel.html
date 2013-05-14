@@ -9,6 +9,7 @@
 			<thead>
 				<tr>
 					<th><wicket:message key="member.headers.sector.sector" /></th>
+					<th><wicket:message key="companies"/></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -17,10 +18,13 @@
 					<tr>
 						<td><span wicket:id="sector-name"></span></td>
 						<td>
+							<a href="#" wicket:id="sector-companies">
+								<span wicket:id="label"></span>
+							</a>
+						</td>
+						<td>
 							<div class="btn-group">
-<!-- 								<a wicket:id="action-info" class="btn btn-mini" href="#"></a> -->
 								<a wicket:id="action-edit" class="btn btn-mini" href="#"></a>
-<!-- 								<a wicket:id="action-delete" class="btn btn-mini btn-danger" href=""></a> -->
 							</div>
 						</td>
 					</tr>
