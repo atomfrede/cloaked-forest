@@ -11,7 +11,6 @@ public class SectorDetailPage extends BasePage<Void> {
 	public static final String SECTOR_ID = "sectorID";
 	public static final String FROM_PAGE = "fromPage";
 	
-	
 	private Type mEditType;
 	private Long mSectorId;
 	
@@ -25,6 +24,5 @@ public class SectorDetailPage extends BasePage<Void> {
 		}
 		
 		add(new SectorDetailPanel("details", mEditType, mSectorId));
-		
 	}
 }
