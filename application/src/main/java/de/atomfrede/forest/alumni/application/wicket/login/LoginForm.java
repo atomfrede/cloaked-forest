@@ -104,8 +104,7 @@ public class LoginForm extends AbstractBaseForm<User> {
 		}
 		getSession().setUser(new UserAuthModel(User.class, user.getId()));
 
-		// LogoutPage.reset();
-
+		continueToOriginalDestination();
 		setResponsePage(getApp().getHomePage());
 		return;
 
