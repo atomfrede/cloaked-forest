@@ -115,9 +115,9 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 		}
 	}
 
-	private void onSectorAlreadyExisting() {
+	private void onSectorAlreadyExisting(String sectorName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
-				"error.sector.existing").getString()));
+				"error.sector.existing", sectorName).getString()));
 		nf.hideAfter(Duration.seconds(10));
 		error(nf);
 	}
@@ -128,14 +128,14 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 		try {
 			if (mEditType == Type.Create) {
 				if (sectorService.alreadyExisting(_sector)) {
-					throw new Exception();
+					throw new SectorAlreadyExistingException(_sector);
 				}
 				mEditType = Type.Edit;
 				sector = sectorService.createSector(_sector);
 				setModel(new AbstractEntityModel<Sector>(sector));
 			} else {
 				if (sectorService.alreadyExisting(_sector)) {
-					throw new Exception();
+					throw new SectorAlreadyExistingException(_sector);
 				}
 				getModelObject().setSector(_sector);
 				sectorDao.persist(getModelObject());
@@ -146,8 +146,15 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 					"success.saved").getString()));
 			nf.hideAfter(Duration.seconds(3));
 			success(nf);
-		} catch (Exception e) {
-			onSectorAlreadyExisting();
+		} catch (SectorAlreadyExistingException e) {
+			onSectorAlreadyExisting(_sector);
+		}
+	}
+	
+	private class SectorAlreadyExistingException extends Exception {
+		
+		public SectorAlreadyExistingException(String sector){
+			super("Sector with name "+sector+" already exists.");
 		}
 	}
 }
