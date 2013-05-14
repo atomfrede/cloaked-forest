@@ -9,4 +9,6 @@ public interface CompanyService {
 	List<String> getTypeAheadCompanies();
 	
 	Company createCompany(String company);
+	
+	boolean alreadyExisting(String company);
 }

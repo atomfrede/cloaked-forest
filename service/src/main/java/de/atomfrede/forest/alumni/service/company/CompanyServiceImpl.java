@@ -36,7 +36,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<String> getTypeAheadCompanies() {
 		List<String> results = new ArrayList<>();
 		Criteria crit = getSession().createCriteria(Company.class);
@@ -51,6 +51,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
+	@Transactional
 	public Company createCompany(String company) {
 		Company cp = new Company();
 		cp.setId(System.currentTimeMillis());
@@ -58,6 +59,12 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		companyDao.persist(cp);
 		return cp;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean alreadyExisting(String company) {
+		return companyDao.findByProperty("company", company) != null;
 	}
 
 }
