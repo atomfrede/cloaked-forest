@@ -22,6 +22,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
@@ -93,8 +94,7 @@ public class CompanyListPanel extends Panel{
 
 						@Override
 						public void onClick() {
-							// TODO Auto-generated method stub
-							
+							showDepartments(company.getId());
 						}
 					};
 					
@@ -106,7 +106,6 @@ public class CompanyListPanel extends Panel{
 						@Override
 						public void onClick() {
 							// TODO Auto-generated method stub
-							
 						}
 					};
 					
@@ -147,5 +146,11 @@ public class CompanyListPanel extends Panel{
 		params.add(CompanyDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(CompanyDetailPage.COMPANY_ID, id);
 		setResponsePage(CompanyDetailPage.class, params);
+	}
+	
+	private void showDepartments(long id){
+		PageParameters params = new PageParameters();
+		params.add(DepartmentPage.COMPANY_ID, id);
+		setResponsePage(DepartmentPage.class, params);
 	}
 }

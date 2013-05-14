@@ -17,26 +17,28 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
-import de.atomfrede.forest.alumni.application.wicket.company.CompanyListActionPanel;
-import de.atomfrede.forest.alumni.application.wicket.sector.SectorProvider;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
+import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
-import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
-import de.atomfrede.forest.alumni.service.sector.SectorService;
 
 @SuppressWarnings("serial")
 public class DepartmentListPanel extends Panel {
 
 	@SpringBean
 	private DepartmentService departmentService;
+	
+	@SpringBean
+	private CompanyDao companyDao;
 
 	private DepartmentProvider departmentProvider;
 	private DataView<Department> departments;
 
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
+	
+	private Label companyInfo;
 	
 	private Long mCompanyId;
 
@@ -50,6 +52,15 @@ public class DepartmentListPanel extends Panel {
 		add(new DepartmentListActionPanel("department-action"));
 		
 		this.mCompanyId = companyId;
+		
+		companyInfo = new Label("company-info");
+		companyInfo.setVisible(false);
+		
+		if(mCompanyId != null) {
+			companyInfo = new Label("company-info", Model.of(companyDao.findById(mCompanyId).getCompany()));
+		}
+		
+		add(companyInfo);
 		
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
@@ -89,9 +100,13 @@ public class DepartmentListPanel extends Panel {
 
 				Label noHomepage = new Label("no-homepage",
 						Model.of(_("no.homepage")));
+				String link = department.getInternet();
+				if(!link.startsWith("http")){
+					link = "http://"+link;
+				}
 				ExternalLink homepageLink = new ExternalLink("link",
-						department.getInternet(), department.getInternet());
-
+						link, department.getInternet());
+				
 				if (StringCheckUtil.isStringSet(department.getInternet())) {
 					homepageLink.setVisible(true);
 					noHomepage.setVisible(false);

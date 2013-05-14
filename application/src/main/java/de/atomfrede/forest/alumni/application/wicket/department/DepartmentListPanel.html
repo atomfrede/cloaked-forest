@@ -3,7 +3,14 @@
 
 <wicket:panel>
 	<div class="row content-main">
-		<span wicket:id="department-action"></span>
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="pull-left">
+					<span class="label label-info"><span wicket:id="company-info"></span></span>
+				</div>
+				<span wicket:id="department-action"></span>
+			</div>
+		</div>
 		<div wicket:id="table-wrapper">
 		<table class="table table-hover table-bordered table-striped">
 			<thead>
@@ -19,7 +26,7 @@
 					<tr>
 						<td><span wicket:id="department-name"></span></td>
 						<td><span wicket:id="department-company"></span></td>
-						<td><a wicket:id="link" href="#">Link Here</a><span wicket:id="no-homepage"></span></td>
+						<td><a wicket:id="link" href="#" target="_blank">Link Here</a><span wicket:id="no-homepage"></span></td>
 						<td>
 							<div class="btn-group">
 <!-- 								<a wicket:id="action-info" class="btn btn-mini" href="#"></a> -->
