@@ -10,33 +10,44 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
+import de.atomfrede.forest.alumni.service.department.DepartmentService;
 
 @SuppressWarnings("serial")
-public class DepartmentProvider implements IDataProvider<Department>{
+public class DepartmentProvider implements IDataProvider<Department> {
 
 	@SpringBean
 	private DepartmentDao departmentDao;
-	
+
+	@SpringBean
+	private DepartmentService departmentService;
+
 	private Long companyId;
 
 	public DepartmentProvider() {
 		this(null);
 	}
-	
-	public DepartmentProvider(Long companyId){
+
+	public DepartmentProvider(Long companyId) {
 		Injector.get().inject(this);
 		this.companyId = companyId;
 	}
-	
+
 	@Override
 	public void detach() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Iterator<? extends Department> iterator(long offset, long count) {
-		return departmentDao.list(offset, count, "department", false).iterator();
+		if (companyId != null) {
+			return departmentService.list(offset, count, "department", false,
+					companyId).iterator();
+		} else {
+			return departmentDao.list(offset, count, "department", false)
+					.iterator();
+		}
+
 	}
 
 	@Override
@@ -46,7 +57,12 @@ public class DepartmentProvider implements IDataProvider<Department>{
 
 	@Override
 	public long size() {
-		return departmentDao.count();
+		if (companyId != null) {
+			return departmentDao.findAllByProperty("company.id", companyId).size();
+		} else {
+			return departmentDao.count();
+		}
+
 	}
 
 }

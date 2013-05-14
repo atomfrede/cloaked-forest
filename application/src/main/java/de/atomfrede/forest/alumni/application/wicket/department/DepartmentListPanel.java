@@ -59,7 +59,7 @@ public class DepartmentListPanel extends Panel {
 
 	private DepartmentProvider getDepartmentProvider() {
 		if (departmentProvider == null) {
-			departmentProvider = new DepartmentProvider();
+			departmentProvider = new DepartmentProvider(this.mCompanyId);
 		}
 		return departmentProvider;
 	}
