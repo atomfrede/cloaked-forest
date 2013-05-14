@@ -183,7 +183,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 				if(possibleSector != null){
 					company.setSector(possibleSector);
 				}else{
-					//TODO create new sector by name
+					company.setSector(sectorService.createSector(_sector));
 				}
 				companyDao.persist(company);
 				setModel(new AbstractEntityModel<Company>(company));
@@ -194,7 +194,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 				if(possibleSector != null){
 					getModelObject().setSector(possibleSector);
 				}else{
-					//TODO create new sector by name
+					company.setSector(sectorService.createSector(_sector));
 				}
 				companyDao.persist(getModelObject());
 			}
