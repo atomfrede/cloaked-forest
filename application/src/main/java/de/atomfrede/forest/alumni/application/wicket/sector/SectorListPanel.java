@@ -19,8 +19,10 @@ import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
+import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
 import de.atomfrede.forest.alumni.application.wicket.member.MemberListActionPanel;
 import de.atomfrede.forest.alumni.application.wicket.sector.detail.SectorDetailPage;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
@@ -89,8 +91,7 @@ public class SectorListPanel extends Panel{
 
 					@Override
 					public void onClick() {
-						// TODO Auto-generated method stub
-						
+						showCompanies(sectorId);
 					}
 				};
 				
@@ -126,5 +127,11 @@ public class SectorListPanel extends Panel{
 		params.add(SectorDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(SectorDetailPage.SECTOR_ID, sectorId);
 		setResponsePage(SectorDetailPage.class, params);
+	}
+	
+	private void showCompanies(long id) {
+		PageParameters params = new PageParameters();
+		params.add(CompanyPage.SECTOR_ID, id);
+		setResponsePage(CompanyPage.class, params);
 	}
 }
