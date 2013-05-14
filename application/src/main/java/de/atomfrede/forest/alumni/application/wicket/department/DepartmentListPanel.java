@@ -36,10 +36,18 @@ public class DepartmentListPanel extends Panel {
 
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
+	
+	private Long mCompanyId;
 
-	public DepartmentListPanel(String id) {
+	public DepartmentListPanel(String id){
+		this(id, null);
+	}
+	
+	public DepartmentListPanel(String id, Long companyId) {
 		super(id);
-
+		
+		this.mCompanyId = companyId;
+		
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();

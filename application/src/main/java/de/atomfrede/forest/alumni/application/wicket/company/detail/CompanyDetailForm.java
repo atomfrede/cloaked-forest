@@ -151,7 +151,6 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 		PropertyModel<String> model = new PropertyModel<>(this, "_sector");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
 				new TypeaheadConfig().withNumberOfItems(15));
-		typeahead.size(SpanType.SPAN5);
 		typeahead.setRequired(true);
 
 		return typeahead;

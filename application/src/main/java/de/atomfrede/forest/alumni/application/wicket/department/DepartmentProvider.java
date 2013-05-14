@@ -16,9 +16,16 @@ public class DepartmentProvider implements IDataProvider<Department>{
 
 	@SpringBean
 	private DepartmentDao departmentDao;
+	
+	private Long companyId;
 
 	public DepartmentProvider() {
+		this(null);
+	}
+	
+	public DepartmentProvider(Long companyId){
 		Injector.get().inject(this);
+		this.companyId = companyId;
 	}
 	
 	@Override
