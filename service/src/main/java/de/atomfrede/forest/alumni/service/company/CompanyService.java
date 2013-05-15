@@ -11,4 +11,6 @@ public interface CompanyService {
 	Company createCompany(String company);
 	
 	boolean alreadyExisting(String company);
+	
+	List<Company> list(long offset, long count, String orderProperty, boolean desc, Long sectorId);
 }

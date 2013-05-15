@@ -78,7 +78,7 @@ public class CompanyListPanel extends Panel {
 
 	private CompanyProvider getCompanyProvider() {
 		if (companyProvider == null) {
-			companyProvider = new CompanyProvider();
+			companyProvider = new CompanyProvider(mSectorId);
 		}
 		return companyProvider;
 	}
