@@ -22,40 +22,63 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
+import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 
 @SuppressWarnings("serial")
-public class CompanyListPanel extends Panel{
+public class CompanyListPanel extends Panel {
 
 	@SpringBean
 	private CompanyService companyService;
-	
+
 	@SpringBean
 	private DepartmentDao departmentDao;
+	
+	@SpringBean
+	private SectorDao sectorDao;
 
 	private CompanyProvider companyProvider;
 	private DataView<Company> companies;
 
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
-	
-	public CompanyListPanel(String id) {
-		super(id);
 
-		add(new CompanyListActionPanel("company-action"));
+	private Label sectorInfo;
+	
+	private Long mSectorId;
+
+	public CompanyListPanel(String id) {
+		super(id, null);
+	}
+
+	public CompanyListPanel(String id, Long sectorId) {
+		super(id);
+		this.mSectorId = sectorId;
+
+		sectorInfo = new Label("sector-info");
+		sectorInfo.setVisible(false);
 		
+		if(mSectorId != null) {
+			sectorInfo = new Label("sector-info", Model.of(sectorDao.findById(mSectorId).getSector()));
+		}
+		
+		add(sectorInfo);
+		
+		add(new CompanyListActionPanel("company-action"));
+
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 	}
-	
+
 	private CompanyProvider getCompanyProvider() {
 		if (companyProvider == null) {
-			companyProvider = new CompanyProvider();
+			companyProvider = new CompanyProvider(mSectorId);
 		}
 		return companyProvider;
 	}
@@ -66,7 +89,7 @@ public class CompanyListPanel extends Panel{
 		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalWarning);
 	}
-	
+
 	private void populateItems() {
 
 		companies = new DataView<Company>("companies", getCompanyProvider()) {
@@ -75,46 +98,47 @@ public class CompanyListPanel extends Panel{
 			protected void populateItem(Item<Company> item) {
 				final Company company = item.getModel().getObject();
 
-				item.add(new Label("company-name",
-						new PropertyModel<String>(company, "company")));
-				if(company.getSector() != null){
-					item.add(new Label("company-sector", new PropertyModel<String>(
-							company.getSector(), "sector")));
-				}else{
+				item.add(new Label("company-name", new PropertyModel<String>(
+						company, "company")));
+				if (company.getSector() != null) {
+					item.add(new Label("company-sector",
+							new PropertyModel<String>(company.getSector(),
+									"sector")));
+				} else {
 					item.add(new Label("company-sector", Model.of("--")));
 				}
-				
-				item.add(new Label("company-size", new PropertyModel<String>(company, "size")));
-				
-				List<Department> departments = departmentDao.findAllByProperty("company", company);
-				
-				if(departments != null){
+
+				item.add(new Label("company-size", new PropertyModel<String>(
+						company, "size")));
+
+				List<Department> departments = departmentDao.findAllByProperty(
+						"company", company);
+
+				if (departments != null) {
 					Link<Void> link = new Link<Void>("company-departments") {
 
 						@Override
 						public void onClick() {
-							// TODO Auto-generated method stub
-							
+							showDepartments(company.getId());
 						}
 					};
-					
-					link.add(new Label("label", Model.of(departments.size()+"")));
+
+					link.add(new Label("label", Model.of(departments.size()
+							+ "")));
 					item.add(link);
-				}else{
+				} else {
 					Link<Void> link = new Link<Void>("company-departments") {
 
 						@Override
 						public void onClick() {
 							// TODO Auto-generated method stub
-							
 						}
 					};
-					
-					link.add(new Label("label", Model.of(0+"")));
+
+					link.add(new Label("label", Model.of(0 + "")));
 					link.setEnabled(false);
 					item.add(link);
 				}
-				
 
 				final long companyId = company.getId();
 				final String title = company.getCompany();
@@ -141,11 +165,17 @@ public class CompanyListPanel extends Panel{
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", companies));
 		add(wmc);
 	}
-	
+
 	private void editCompany(long id) {
 		PageParameters params = new PageParameters();
 		params.add(CompanyDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(CompanyDetailPage.COMPANY_ID, id);
 		setResponsePage(CompanyDetailPage.class, params);
+	}
+
+	private void showDepartments(long id) {
+		PageParameters params = new PageParameters();
+		params.add(DepartmentPage.COMPANY_ID, id);
+		setResponsePage(DepartmentPage.class, params);
 	}
 }

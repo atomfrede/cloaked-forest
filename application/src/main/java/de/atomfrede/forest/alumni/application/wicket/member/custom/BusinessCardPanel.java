@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
@@ -31,11 +32,13 @@ public class BusinessCardPanel extends Panel {
 		Label sector = new Label("sector");
 		Label company = new Label("company");
 		Label degree = new Label("degree");
+		Label department = new Label("department");
 
 		profession.setVisible(false);
 		sector.setVisible(false);
 		company.setVisible(false);
 		degree.setVisible(false);
+		department.setVisible(false);
 
 		if (mem != null) {
 			if (mem.getDegree() != null) {
@@ -65,6 +68,11 @@ public class BusinessCardPanel extends Panel {
 			if (mem.getCompany() != null) {
 				company = new Label("company", Model.of(mem.getCompany()
 						.getCompany()));
+			}
+			if(mem.getDepartment() != null){ 
+				if(StringCheckUtil.isStringSet(mem.getDepartment().getDepartment())){
+					department = new Label("department", Model.of(mem.getDepartment().getDepartment()));
+				}
 			}
 		}
 
@@ -146,6 +154,7 @@ public class BusinessCardPanel extends Panel {
 		add(sector);
 		add(company);
 		add(degree);
+		add(department);
 	}
 
 	/**

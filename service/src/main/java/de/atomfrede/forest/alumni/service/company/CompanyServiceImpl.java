@@ -9,13 +9,16 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
+import de.atomfrede.forest.alumni.domain.entity.department.Department;
 
 @Service(value = "companyService")
 @Transactional(rollbackFor = Exception.class)
@@ -67,4 +70,21 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyDao.findByProperty("company", company) != null;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly = true)
+	public List<Company> list(long offset, long count, String orderProperty,
+			boolean desc, Long sectorId) {
+		Session session = getSession();
+		Criteria crit = session.createCriteria(Company.class);
+		crit.add(Restrictions.eq("sector.id", sectorId));
+		if (desc) {
+			crit.addOrder(Order.desc(orderProperty));
+		} else {
+			crit.addOrder(Order.asc(orderProperty));
+		}
+		crit.setFirstResult((int) offset);
+		crit.setMaxResults((int) count);
+		return crit.list();
+	}
 }

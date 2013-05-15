@@ -62,7 +62,5 @@ public class DepartmentProvider implements IDataProvider<Department> {
 		} else {
 			return departmentDao.count();
 		}
-
 	}
-
 }

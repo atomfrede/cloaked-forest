@@ -19,6 +19,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.markup.html.bootstrap.components.PopoverBehavior;
+import de.agilecoders.wicket.markup.html.bootstrap.components.PopoverConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
@@ -27,6 +29,7 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
@@ -133,7 +136,33 @@ public class MemberListPanel extends Panel {
 					}
 					cSize++;
 				}
-				item.add(new Label("activity", Model.of(sb.toString())));
+				Label actLabel = new Label("activity", Model.of(sb.toString()));
+				String companyName = null;
+				String departmentName = null;
+				if (member.getCompany() != null) {
+					companyName = member.getCompany().getCompany();
+				}
+				if (member.getDepartment() != null) {
+					departmentName = member.getDepartment().getDepartment();
+				}
+
+				if (StringCheckUtil.isStringSet(companyName)
+						&& StringCheckUtil.isStringSet(departmentName)) {
+					PopoverConfig popConfig = new PopoverConfig().withAnimation(true).withHoverTrigger();
+					
+					PopoverBehavior popOver = new PopoverBehavior(Model.of(companyName),
+							Model.of(departmentName), popConfig);
+					
+					actLabel.add(popOver);
+				} else {
+					if (StringCheckUtil.isStringSet(companyName)) {
+						actLabel.add(new TooltipBehavior(Model.of(companyName)));
+					} else {
+						actLabel.add(new TooltipBehavior(Model
+								.of(departmentName)));
+					}
+				}
+				item.add(actLabel);
 
 				final long memberId = member.getId();
 				final String firstname = member.getFirstname();
@@ -226,8 +255,7 @@ public class MemberListPanel extends Panel {
 				mem.getFirstname(), mem.getLastname(), street, postTown,
 				mailPrivate).getString();
 
-		final BusinessCardModal modal = new BusinessCardModal(
-				"modal-info", id);
+		final BusinessCardModal modal = new BusinessCardModal("modal-info", id);
 		modal.setOutputMarkupId(true);
 		modal.addCloseButton(Model.of(_("global.close").getString()));
 		modal.header(Model.of(header));
