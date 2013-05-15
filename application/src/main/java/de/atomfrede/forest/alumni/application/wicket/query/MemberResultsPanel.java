@@ -23,7 +23,6 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberProvider;
 import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
@@ -48,8 +47,16 @@ public class MemberResultsPanel extends Panel{
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
 	
-	public MemberResultsPanel(String id) {
+	private Query memberQuery = null;
+	
+	public MemberResultsPanel(String id){
+		this(id, null);
+	}
+	
+	public MemberResultsPanel(String id, Query query) {
 		super(id);
+		
+		this.memberQuery = query;
 		
 		setOutputMarkupId(true);
 		wmc = new WebMarkupContainer("table-wrapper");
@@ -57,6 +64,8 @@ public class MemberResultsPanel extends Panel{
 		populateItems();
 		setupModal();
 		setupModalInfo();
+		
+		
 	}
 	
 	private void populateItems() {
@@ -170,6 +179,9 @@ public class MemberResultsPanel extends Panel{
 	private MemberQueryProvider getMemberProvider() {
 		if (memberProvider == null) {
 			memberProvider = new MemberQueryProvider();
+			if(memberQuery != null){
+				memberProvider.setQuery(memberQuery);
+			}
 		}
 		return memberProvider;
 	}

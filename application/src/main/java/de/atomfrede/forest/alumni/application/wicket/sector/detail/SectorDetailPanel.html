@@ -3,23 +3,38 @@
 <wicket:panel>
 	<div class="row-fluid">
 		<div class="span12">
-			<form wicket:id="sector-form">
-			<div class="row-fluid">
-				<div wicket:id="feedbackPanel"></div>
+			<div class="span6">
+				<form wicket:id="sector-form">
+				<div class="row-fluid">
+					<div wicket:id="feedbackPanel"></div>
+				</div>
+				<div>
+					<fieldset>
+						<legend>Stammdaten</legend>
+						<div wicket:id="sector.wrapper" class="control-group">
+							<label><wicket:message key="member.headers.company.sector" /></label> 
+							<input class="input-xlarge" wicket:id="sector" type="text" wicket:message="placeholder:sector.placeholder"> 
+						</div>
+					</fieldset>
+				</div>
+				<div class="form-actions">
+						<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
+						<a href="#" wicket:id="btn-cancel" class="btn" type="button"></a>
+				</div>
+				</form>
 			</div>
-			<div class="span5">
+			<div class="span6">
 				<fieldset>
-					<div wicket:id="sector.wrapper" class="control-group">
-						<label><wicket:message key="member.headers.company.sector" /></label> 
-						<input class="input-xlarge" wicket:id="sector" type="text" wicket:message="placeholder:sector.placeholder"> 
-					</div>
+					<legend>Firmen</legend>
+					<span wicket:id="companies"></span>
 				</fieldset>
 			</div>
-			<div class="form-actions">
-					<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>
-					<a href="#" wicket:id="btn-cancel" class="btn" type="button"></a>
+			<div class="span12">
+				<fieldset>
+					<legend>Mitglieder</legend>
+					<span wicket:id="members"></span>
+				</fieldset>
 			</div>
-			</form>
 		</div>
 	</div>
 </wicket:panel>
