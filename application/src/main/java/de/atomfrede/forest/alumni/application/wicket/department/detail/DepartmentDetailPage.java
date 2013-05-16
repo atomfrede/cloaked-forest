@@ -20,13 +20,14 @@ public class DepartmentDetailPage extends BasePage<Void>{
 
 	public static final String EDIT_TYPE = "type";
 	public static final String DEPARTMENT_ID = "departmentID";
+	public static final String COMPANY_ID = "companyId";
 	public static final String FROM_PAGE = "fromPage";
 	
 	@SpringBean
 	private DepartmentDao departmentDao;
 	
 	private Type mEditType;
-	private Long mDepartmentId;
+	private Long mDepartmentId, mCompanyId;
 	
 	private Label header, subHeader;
 	
@@ -37,6 +38,13 @@ public class DepartmentDetailPage extends BasePage<Void>{
 		}
 		if(params.get(DEPARTMENT_ID) != null){
 			mDepartmentId = Long.parseLong(params.get(DEPARTMENT_ID).toString());
+		}
+		if(params.get(COMPANY_ID) != null){
+			try{
+				mCompanyId = Long.parseLong(params.get(COMPANY_ID).toString());
+			}catch(NumberFormatException nfe){
+				//Doesn't matter if this happens here
+			}
 		}
 		
 		createHeader();

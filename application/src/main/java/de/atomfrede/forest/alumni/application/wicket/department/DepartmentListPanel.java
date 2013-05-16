@@ -49,9 +49,9 @@ public class DepartmentListPanel extends Panel {
 	public DepartmentListPanel(String id, Long companyId) {
 		super(id);
 		
-		add(new DepartmentListActionPanel("department-action"));
-		
 		this.mCompanyId = companyId;
+		
+		add(new DepartmentListActionPanel("department-action"));
 		
 		companyInfo = new Label("company-info");
 		companyInfo.setVisible(false);

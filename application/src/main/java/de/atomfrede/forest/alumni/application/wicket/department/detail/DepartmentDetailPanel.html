@@ -3,7 +3,6 @@
 <wicket:panel>
 	<div class="row-fluid">
 		<div class="span12">
-			<div class="span6">
 				<form wicket:id="department-form">
 				<div class="row-fluid">
 					<div wicket:id="feedbackPanel"></div>
@@ -11,13 +10,14 @@
 				<div>
 					<fieldset>
 						<legend><wicket:message key="maindata"/></legend>
-						
-					</fieldset>
-				</div>
-				<div>
-					<fieldset>
-					<legend><wicket:message key="Firma auswählen"/></legend>
-<!-- 					<span wicket:id="departments"></span> -->
+						<div wicket:id="department.wrapper" class="control-group">
+							<label><wicket:message key="member.headers.department.name" /></label> 
+							<input class="input-xxlarge" wicket:id="department" type="text" wicket:message="placeholder:department.placeholder"> 
+						</div>
+						<div wicket:id="department.company.wrapper" class="control-group">
+							<label><wicket:message key="member.headers.department.company.name" /></label> 
+							<input autocomplete="off" class="input-xxlarge" wicket:id="company" type="text" wicket:message="placeholder:company.placeholder"> 
+						</div>
 					</fieldset>
 				</div>
 				<div class="form-actions">
@@ -25,7 +25,6 @@
 						<a href="#" wicket:id="btn-cancel" class="btn" type="button"></a>
 				</div>
 				</form>
-			</div>
 				
 			
 		</div>

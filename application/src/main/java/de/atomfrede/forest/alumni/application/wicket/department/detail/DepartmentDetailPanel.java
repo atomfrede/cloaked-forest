@@ -19,9 +19,13 @@ public class DepartmentDetailPanel extends Panel {
 	private DepartmentDao departmentDao;
 
 	private Type mEditType;
-	private Long mDepartmentId;
+	private Long mDepartmentId, mCompanyId;
 
-	public DepartmentDetailPanel(String id, Type editType, Long departmentId) {
+	public DepartmentDetailPanel(String id, Type editType, Long departmentId){
+		this(id, editType, departmentId, null);
+	}
+	
+	public DepartmentDetailPanel(String id, Type editType, Long departmentId, Long companyId) {
 		super(id);
 		this.mEditType = editType;
 		this.mDepartmentId = departmentId;

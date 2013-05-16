@@ -13,15 +13,22 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.department.detail.DepartmentDetailPage;
 
 @SuppressWarnings("serial")
-public class DepartmentListActionPanel extends Panel{
+public class DepartmentListActionPanel extends Panel {
 
-private BootstrapLink<Void> newDepartment;
-	
+	private BootstrapLink<Void> newDepartment;
+
+	private Long mCompanyId;
+
 	public DepartmentListActionPanel(String id) {
-		super(id);
-		addNewDepartment();;
+		this(id, null);
 	}
-	
+
+	public DepartmentListActionPanel(String id, Long companyId) {
+		super(id);
+		this.mCompanyId = companyId;
+		addNewDepartment();
+	}
+
 	private void addNewDepartment() {
 		newDepartment = new BootstrapLink<Void>("btn-new-department",
 				Buttons.Type.Primary) {
@@ -36,10 +43,11 @@ private BootstrapLink<Void> newDepartment;
 				Model.of(_("department.action.new")));
 		add(newDepartment);
 	}
-	
-	private void onNewDepartment(){
+
+	private void onNewDepartment() {
 		PageParameters params = new PageParameters();
 		params.add(DepartmentDetailPage.EDIT_TYPE, Type.Create);
+		if(mCo)
 		params.add(DepartmentDetailPage.DEPARTMENT_ID, "-1");
 		setResponsePage(DepartmentDetailPage.class, params);
 	}
