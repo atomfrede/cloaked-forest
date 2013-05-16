@@ -51,7 +51,7 @@ import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.DepartmentSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.custom.SectorSelectOption;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberDetailPageListener;
+import de.atomfrede.forest.alumni.application.wicket.member.DetailPageListener;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.domain.dao.activity.ActivityDao;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
@@ -630,8 +630,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			member = memberService.createMember(_firstname, _lastname,
 					_personalMail);
 			editType = Type.Edit;
-			if (getPage() instanceof MemberDetailPageListener) {
-				((MemberDetailPageListener) getPage())
+			if (getPage() instanceof DetailPageListener) {
+				((DetailPageListener) getPage())
 						.editTypeChanged(editType);
 			}
 			

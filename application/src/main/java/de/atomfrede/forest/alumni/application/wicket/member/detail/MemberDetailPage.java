@@ -7,12 +7,12 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberDetailPageListener;
+import de.atomfrede.forest.alumni.application.wicket.member.DetailPageListener;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 
 @SuppressWarnings("serial")
 public class MemberDetailPage extends BasePage<Void> implements
-		MemberDetailPageListener {
+		DetailPageListener {
 
 	public static final String EDIT_TYPE = "type";
 	public static final String MEMBER_ID = "memberId";
