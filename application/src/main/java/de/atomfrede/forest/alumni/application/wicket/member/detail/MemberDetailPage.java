@@ -81,6 +81,9 @@ public class MemberDetailPage extends BasePage<Void> implements
 			subHeader = new Label("detail-sub-header", "");
 		}
 
+		header.setOutputMarkupId(true);
+		subHeader.setOutputMarkupId(true);
+		
 		add(header);
 		add(subHeader);
 	}

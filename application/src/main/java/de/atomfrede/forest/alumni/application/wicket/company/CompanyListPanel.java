@@ -62,7 +62,7 @@ public class CompanyListPanel extends Panel {
 		sectorInfo = new Label("sector-info");
 		sectorInfo.setVisible(false);
 		
-		if(mSectorId != null) {
+		if(mSectorId != null && mSectorId != -1) {
 			sectorInfo = new Label("sector-info", Model.of(sectorDao.findById(mSectorId).getSector()));
 		}
 		
