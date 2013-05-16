@@ -56,8 +56,10 @@ public class DepartmentListPanel extends Panel {
 		companyInfo = new Label("company-info");
 		companyInfo.setVisible(false);
 		
-		if(mCompanyId != null) {
-			companyInfo = new Label("company-info", Model.of(companyDao.findById(mCompanyId).getCompany()));
+		if(mCompanyId != null && mCompanyId != -1) {
+			if(StringCheckUtil.isStringSet(companyDao.findById(mCompanyId).getCompany())){
+				companyInfo = new Label("company-info", Model.of(companyDao.findById(mCompanyId).getCompany()));
+			}
 		}
 		
 		add(companyInfo);
