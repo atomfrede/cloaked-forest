@@ -27,7 +27,6 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
-import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;

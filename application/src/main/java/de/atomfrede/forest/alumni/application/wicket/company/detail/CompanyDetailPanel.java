@@ -36,7 +36,12 @@ public class CompanyDetailPanel extends Panel{
 		Filter companyFilter = new Filter("company", companyDao.findById(mCompanyId), Filter.Type.EQ);
 		query.addFilter(companyFilter);
 		
-		add(new MemberResultsPanel("members", query));
+		MemberResultsPanel members = new MemberResultsPanel("members", query);
+		
+		if(!(companyId != null && companyId != -1)){
+			members.setVisible(false);
+		}
+		add(members);
 		
 	}
 	
