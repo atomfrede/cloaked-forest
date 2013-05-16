@@ -47,7 +47,6 @@ public class DepartmentListActionPanel extends Panel {
 	private void onNewDepartment() {
 		PageParameters params = new PageParameters();
 		params.add(DepartmentDetailPage.EDIT_TYPE, Type.Create);
-		if(mCo)
 		params.add(DepartmentDetailPage.DEPARTMENT_ID, "-1");
 		setResponsePage(DepartmentDetailPage.class, params);
 	}
