@@ -47,7 +47,7 @@ public class MemberQueryProvider implements IDataProvider<Member> {
 			fromIndex = result.size() - 1;
 		}
 		if (toIndex >= result.size()) {
-			toIndex = result.size() - 1;
+			toIndex = result.size();
 		}
 		return result.subList(fromIndex, toIndex).iterator();
 	}

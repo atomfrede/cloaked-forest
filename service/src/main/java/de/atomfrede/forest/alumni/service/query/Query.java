@@ -1,12 +1,13 @@
 package de.atomfrede.forest.alumni.service.query;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 
-public class Query<T extends AbstractEntity> {
+public class Query<T extends AbstractEntity> implements Serializable{
 
 	protected Class<T> clazz;
 	protected List<Filter> filters;

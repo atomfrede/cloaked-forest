@@ -1,6 +1,9 @@
 package de.atomfrede.forest.alumni.service.query.filter;
 
-public class Filter {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Filter implements Serializable{
 
 	public enum Type {
 		EQ, LIKE, BETWEEN
