@@ -10,8 +10,9 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.department.detail.DepartmentDetailPage;
 
+@SuppressWarnings("serial")
 public class DepartmentListActionPanel extends Panel{
 
 private BootstrapLink<Void> newDepartment;
@@ -38,8 +39,8 @@ private BootstrapLink<Void> newDepartment;
 	
 	private void onNewDepartment(){
 		PageParameters params = new PageParameters();
-		params.add(CompanyDetailPage.EDIT_TYPE, Type.Create);
-		params.add(CompanyDetailPage.COMPANY_ID, "-1");
-		setResponsePage(CompanyDetailPage.class, params);
+		params.add(DepartmentDetailPage.EDIT_TYPE, Type.Create);
+		params.add(DepartmentDetailPage.DEPARTMENT_ID, "-1");
+		setResponsePage(DepartmentDetailPage.class, params);
 	}
 }

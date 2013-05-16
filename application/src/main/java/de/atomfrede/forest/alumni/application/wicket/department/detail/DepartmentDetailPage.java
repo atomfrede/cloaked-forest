@@ -36,12 +36,12 @@ public class DepartmentDetailPage extends BasePage<Void>{
 			mEditType = Type.valueOf(params.get(EDIT_TYPE).toString());
 		}
 		if(params.get(DEPARTMENT_ID) != null){
-			mDepartmentId = Long.parseLong(params.get(mDepartmentId).toString());
+			mDepartmentId = Long.parseLong(params.get(DEPARTMENT_ID).toString());
 		}
 		
 		createHeader();
 		
-//		add(new CompanyDetailPanel("details", mEditType, mConpanyId));
+		add(new DepartmentDetailPanel("details", mEditType, mDepartmentId));
 	}
 	
 	private void createHeader(){
