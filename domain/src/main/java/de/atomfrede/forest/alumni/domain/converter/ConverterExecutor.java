@@ -3,6 +3,7 @@ package de.atomfrede.forest.alumni.domain.converter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -337,6 +338,8 @@ public class ConverterExecutor {
 			throw e;
 		} catch (IOException ioe) {
 
+		} catch(ParseException pe){
+			
 		}
 	}
 
