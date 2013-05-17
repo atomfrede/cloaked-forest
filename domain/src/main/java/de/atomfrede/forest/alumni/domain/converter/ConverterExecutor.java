@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.domain.converter;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -105,8 +106,10 @@ public class ConverterExecutor {
 
 			reader.close();
 
-		} catch (Exception e) {
-			log.fatal("Could not Convert Degree.", e);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 		// CSVReader reader = new CSVReader(new )
 
@@ -132,7 +135,9 @@ public class ConverterExecutor {
 			}
 
 			reader.close();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -157,7 +162,9 @@ public class ConverterExecutor {
 			}
 
 			reader.close();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -191,7 +198,9 @@ public class ConverterExecutor {
 			}
 
 			reader.close();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}

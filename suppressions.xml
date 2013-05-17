@@ -40,7 +40,4 @@
 	<suppress
 		checks="HiddenFieldCheck"
 		files="Department.java"/>
-	<suppress
-		checks="MemberNameCheck"
-		files="*Form.java"/>
 </suppressions>
