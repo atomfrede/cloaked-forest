@@ -8,7 +8,7 @@
 	<groupId>de.atomfrede.forest</groupId>
 	<artifactId>alumni</artifactId>
 	<packaging>pom</packaging>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.2.1-SNAPSHOT</version>
 	<properties>
 		<wicket.version>6.7.0</wicket.version>
 		<slf4j.version>1.6.6</slf4j.version>
