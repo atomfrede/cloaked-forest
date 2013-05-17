@@ -42,5 +42,5 @@
 		files="Department.java"/>
 	<suppress
 		checks="MemberNameCheck"
-		files=""/>
+		files="*Form.java"/>
 </suppressions>
