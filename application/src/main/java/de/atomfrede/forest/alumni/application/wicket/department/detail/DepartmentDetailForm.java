@@ -4,9 +4,11 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -15,9 +17,11 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.time.Duration;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
@@ -40,7 +44,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 	private WebMarkupContainer departmentWrapper, companyWrapper;
 
 	private RequiredTextField<String> department;
-	private Typeahead<String> typeahead;
+	private Typeahead<String> company;
 
 	private TextField<String> street, number, addon, postcode, country, town,
 			internet;
@@ -127,10 +131,71 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		};
 
 		PropertyModel<String> model = new PropertyModel<>(this, "_company");
-		typeahead = new Typeahead<String>(markupId, model, dataSource,
+		company = new Typeahead<String>(markupId, model, dataSource,
 				new TypeaheadConfig().withNumberOfItems(20));
-		typeahead.setRequired(true);
+		company.setRequired(true);
 
-		return typeahead;
+		return company;
+	}
+	
+	private void initFormValues() {
+		switch (mEditType) {
+		case Create:
+			_department = "";
+			_company = "";
+			_street = "";
+			_number = "";
+			_addon = "";
+			_postcode = "";
+			_town = "";
+			_country = "";
+			break;
+		case Edit:
+			_department = getModelObject().getDepartment();
+			if(getModelObject().getCompany() != null){
+				_company = getModelObject().getCompany().getCompany();
+			}else{
+				_company = "";
+			}
+			_street = getModelObject().getStreet();
+			_number = getModelObject().getNumber();
+			_addon = getModelObject().getAddon();
+			_postcode = getModelObject().getPostCode();
+			_town = getModelObject().getTown();
+			_country = getModelObject().getCountry();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	@Override
+	protected void onError() {
+		this.feedbackPanel.setVisible(true);
+		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		if (!department.isValid()) {
+			departmentWrapper.add(new AttributeAppender("class", " error"));
+		} else {
+			departmentWrapper.add(new AttributeModifier("class", "control-group"));
+		}
+		if (!company.isValid()) {
+			companyWrapper.add(new AttributeAppender("class", " error"));
+		} else {
+			companyWrapper.add(new AttributeModifier("class", "control-group"));
+		}
+	}
+	
+	private void onDepartmentAlreadyExisting(String departmentName) {
+		NotificationMessage nf = new NotificationMessage(Model.of(_(
+				"error.department.existing", departmentName).getString()));
+		nf.hideAfter(Duration.seconds(10));
+		error(nf);
+	}
+	
+	private class DepartmentAlreadyExistingException extends Exception {
+
+		public DepartmentAlreadyExistingException(String departmentName) {
+			super();
+		}
 	}
 }
