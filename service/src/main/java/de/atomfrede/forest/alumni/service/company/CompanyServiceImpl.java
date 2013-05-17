@@ -87,4 +87,20 @@ public class CompanyServiceImpl implements CompanyService {
 		crit.setMaxResults((int) count);
 		return crit.list();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean departmentAlreadyExisting(String company, String department) {
+		Company cmp = companyDao.findByProperty("company", company);
+		if(cmp == null){
+			return false;
+		}
+		for(Department dmp:cmp.getDepartments()){
+			if(dmp.getDepartment().equals(department)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

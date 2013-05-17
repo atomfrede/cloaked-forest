@@ -29,16 +29,32 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
+import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
+import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
+import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
+import de.atomfrede.forest.alumni.service.department.DepartmentService;
 
 @SuppressWarnings("serial")
 public class DepartmentDetailForm extends BootstrapForm<Department> {
 
 	@SpringBean
 	private CompanyService companyService;
+	
+	@SpringBean
+	private CompanyDao companyDao;
 
+	@SpringBean
+	private DepartmentService departmentService;
+	
+	@SpringBean
+	private DepartmentDao departmentDao;
+	
 	private Type mEditType;
+	private Long mCompanyId;
 
 	private NotificationPanel feedbackPanel;
 	private WebMarkupContainer departmentWrapper, companyWrapper;
@@ -53,10 +69,11 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			_country, _town, _internet;
 
 	public DepartmentDetailForm(String componentId, IModel<Department> model,
-			Type editType) {
+			Type editType, Long companyId) {
 		super(componentId, model);
 
 		this.mEditType = editType;
+		this.mCompanyId = companyId;
 
 		feedbackPanel = new NotificationPanel("feedbackPanel");
 		feedbackPanel.setOutputMarkupId(true);
@@ -91,6 +108,8 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 
 		cancel.setLabel(Model.of(_("global.cancel")));
 
+		initFormValues();
+		
 		departmentWrapper = new WebMarkupContainer("department.wrapper");
 		departmentWrapper.setOutputMarkupId(true);
 		department = new RequiredTextField<String>("department",
@@ -143,6 +162,12 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		case Create:
 			_department = "";
 			_company = "";
+			if(mCompanyId != null){
+				Company cmp = companyDao.findById(mCompanyId);
+				if(cmp != null){
+					_company = cmp.getCompany();
+				}
+			}
 			_street = "";
 			_number = "";
 			_addon = "";
@@ -185,6 +210,64 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		}
 	}
 	
+	@Override
+	public void onSubmit() {
+		Department dep = null;
+		try {
+			if (mEditType == Type.Create) {
+				if (companyService.departmentAlreadyExisting(_company, _department)) {
+					throw new DepartmentAlreadyExistingException(_department);
+				}
+				mEditType = Type.Edit;
+				dep = departmentService.createDepartment(_department);
+				Company cmp = companyDao.findByProperty("company", _company);
+				
+				if(cmp != null) {
+					dep.setCompany(cmp);
+				}else{
+					cmp = companyService.createCompany(_company);
+					dep.setCompany(cmp);
+				}
+				dep.setStreet(_street);
+				dep.setAddon(_addon);
+				dep.setCountry(_country);
+				dep.setInternet(_internet);
+				dep.setNumber(_number);
+				dep.setPostCode(_postcode);
+				dep.setTown(_town);
+				departmentDao.persist(dep);
+				setModel(new AbstractEntityModel<Department>(dep));
+			} else {
+				if (companyService.departmentAlreadyExisting(_company, _department)) {
+					throw new DepartmentAlreadyExistingException(_department);
+				}
+				Company cmp = companyDao.findByProperty("company", _company);
+				if(cmp != null) {
+					getModelObject().setCompany(cmp);
+				}else{
+					cmp = companyService.createCompany(_company);
+					getModelObject().setCompany(cmp);
+				}
+				getModelObject().setDepartment(_department);
+				getModelObject().setStreet(_street);
+				getModelObject().setAddon(_addon);
+				getModelObject().setCountry(_country);
+				getModelObject().setInternet(_internet);
+				getModelObject().setNumber(_number);
+				getModelObject().setPostCode(_postcode);
+				getModelObject().setTown(_town);
+				departmentDao.persist(getModelObject());
+			}
+
+			// It Was succesfull, so display a notifications about this
+			NotificationMessage nf = new NotificationMessage(Model.of(_(
+					"success.saved").getString()));
+			nf.hideAfter(Duration.seconds(3));
+			success(nf);
+		} catch (DepartmentAlreadyExistingException caee) {
+			onDepartmentAlreadyExisting(_department);
+		}
+	}
 	private void onDepartmentAlreadyExisting(String departmentName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
 				"error.department.existing", departmentName).getString()));

@@ -29,10 +29,11 @@ public class DepartmentDetailPanel extends Panel {
 		super(id);
 		this.mEditType = editType;
 		this.mDepartmentId = departmentId;
+		this.mCompanyId = companyId;
 
 		add(new DepartmentDetailForm("department-form",
 				new AbstractEntityModel<Department>(Department.class,
-						mDepartmentId), mEditType));
+						mDepartmentId), mEditType, mCompanyId));
 
 		Query<Member> query = new Query<>(Member.class);
 		Filter companyFilter = new Filter("department",

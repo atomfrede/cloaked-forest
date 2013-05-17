@@ -10,6 +10,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
@@ -17,6 +18,9 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
+import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.department.detail.DepartmentDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
@@ -51,7 +55,7 @@ public class DepartmentListPanel extends Panel {
 
 		this.mCompanyId = companyId;
 
-		add(new DepartmentListActionPanel("department-action"));
+		add(new DepartmentListActionPanel("department-action", this.mCompanyId));
 
 		companyInfo = new Label("company-info");
 		companyInfo.setVisible(false);
@@ -105,7 +109,7 @@ public class DepartmentListPanel extends Panel {
 				Label noHomepage = new Label("no-homepage",
 						Model.of(_("no.homepage")));
 				String link = department.getInternet();
-				if (!link.startsWith("http")) {
+				if (link != null && !link.startsWith("http")) {
 					link = "http://" + link;
 				}
 				ExternalLink homepageLink = new ExternalLink("link", link,
@@ -129,7 +133,7 @@ public class DepartmentListPanel extends Panel {
 
 					@Override
 					public void onClick() {
-						// editCompany(companyId);
+						editDepartment(departmentId);
 
 					}
 				};
@@ -151,5 +155,12 @@ public class DepartmentListPanel extends Panel {
 		wmc.add(departments);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", departments));
 		add(wmc);
+	}
+	
+	private void editDepartment(long id) {
+		PageParameters params = new PageParameters();
+		params.add(DepartmentDetailPage.EDIT_TYPE, Type.Edit);
+		params.add(DepartmentDetailPage.DEPARTMENT_ID, id);
+		setResponsePage(DepartmentDetailPage.class, params);
 	}
 }

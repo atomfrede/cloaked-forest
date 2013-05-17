@@ -12,5 +12,7 @@ public interface CompanyService {
 	
 	boolean alreadyExisting(String company);
 	
+	boolean departmentAlreadyExisting(String company, String department);
+	
 	List<Company> list(long offset, long count, String orderProperty, boolean desc, Long sectorId);
 }

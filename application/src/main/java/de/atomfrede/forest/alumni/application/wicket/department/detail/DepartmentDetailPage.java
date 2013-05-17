@@ -49,7 +49,7 @@ public class DepartmentDetailPage extends BasePage<Void>{
 		
 		createHeader();
 		
-		add(new DepartmentDetailPanel("details", mEditType, mDepartmentId));
+		add(new DepartmentDetailPanel("details", mEditType, mDepartmentId, mCompanyId));
 	}
 	
 	private void createHeader(){

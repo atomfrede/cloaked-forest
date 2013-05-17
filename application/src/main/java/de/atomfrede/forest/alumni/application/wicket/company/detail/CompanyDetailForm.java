@@ -129,7 +129,11 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 			break;
 		case Edit:
 			_company = getModelObject().getCompany();
-			_sector = getModelObject().getSector().getSector();
+			if (getModelObject().getSector() != null) {
+				_sector = getModelObject().getSector().getSector();
+			} else {
+				_sector = "";
+			}
 			_size = getModelObject().getSize();
 			sector = getModelObject().getSector();
 			break;
@@ -177,10 +181,11 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 				mEditType = Type.Edit;
 				company = companyService.createCompany(_company);
 				company.setSize(_size);
-				Sector possibleSector = sectorDao.findByProperty("sector", _sector);
-				if(possibleSector != null){
+				Sector possibleSector = sectorDao.findByProperty("sector",
+						_sector);
+				if (possibleSector != null) {
 					company.setSector(possibleSector);
-				}else{
+				} else {
 					company.setSector(sectorService.createSector(_sector));
 				}
 				companyDao.persist(company);
@@ -188,11 +193,13 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 			} else {
 				getModelObject().setCompany(_company);
 				getModelObject().setSize(_size);
-				Sector possibleSector = sectorDao.findByProperty("sector", _sector);
-				if(possibleSector != null){
+				Sector possibleSector = sectorDao.findByProperty("sector",
+						_sector);
+				if (possibleSector != null) {
 					getModelObject().setSector(possibleSector);
-				}else{
-					getModelObject().setSector(sectorService.createSector(_sector));
+				} else {
+					getModelObject().setSector(
+							sectorService.createSector(_sector));
 				}
 				companyDao.persist(getModelObject());
 			}
