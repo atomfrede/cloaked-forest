@@ -16,10 +16,16 @@ import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetai
 public class CompanyListActionPanel extends Panel{
 
 	private BootstrapLink<Void> newCompany;
+	private Long mSectorId;
 	
-	public CompanyListActionPanel(String id) {
+	public CompanyListActionPanel(String id){
+		this(id, null);
+	}
+	
+	public CompanyListActionPanel(String id, Long sectorId) {
 		super(id);
 		addNewCompany();;
+		mSectorId = sectorId;
 	}
 	
 	private void addNewCompany() {
@@ -41,6 +47,7 @@ public class CompanyListActionPanel extends Panel{
 		PageParameters params = new PageParameters();
 		params.add(CompanyDetailPage.EDIT_TYPE, Type.Create);
 		params.add(CompanyDetailPage.COMPANY_ID, "-1");
+		params.add(CompanyDetailPage.SECTOR_ID, mSectorId+"");
 		setResponsePage(CompanyDetailPage.class, params);
 	}
 }

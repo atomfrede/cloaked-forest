@@ -53,8 +53,8 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 	private CompanyDao companyDao;
 
 	private Type mEditType;
+	private Long mSectorId;
 	private String _company, _size, _sector;
-	private Sector sector;
 
 	private RequiredTextField<String> company;
 	private TextField<String> size;
@@ -64,10 +64,11 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 	private WebMarkupContainer companyWrapper;
 
 	public CompanyDetailForm(String componentId, IModel<Company> model,
-			Type editType) {
+			Type editType, Long sectorId) {
 		super(componentId, model);
 
 		this.mEditType = editType;
+		this.mSectorId = sectorId;
 
 		feedbackPanel = new NotificationPanel("feedbackPanel");
 		feedbackPanel.setOutputMarkupId(true);
@@ -125,6 +126,12 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 		case Create:
 			_company = "";
 			_sector = "";
+			if(mSectorId != null){
+				Sector sec = sectorDao.findById(mSectorId);
+				if(sec.getSector() != null){
+					_sector = sec.getSector();
+				}
+			}
 			_size = "";
 			break;
 		case Edit:
@@ -135,7 +142,6 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 				_sector = "";
 			}
 			_size = getModelObject().getSize();
-			sector = getModelObject().getSector();
 			break;
 		default:
 			break;

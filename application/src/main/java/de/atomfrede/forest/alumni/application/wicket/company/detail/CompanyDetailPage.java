@@ -16,13 +16,14 @@ public class CompanyDetailPage extends BasePage<Void> {
 
 	public static final String EDIT_TYPE = "type";
 	public static final String COMPANY_ID = "companyID";
+	public static final String SECTOR_ID = "sectorId";
 	public static final String FROM_PAGE = "fromPage";
 	
 	@SpringBean
 	private CompanyDao companyDao;
 	
 	private Type mEditType;
-	private Long mConpanyId;
+	private Long mCompanyId, mSectorId;
 	
 	private Label header, subHeader;
 	
@@ -32,12 +33,19 @@ public class CompanyDetailPage extends BasePage<Void> {
 			mEditType = Type.valueOf(params.get(EDIT_TYPE).toString());
 		}
 		if(params.get(COMPANY_ID) != null){
-			mConpanyId = Long.parseLong(params.get(COMPANY_ID).toString());
+			mCompanyId = Long.parseLong(params.get(COMPANY_ID).toString());
+		}
+		if(params.get(SECTOR_ID) != null){
+			try{
+				mSectorId = Long.parseLong(params.get(SECTOR_ID).toString());
+			}catch(NumberFormatException nfe){
+				//Doesn't matter if this happens here
+			}
 		}
 		
 		createHeader();
 		
-		add(new CompanyDetailPanel("details", mEditType, mConpanyId));
+		add(new CompanyDetailPanel("details", mEditType, mCompanyId, mSectorId));
 	}
 	
 	private void createHeader(){
@@ -48,7 +56,7 @@ public class CompanyDetailPage extends BasePage<Void> {
 				subHeader = new Label("detail-sub-header", "");
 				break;
 			case Edit:
-				Company cmp = companyDao.findById(mConpanyId);
+				Company cmp = companyDao.findById(mCompanyId);
 				header = new Label("detail-header", _("legend.edit"));
 				if(cmp != null && StringCheckUtil.isStringSet(cmp.getCompany())){
 					subHeader = new Label("detail-sub-header", cmp.getCompany());

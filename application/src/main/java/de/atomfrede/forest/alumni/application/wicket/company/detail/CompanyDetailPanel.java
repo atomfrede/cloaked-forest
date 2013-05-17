@@ -14,35 +14,43 @@ import de.atomfrede.forest.alumni.service.query.Query;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 
 @SuppressWarnings("serial")
-public class CompanyDetailPanel extends Panel{
+public class CompanyDetailPanel extends Panel {
 
 	@SpringBean
 	private CompanyDao companyDao;
-	
+
 	private Type mEditType;
-	private Long mCompanyId;
-	
+	private Long mCompanyId, mSectorId;
+
 	public CompanyDetailPanel(String id, Type editType, Long companyId) {
+		this(id, editType, companyId, null);
+	}
+
+	public CompanyDetailPanel(String id, Type editType, Long companyId,
+			Long sectorId) {
 		super(id);
 		this.mEditType = editType;
 		this.mCompanyId = companyId;
-		
-		add(new CompanyDetailForm("company-form", new AbstractEntityModel<Company>(Company.class,
-				mCompanyId), mEditType));
-		
+		this.mSectorId = sectorId;
+
+		add(new CompanyDetailForm("company-form",
+				new AbstractEntityModel<Company>(Company.class, mCompanyId),
+				mEditType, mSectorId));
+
 		add(new DepartmentListPanel("departments", mCompanyId));
-		
+
 		Query<Member> query = new Query<>(Member.class);
-		Filter companyFilter = new Filter("company", companyDao.findById(mCompanyId), Filter.Type.EQ);
+		Filter companyFilter = new Filter("company",
+				companyDao.findById(mCompanyId), Filter.Type.EQ);
 		query.addFilter(companyFilter);
-		
+
 		MemberResultsPanel members = new MemberResultsPanel("members", query);
-		
-		if(!(companyId != null && companyId != -1)){
+
+		if (!(companyId != null && companyId != -1)) {
 			members.setVisible(false);
 		}
 		add(members);
-		
+
 	}
-	
+
 }

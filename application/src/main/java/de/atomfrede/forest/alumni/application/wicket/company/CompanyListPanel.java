@@ -68,7 +68,7 @@ public class CompanyListPanel extends Panel {
 		
 		add(sectorInfo);
 		
-		add(new CompanyListActionPanel("company-action"));
+		add(new CompanyListActionPanel("company-action", mSectorId));
 
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
