@@ -36,15 +36,12 @@ public class DepartmentDetailPanel extends Panel {
 						mDepartmentId), mEditType, mCompanyId));
 
 		Query<Member> query = new Query<>(Member.class);
-		Filter companyFilter = new Filter("department",
+		Filter departmentFilter = new Filter("department",
 				departmentDao.findById(mDepartmentId), Filter.Type.EQ);
-		query.addFilter(companyFilter);
+		query.addFilter(departmentFilter);
 
 		MemberResultsPanel members = new MemberResultsPanel("members", query);
 
-		if (!(mDepartmentId != null && mDepartmentId != -1)) {
-			members.setVisible(false);
-		}
 		add(members);
 
 	}

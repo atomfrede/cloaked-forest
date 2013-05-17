@@ -34,7 +34,6 @@ import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
-import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
 
@@ -188,6 +187,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			_postcode = getModelObject().getPostCode();
 			_town = getModelObject().getTown();
 			_country = getModelObject().getCountry();
+			_internet = getModelObject().getInternet();
 			break;
 		default:
 			break;
