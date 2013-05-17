@@ -28,7 +28,7 @@ public class DepartmentListPanel extends Panel {
 
 	@SpringBean
 	private DepartmentService departmentService;
-	
+
 	@SpringBean
 	private CompanyDao companyDao;
 
@@ -37,33 +37,35 @@ public class DepartmentListPanel extends Panel {
 
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
-	
+
 	private Label companyInfo;
-	
+
 	private Long mCompanyId;
 
-	public DepartmentListPanel(String id){
+	public DepartmentListPanel(String id) {
 		this(id, null);
 	}
-	
+
 	public DepartmentListPanel(String id, Long companyId) {
 		super(id);
-		
+
 		this.mCompanyId = companyId;
-		
+
 		add(new DepartmentListActionPanel("department-action"));
-		
+
 		companyInfo = new Label("company-info");
 		companyInfo.setVisible(false);
-		
-		if(mCompanyId != null && mCompanyId != -1) {
-			if(StringCheckUtil.isStringSet(companyDao.findById(mCompanyId).getCompany())){
-				companyInfo = new Label("company-info", Model.of(companyDao.findById(mCompanyId).getCompany()));
+
+		if (mCompanyId != null && mCompanyId != -1) {
+			if (StringCheckUtil.isStringSet(companyDao.findById(mCompanyId)
+					.getCompany())) {
+				companyInfo = new Label("company-info", Model.of(companyDao
+						.findById(mCompanyId).getCompany()));
 			}
 		}
-		
+
 		add(companyInfo);
-		
+
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
@@ -103,12 +105,12 @@ public class DepartmentListPanel extends Panel {
 				Label noHomepage = new Label("no-homepage",
 						Model.of(_("no.homepage")));
 				String link = department.getInternet();
-				if(!link.startsWith("http")){
-					link = "http://"+link;
+				if (!link.startsWith("http")) {
+					link = "http://" + link;
 				}
-				ExternalLink homepageLink = new ExternalLink("link",
-						link, department.getInternet());
-				
+				ExternalLink homepageLink = new ExternalLink("link", link,
+						department.getInternet());
+
 				if (StringCheckUtil.isStringSet(department.getInternet())) {
 					homepageLink.setVisible(true);
 					noHomepage.setVisible(false);
@@ -138,7 +140,13 @@ public class DepartmentListPanel extends Panel {
 			}
 
 		};
-		departments.setItemsPerPage(15);
+
+		if (mCompanyId != null && mCompanyId != -1) {
+			departments.setItemsPerPage(3);
+		} else {
+			departments.setItemsPerPage(15);
+		}
+
 		departments.setOutputMarkupId(true);
 		wmc.add(departments);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", departments));
