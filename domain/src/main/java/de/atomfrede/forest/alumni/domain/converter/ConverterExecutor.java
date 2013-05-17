@@ -266,7 +266,9 @@ public class ConverterExecutor {
 					departmentDao.persist(dep);
 				}
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -329,9 +331,12 @@ public class ConverterExecutor {
 			memberDao.persistAll(members);
 			reader.close();
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 	}
 
@@ -379,9 +384,12 @@ public class ConverterExecutor {
 
 			memberDao.persistAll(members);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 	}
 
@@ -422,9 +430,12 @@ public class ConverterExecutor {
 
 			memberDao.persistAll(membersDb);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 	}
 
@@ -526,9 +537,11 @@ public class ConverterExecutor {
 
 			// memberDao.persistAll(membersDb);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+		} catch (IOException ioe) {
+			// TODO: handle exception
 		}
 	}
 }
