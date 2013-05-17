@@ -3,18 +3,44 @@
 <!DOCTYPE suppressions PUBLIC
     "-//Puppy Crawl//DTD Suppressions 1.1//EN"
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
-
 <suppressions>
-	<suppress checks="MagicNumberCheck" files="ConverterExecutor.java" />
-	<suppress checks="MagicNumberCheck" files="CsvExporter.java" />
-	<suppress checks="HiddenFieldCheck" files="ContactData.java"/>
-	<suppress checks="HiddenFieldCheck" files="Member.java"/>
-	<suppress checks="HiddenFieldCheck" files="Degree.java"/>
-	<suppress checks="HiddenFieldCheck" files="Department.java"/>
-	<suppress checks="HiddenFieldCheck" files="Company.java"/>
-	<suppress checks="HiddenFieldCheck" files="Sector.java"/>
-	<suppress checks="HiddenFieldCheck" files="User.java"/>
-	<suppress checks="HiddenFieldCheck" files="Filter.java"/>
-	<suppress checks="HiddenFieldCheck" files="AbstractDAO.java"/>
-	<suppress checks="HiddenFieldCheck" files="Department.java"/>
+	<suppress
+		checks="MagicNumberCheck"
+		files="ConverterExecutor.java"/>
+	<suppress
+		checks="MagicNumberCheck"
+		files="CsvExporter.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="ContactData.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Member.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Degree.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Department.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Company.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Sector.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="User.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Filter.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="AbstractDAO.java"/>
+	<suppress
+		checks="HiddenFieldCheck"
+		files="Department.java"/>
+	<suppress
+		checks="MemberNameCheck"
+		files=""/>
 </suppressions>
