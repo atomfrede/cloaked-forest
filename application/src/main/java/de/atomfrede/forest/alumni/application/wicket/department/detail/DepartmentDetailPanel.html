@@ -7,18 +7,42 @@
 				<div class="row-fluid">
 					<div wicket:id="feedbackPanel"></div>
 				</div>
-				<div>
-					<fieldset>
-						<legend><wicket:message key="maindata"/></legend>
-						<div wicket:id="department.wrapper" class="control-group">
-							<label><wicket:message key="member.headers.department.name" /></label> 
-							<input class="input-xxlarge" wicket:id="department" type="text" wicket:message="placeholder:department.placeholder"> 
-						</div>
-						<div wicket:id="department.company.wrapper" class="control-group">
-							<label><wicket:message key="member.headers.department.company.name" /></label> 
-							<input autocomplete="off" class="input-xxlarge" wicket:id="company" type="text" wicket:message="placeholder:company.placeholder"> 
-						</div>
-					</fieldset>
+				<div class="row-fluid">
+					<div class="span12">
+					<div class="span6">
+						<fieldset>
+							<legend><wicket:message key="maindata"/></legend>
+							<div wicket:id="department.wrapper" class="control-group">
+								<label><wicket:message key="member.headers.department.name" /></label> 
+								<input class="input-xxlarge" wicket:id="department" type="text" wicket:message="placeholder:department.placeholder"> 
+							</div>
+							<div wicket:id="department.company.wrapper" class="control-group">
+								<label><wicket:message key="member.headers.department.company.name" /></label> 
+								<input autocomplete="off" class="input-xxlarge" wicket:id="company" type="text" wicket:message="placeholder:company.placeholder"> 
+							</div>
+						</fieldset>
+					</div>
+					<div class="span6">
+						<fieldset>
+							<legend><wicket:message key="adressdata"/></legend>
+							<label><wicket:message key="member.detail.personal.street.and.number" /></label> 
+							<div class="controls controls-row">
+								<input class="span6" wicket:id="personal.street" type="text" wicket:message="placeholder:member.detail.personal.street.placeholder"> 
+								<input class="span2" wicket:id="personal.number" type="text" wicket:message="placeholder:member.detail.number.placeholder">
+							</div>
+							<label><wicket:message key="member.detail.personal.addon" /></label>
+							<input class="input-xlarge span8" wicket:id="personal.addon" type="text" wicket:message="placeholder:member.detail.personal.addon.placeholder">
+									
+							<label><wicket:message key="member.detail.personal.postcode.and.town" /></label>
+							<div class="controls controls-row">
+								<input class="span3" wicket:id="personal.postcode" type="text" wicket:message="placeholder:member.detail.personal.postcode.placeholder"> 
+								<input class="span5" wicket:id="personal.town" type="text" wicket:message="placeholder:member.detail.personal.town.placeholder"> 
+							</div>
+							<label><wicket:message key="member.detail.personal.internet" /></label> 
+							<input class="input-xlarge span8" wicket:id="personal.internet" type="text" wicket:message="placeholder:member.detail.personal.internet.placeholder">
+						</fieldset>
+					</div>
+					</div>
 				</div>
 				<div class="form-actions">
 						<button wicket:id="submit-btn" type="submit" class="btn btn-primary"><wicket:message key="global.save"/></button>

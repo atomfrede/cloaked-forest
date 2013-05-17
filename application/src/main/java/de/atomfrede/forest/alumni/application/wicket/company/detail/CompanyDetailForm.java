@@ -192,7 +192,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 				if(possibleSector != null){
 					getModelObject().setSector(possibleSector);
 				}else{
-					company.setSector(sectorService.createSector(_sector));
+					getModelObject().setSector(sectorService.createSector(_sector));
 				}
 				companyDao.persist(getModelObject());
 			}
