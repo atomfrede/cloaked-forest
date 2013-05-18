@@ -14,30 +14,32 @@ import de.atomfrede.forest.alumni.service.query.Query;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 
 @SuppressWarnings("serial")
-public class SectorDetailPanel extends Panel{
+public class SectorDetailPanel extends Panel {
 
 	@SpringBean
 	private SectorDao sectorDao;
 
 	private Type mEditType;
 	private Long mSectorId;
-	
+
 	public SectorDetailPanel(String id, Type editType, Long sectorId) {
 		super(id);
 		this.mEditType = editType;
 		this.mSectorId = sectorId;
-		
-		add(new SectorDetailForm("sector-form", new AbstractEntityModel<Sector>(Sector.class,
-				mSectorId), mEditType));
-		
+
+		add(new SectorDetailForm("sector-form",
+				new AbstractEntityModel<Sector>(Sector.class, mSectorId),
+				mEditType));
+
 		add(new CompanyListPanel("companies", mSectorId));
-		
+
 		Query<Member> query = new Query<>(Member.class);
-		Filter sectorFilter = new Filter("sector", sectorDao.findById(sectorId), Filter.Type.EQ);
+		Filter sectorFilter = new Filter("sector",
+				sectorDao.findById(sectorId), Filter.Type.EQ);
 		query.addFilter(sectorFilter);
-		
+
 		add(new MemberResultsPanel("members", query));
-		
+
 	}
 
 }

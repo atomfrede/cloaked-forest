@@ -17,31 +17,31 @@ public class SectorDetailPage extends BasePage<Void> {
 	public static final String EDIT_TYPE = "type";
 	public static final String SECTOR_ID = "sectorID";
 	public static final String FROM_PAGE = "fromPage";
-	
+
 	@SpringBean
 	private SectorDao sectorDao;
-	
+
 	private Type mEditType;
 	private Long mSectorId;
-	
+
 	private Label header, subHeader;
-	
-	public SectorDetailPage(PageParameters params){
+
+	public SectorDetailPage(PageParameters params) {
 		super();
-		if(params.get(EDIT_TYPE) != null){
+		if (params.get(EDIT_TYPE) != null) {
 			mEditType = Type.valueOf(params.get(EDIT_TYPE).toString());
 		}
-		if(params.get(SECTOR_ID) != null){
+		if (params.get(SECTOR_ID) != null) {
 			mSectorId = Long.parseLong(params.get(SECTOR_ID).toString());
 		}
-		
+
 		createHeader();
-		
+
 		add(new SectorDetailPanel("details", mEditType, mSectorId));
 	}
-	
-	private void createHeader(){
-		if(mEditType != null){
+
+	private void createHeader() {
+		if (mEditType != null) {
 			switch (mEditType) {
 			case Create:
 				header = new Label("detail-header", _("legend.create.company"));
@@ -50,21 +50,21 @@ public class SectorDetailPage extends BasePage<Void> {
 			case Edit:
 				Sector sec = sectorDao.findById(mSectorId);
 				header = new Label("detail-header", _("legend.edit"));
-				if(sec != null && StringCheckUtil.isStringSet(sec.getSector())){
+				if (sec != null && StringCheckUtil.isStringSet(sec.getSector())) {
 					subHeader = new Label("detail-sub-header", sec.getSector());
 				}
 				break;
-				
+
 			default:
 				header = new Label("detail-header", _("legend.create.sector"));
 				subHeader = new Label("detail-sub-header", "");
 				break;
 			}
-		} else{
+		} else {
 			header = new Label("detail-header", _("legend.create.sector"));
 			subHeader = new Label("detail-sub-header", "");
 		}
-		
+
 		add(header, subHeader);
 	}
 }

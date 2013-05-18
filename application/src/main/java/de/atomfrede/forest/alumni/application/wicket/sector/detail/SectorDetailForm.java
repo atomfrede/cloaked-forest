@@ -85,7 +85,8 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 
 		sectorWrapper = new WebMarkupContainer("sector.wrapper");
 		sectorWrapper.setOutputMarkupId(true);
-		sector = new RequiredTextField<String>("sector", new PropertyModel<String>(this, "_sector"));
+		sector = new RequiredTextField<String>("sector",
+				new PropertyModel<String>(this, "_sector"));
 		sectorWrapper.add(sector);
 
 		add(sectorWrapper);
@@ -150,11 +151,11 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 			onSectorAlreadyExisting(_sector);
 		}
 	}
-	
+
 	private static class SectorAlreadyExistingException extends Exception {
-		
-		public SectorAlreadyExistingException(String sector){
-			super("Sector with name "+sector+" already exists.");
+
+		public SectorAlreadyExistingException(String sector) {
+			super("Sector with name " + sector + " already exists.");
 		}
 	}
 }
