@@ -38,7 +38,7 @@ public class MemberListActionPanel extends Panel {
 
 	@SpringBean
 	private CsvExporter csvExporter;
-	
+
 	@SpringBean
 	private PdfExporter pdfExporter;
 
@@ -96,27 +96,28 @@ public class MemberListActionPanel extends Panel {
 			@Override
 			public void onClick() {
 				File file = pdfExporter.generatePdfFile();
-				if(file != null){
-					try{
-						IResource resource = new ByteArrayResource("application/pdf",
+				if (file != null) {
+					try {
+						IResource resource = new ByteArrayResource(
+								"application/pdf",
 								FileUtils.readFileToByteArray(file),
 								"members.pdf");
 						IRequestHandler handler = new ResourceRequestHandler(
 								resource, null);
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
-					}catch (IOException ioe){
-						
+					} catch (IOException ioe) {
+
 					}
 				}
 
 			}
 
 		};
-		
+
 		pdfDownload.setIconType(IconType.file)
-		.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
-		
+				.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
+
 		add(pdfDownload);
 	}
 
