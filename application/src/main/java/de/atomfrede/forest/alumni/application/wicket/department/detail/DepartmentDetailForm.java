@@ -42,16 +42,16 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 
 	@SpringBean
 	private CompanyService companyService;
-	
+
 	@SpringBean
 	private CompanyDao companyDao;
 
 	@SpringBean
 	private DepartmentService departmentService;
-	
+
 	@SpringBean
 	private DepartmentDao departmentDao;
-	
+
 	private Type mEditType;
 	private Long mCompanyId;
 
@@ -108,7 +108,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		cancel.setLabel(Model.of(_("global.cancel")));
 
 		initFormValues();
-		
+
 		departmentWrapper = new WebMarkupContainer("department.wrapper");
 		departmentWrapper.setOutputMarkupId(true);
 		department = new RequiredTextField<String>("department",
@@ -122,20 +122,27 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		companyWrapper.add(addTypeahead("company"));
 
 		add(companyWrapper);
-		
+
 		setupAdressFields();
 
 	}
 
 	private void setupAdressFields() {
-		street = new TextField<>("personal.street", new PropertyModel<String>(this, "_street"));
-		number = new TextField<>("personal.number", new PropertyModel<String>(this, "_number"));
-		addon = new TextField<>("personal.addon", new PropertyModel<String>(this, "_addon"));
-		town = new TextField<>("personal.town", new PropertyModel<String>(this, "_town"));
-		postcode = new TextField<>("personal.postcode", new PropertyModel<String>(this, "_postcode"));
-		internet = new TextField<>("personal.internet", new PropertyModel<String>(this, "_internet"));
-		country = new TextField<>("personal.country", new PropertyModel<String>(this, "_country"));
-		
+		street = new TextField<>("personal.street", new PropertyModel<String>(
+				this, "_street"));
+		number = new TextField<>("personal.number", new PropertyModel<String>(
+				this, "_number"));
+		addon = new TextField<>("personal.addon", new PropertyModel<String>(
+				this, "_addon"));
+		town = new TextField<>("personal.town", new PropertyModel<String>(this,
+				"_town"));
+		postcode = new TextField<>("personal.postcode",
+				new PropertyModel<String>(this, "_postcode"));
+		internet = new TextField<>("personal.internet",
+				new PropertyModel<String>(this, "_internet"));
+		country = new TextField<>("personal.country",
+				new PropertyModel<String>(this, "_country"));
+
 		add(town, street, number, addon, postcode, country, internet);
 	}
 
@@ -155,15 +162,15 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 
 		return company;
 	}
-	
+
 	private void initFormValues() {
 		switch (mEditType) {
 		case Create:
 			_department = "";
 			_company = "";
-			if(mCompanyId != null){
+			if (mCompanyId != null) {
 				Company cmp = companyDao.findById(mCompanyId);
-				if(cmp != null){
+				if (cmp != null) {
 					_company = cmp.getCompany();
 				}
 			}
@@ -176,9 +183,9 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			break;
 		case Edit:
 			_department = getModelObject().getDepartment();
-			if(getModelObject().getCompany() != null){
+			if (getModelObject().getCompany() != null) {
 				_company = getModelObject().getCompany().getCompany();
-			}else{
+			} else {
 				_company = "";
 			}
 			_street = getModelObject().getStreet();
@@ -193,7 +200,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			break;
 		}
 	}
-	
+
 	@Override
 	protected void onError() {
 		this.feedbackPanel.setVisible(true);
@@ -201,7 +208,8 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		if (!department.isValid()) {
 			departmentWrapper.add(new AttributeAppender("class", " error"));
 		} else {
-			departmentWrapper.add(new AttributeModifier("class", "control-group"));
+			departmentWrapper.add(new AttributeModifier("class",
+					"control-group"));
 		}
 		if (!company.isValid()) {
 			companyWrapper.add(new AttributeAppender("class", " error"));
@@ -209,22 +217,23 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			companyWrapper.add(new AttributeModifier("class", "control-group"));
 		}
 	}
-	
+
 	@Override
 	public void onSubmit() {
 		Department dep = null;
 		try {
 			if (mEditType == Type.Create) {
-				if (companyService.departmentAlreadyExisting(_company, _department)) {
+				if (companyService.departmentAlreadyExisting(_company,
+						_department)) {
 					throw new DepartmentAlreadyExistingException(_department);
 				}
 				mEditType = Type.Edit;
 				dep = departmentService.createDepartment(_department);
 				Company cmp = companyDao.findByProperty("company", _company);
-				
-				if(cmp != null) {
+
+				if (cmp != null) {
 					dep.setCompany(cmp);
-				}else{
+				} else {
 					cmp = companyService.createCompany(_company);
 					dep.setCompany(cmp);
 				}
@@ -238,13 +247,14 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 				departmentDao.persist(dep);
 				setModel(new AbstractEntityModel<Department>(dep));
 			} else {
-				if (companyService.departmentAlreadyExisting(_company, _department)) {
+				if (companyService.departmentAlreadyExisting(_company,
+						_department)) {
 					throw new DepartmentAlreadyExistingException(_department);
 				}
 				Company cmp = companyDao.findByProperty("company", _company);
-				if(cmp != null) {
+				if (cmp != null) {
 					getModelObject().setCompany(cmp);
-				}else{
+				} else {
 					cmp = companyService.createCompany(_company);
 					getModelObject().setCompany(cmp);
 				}
@@ -268,13 +278,14 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			onDepartmentAlreadyExisting(_department);
 		}
 	}
+
 	private void onDepartmentAlreadyExisting(String departmentName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
 				"error.department.existing", departmentName).getString()));
 		nf.hideAfter(Duration.seconds(10));
 		error(nf);
 	}
-	
+
 	private static class DepartmentAlreadyExistingException extends Exception {
 
 		public DepartmentAlreadyExistingException(String departmentName) {
