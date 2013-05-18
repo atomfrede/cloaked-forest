@@ -26,7 +26,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Resource
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private CompanyDao companyDao;
 
@@ -59,7 +59,7 @@ public class CompanyServiceImpl implements CompanyService {
 		Company cp = new Company();
 		cp.setId(System.currentTimeMillis());
 		cp.setCompany(company);
-		
+
 		companyDao.persist(cp);
 		return cp;
 	}
@@ -92,15 +92,15 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional(readOnly = true)
 	public boolean departmentAlreadyExisting(String company, String department) {
 		Company cmp = companyDao.findByProperty("company", company);
-		if(cmp == null){
+		if (cmp == null) {
 			return false;
 		}
-		for(Department dmp:cmp.getDepartments()){
-			if(dmp.getDepartment().equals(department)){
+		for (Department dmp : cmp.getDepartments()) {
+			if (dmp.getDepartment().equals(department)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

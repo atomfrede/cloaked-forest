@@ -7,7 +7,8 @@ import java.util.List;
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
 
-public class Query<T extends AbstractEntity> implements Serializable{
+@SuppressWarnings("serial")
+public class Query<T extends AbstractEntity> implements Serializable {
 
 	protected Class<T> clazz;
 	protected List<Filter> filters;
