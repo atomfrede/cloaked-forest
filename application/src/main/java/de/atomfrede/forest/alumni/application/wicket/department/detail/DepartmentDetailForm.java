@@ -275,7 +275,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		error(nf);
 	}
 	
-	private class DepartmentAlreadyExistingException extends Exception {
+	private static class DepartmentAlreadyExistingException extends Exception {
 
 		public DepartmentAlreadyExistingException(String departmentName) {
 			super();

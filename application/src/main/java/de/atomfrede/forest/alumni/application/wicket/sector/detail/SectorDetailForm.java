@@ -151,7 +151,7 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 		}
 	}
 	
-	private class SectorAlreadyExistingException extends Exception {
+	private static class SectorAlreadyExistingException extends Exception {
 		
 		public SectorAlreadyExistingException(String sector){
 			super("Sector with name "+sector+" already exists.");
