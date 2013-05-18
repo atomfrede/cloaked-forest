@@ -2,6 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.util;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,15 +164,17 @@ public class CsvExporter {
 				}
 				writer.writeAll(linesToWrite);
 				return tempCsvFile;
-			} catch (Exception e) {
-				log.error("Could not write CSV.", e);
+			} catch (IOException ioe) {
+				log.error("Could not write CSV.", ioe);
 			} finally {
 				if (writer != null) {
 					writer.close();
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (IOException ioe) {
 
 		}
 
@@ -200,14 +203,16 @@ public class CsvExporter {
 
 				writer.writeAll(linesToWrite);
 				return tempCsvFile;
-			} catch (Exception e) {
+			} catch (IOException e) {
 				log.error("Could not write CSV.", e);
 			} finally {
 				if (writer != null) {
 					writer.close();
 				}
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 

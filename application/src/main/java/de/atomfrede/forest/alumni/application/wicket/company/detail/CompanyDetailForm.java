@@ -227,7 +227,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 		error(nf);
 	}
 
-	private class CompanyAlreadyExistingException extends Exception {
+	private static class CompanyAlreadyExistingException extends Exception {
 
 		public CompanyAlreadyExistingException(String companyName) {
 			super();

@@ -37,7 +37,7 @@ public class CompanyListPanel extends Panel {
 
 	@SpringBean
 	private DepartmentDao departmentDao;
-	
+
 	@SpringBean
 	private SectorDao sectorDao;
 
@@ -48,7 +48,7 @@ public class CompanyListPanel extends Panel {
 	private TextContentModal modalWarning;
 
 	private Label sectorInfo;
-	
+
 	private Long mSectorId;
 
 	public CompanyListPanel(String id) {
@@ -61,13 +61,14 @@ public class CompanyListPanel extends Panel {
 
 		sectorInfo = new Label("sector-info");
 		sectorInfo.setVisible(false);
-		
-		if(mSectorId != null && mSectorId != -1) {
-			sectorInfo = new Label("sector-info", Model.of(sectorDao.findById(mSectorId).getSector()));
+
+		if (mSectorId != null && mSectorId != -1) {
+			sectorInfo = new Label("sector-info", Model.of(sectorDao.findById(
+					mSectorId).getSector()));
 		}
-		
+
 		add(sectorInfo);
-		
+
 		add(new CompanyListActionPanel("company-action", mSectorId));
 
 		wmc = new WebMarkupContainer("table-wrapper");

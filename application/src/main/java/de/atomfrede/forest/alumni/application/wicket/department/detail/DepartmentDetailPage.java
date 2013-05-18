@@ -7,12 +7,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPanel;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
-import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 
 @SuppressWarnings("serial")

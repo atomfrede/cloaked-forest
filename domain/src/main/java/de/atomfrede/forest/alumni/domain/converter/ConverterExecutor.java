@@ -1,7 +1,9 @@
 package de.atomfrede.forest.alumni.domain.converter;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,8 +107,10 @@ public class ConverterExecutor {
 
 			reader.close();
 
-		} catch (Exception e) {
-			log.fatal("Could not Convert Degree.", e);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 		// CSVReader reader = new CSVReader(new )
 
@@ -132,7 +136,9 @@ public class ConverterExecutor {
 			}
 
 			reader.close();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -157,7 +163,9 @@ public class ConverterExecutor {
 			}
 
 			reader.close();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -191,7 +199,9 @@ public class ConverterExecutor {
 			}
 
 			reader.close();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -257,7 +267,9 @@ public class ConverterExecutor {
 					departmentDao.persist(dep);
 				}
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+
+		} catch (IOException ioe) {
 
 		}
 	}
@@ -320,9 +332,14 @@ public class ConverterExecutor {
 			memberDao.persistAll(members);
 			reader.close();
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+			throw e;
+		} catch (IOException ioe) {
+
+		} catch(ParseException pe){
+			
 		}
 	}
 
@@ -370,9 +387,12 @@ public class ConverterExecutor {
 
 			memberDao.persistAll(members);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 	}
 
@@ -413,9 +433,12 @@ public class ConverterExecutor {
 
 			memberDao.persistAll(membersDb);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+			throw e;
+		} catch (IOException ioe) {
+
 		}
 	}
 
@@ -517,9 +540,11 @@ public class ConverterExecutor {
 
 			// memberDao.persistAll(membersDb);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println("Error " + e);
+		} catch (IOException ioe) {
+			// TODO: handle exception
 		}
 	}
 }

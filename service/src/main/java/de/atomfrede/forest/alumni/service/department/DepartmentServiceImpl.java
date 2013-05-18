@@ -15,15 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 
 @Service(value = "departmentService")
 @Transactional(rollbackFor = Exception.class)
-public class DepartmentServiceImpl implements DepartmentService{
+public class DepartmentServiceImpl implements DepartmentService {
 	@Resource
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private DepartmentDao departmentDao;
 
@@ -34,7 +33,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 			return sessionFactory.openSession();
 		}
 	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -55,14 +53,13 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return crit.list();
 	}
 
-
 	@Override
 	@Transactional
 	public Department createDepartment(String department) {
 		Department dp = new Department();
 		dp.setId(System.currentTimeMillis());
 		dp.setDepartment(department);
-		
+
 		departmentDao.persist(dp);
 		return dp;
 	}
