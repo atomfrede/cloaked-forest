@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import br.com.digilabs.jqplot.chart.LabeledLineChart;
 import br.com.digilabs.jqplot.data.item.LabeledItem;
 import br.com.digilabs.jqplot.elements.Highlighter;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 
@@ -30,14 +31,6 @@ public class MemberCountGraphPanel extends Panel {
 	public MemberCountGraphPanel(String id) {
 		super(id);
 		setupGraph();
-		
-		/*
-		 *  $('#chart1').bind('jqplotDataClick',
-            function (ev, seriesIndex, pointIndex, data) {                
-                alert(1);
-            }
-        );
-		 */
 	}
 
 	/**
@@ -48,7 +41,7 @@ public class MemberCountGraphPanel extends Panel {
 			DateTime dt = new DateTime(System.currentTimeMillis());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 			String endYear = sdf.format(dt.toDate());
-			dt = dt.year().addToCopy(-10);
+			dt = dt.year().addToCopy(Numbers.TEN * -1);
 			String startYear = sdf.format(dt.toDate());
 
 			Map<Date, Integer> values = memberService.getMemberCountPerYear(dt
@@ -62,18 +55,10 @@ public class MemberCountGraphPanel extends Panel {
 
 			SimpleDateFormat sdfPlot = new SimpleDateFormat("yyyy-MM-dd");
 			Arrays.sort(dates);
-			int count = 0;
 			for (Date key : dates) {
-				if (count == 0) {
-					// lineChart.getXAxis().setMin(sdfPlot2.format(key));
-				}
-				if (count == dates.length) {
-
-				}
 				LabeledItem<Integer> item = new LabeledItem<Integer>(
 						sdfPlot.format(key), values.get(key));
 				lineChart.addValue(item);
-				count++;
 
 			}
 
@@ -84,7 +69,7 @@ public class MemberCountGraphPanel extends Panel {
 
 			lineChart.getYAxis().setAutoScale(true);
 			lineChart.getXAxis().getTickOptions().setFormatString("%b-%d-%Y");
-			lineChart.getYAxis().setMin(0 + "");
+			lineChart.getYAxis().setMin(Numbers.ZERO + "");
 			lineChart.getXAxis().setAutoScale(true);
 			add(new JQPlotChart("chart1", lineChart));
 		} catch (Exception e) {

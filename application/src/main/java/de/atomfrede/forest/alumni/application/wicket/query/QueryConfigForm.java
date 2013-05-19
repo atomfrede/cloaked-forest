@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
@@ -38,9 +40,11 @@ import de.atomfrede.forest.alumni.service.query.filter.Filter.Type;
 @SuppressWarnings("serial")
 public class QueryConfigForm extends BootstrapForm<Void> {
 
+	private final Log log = LogFactory.getLog(QueryConfigForm.class);
+
 	@SpringBean
 	private CsvExporter csvExporter;
-	
+
 	@SpringBean
 	private PdfExporter pdfExporter;
 
@@ -49,7 +53,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private CompanyFilterPanel companyFilterPanel;
 	private ActivityFilterPanel activityFilterPanel;
 	private SectorFilterPanel sectorFilterPanel;
-	
+
 	private MemberResultsPanel memberResultPanel;
 
 	private BootstrapLink<Void> csvDownload;
@@ -62,7 +66,6 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		setupCompanyFilter();
 		setupActivityFilter();
 		setupSectorFilter();
-	
 
 		addCsvDownload();
 		addPdfDownload();
@@ -82,7 +85,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		};
 
 		add(submitBtn);
-		
+
 		memberResultPanel = new MemberResultsPanel("member-results");
 		add(memberResultPanel);
 	}
@@ -162,7 +165,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
 					} catch (IOException ioe) {
-
+						log.error("Couldn't write PDF file.", ioe);
 					}
 				}
 
@@ -193,7 +196,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
 					} catch (IOException ioe) {
-
+						log.error("Couldn't write CSV file.", ioe);
 					}
 				}
 			}

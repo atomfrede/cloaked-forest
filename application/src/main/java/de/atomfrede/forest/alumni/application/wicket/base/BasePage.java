@@ -48,7 +48,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	public enum Type {
 		Edit, Create, Show
 	}
-	
+
 	protected User currentUser;
 	protected Label pageTitel;
 
@@ -85,7 +85,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	/**
-	 * Add all components that should be available on every page like navbar and footer.
+	 * Add all components that should be available on every page like navbar and
+	 * footer.
 	 * 
 	 * @param pageParameters
 	 */
@@ -154,23 +155,32 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	/**
 	 * Creates the dropdown navigation for companies, sectors and departments
+	 * 
 	 * @return
 	 */
 	private Component newCompanyDropDownButton() {
-		Component btn = new NavbarDropDownButton(Model.of(_("nav.companies").getString())) {
-			
+		Component btn = new NavbarDropDownButton(Model.of(_("nav.companies")
+				.getString())) {
+
 			@Override
 			protected List<AbstractLink> newSubMenuButtons(String arg0) {
 				final List<AbstractLink> subMenu = new ArrayList<>();
-				
-				subMenu.add(new MenuBookmarkablePageLink<>(CompanyPage.class, Model.of(_("nav.companies").getString())).setIconType(IconType.globe));
-				subMenu.add(new MenuBookmarkablePageLink<>(DepartmentPage.class, Model.of(_("nav.departments").getString())).setIconType(IconType.briefcase));
-				subMenu.add(new MenuBookmarkablePageLink<>(SectorPage.class, Model.of(_("nav.sector").getString())).setIconType(IconType.book));
+
+				subMenu.add(new MenuBookmarkablePageLink<>(CompanyPage.class,
+						Model.of(_("nav.companies").getString()))
+						.setIconType(IconType.globe));
+				subMenu.add(new MenuBookmarkablePageLink<>(
+						DepartmentPage.class, Model.of(_("nav.departments")
+								.getString())).setIconType(IconType.briefcase));
+				subMenu.add(new MenuBookmarkablePageLink<>(SectorPage.class,
+						Model.of(_("nav.sector").getString()))
+						.setIconType(IconType.book));
 				return subMenu;
 			}
-		}.setIconType(IconType.globe).setInverted(true).add(new DropDownAutoOpen());
-		
-		return btn;		
+		}.setIconType(IconType.globe).setInverted(true)
+				.add(new DropDownAutoOpen());
+
+		return btn;
 	}
 
 	@Override

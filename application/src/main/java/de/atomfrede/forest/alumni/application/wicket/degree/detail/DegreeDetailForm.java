@@ -20,6 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
 import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage.Type;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
@@ -117,7 +118,7 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 	protected void onError() {
 		// Only on validation errors we make the feedbackpanel visible
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!titleInput.isValid()) {
 			titleWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -148,7 +149,7 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 
 		NotificationMessage nf = new NotificationMessage(
 				Model.of("Gespeichert"));
-		nf.hideAfter(Duration.seconds(3));
+		nf.hideAfter(Duration.seconds(Numbers.FIVE));
 		success(nf);
 	}
 }

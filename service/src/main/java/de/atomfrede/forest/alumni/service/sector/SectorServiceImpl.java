@@ -23,7 +23,7 @@ public class SectorServiceImpl implements SectorService {
 
 	@Resource
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private SectorDao sectorDao;
 
@@ -34,6 +34,7 @@ public class SectorServiceImpl implements SectorService {
 			return sessionFactory.openSession();
 		}
 	}
+
 	@Override
 	@Transactional
 	public List<String> getTypeAheadSectors() {
@@ -48,22 +49,62 @@ public class SectorServiceImpl implements SectorService {
 		}
 		return results;
 	}
-	
+
 	@Override
 	@Transactional
 	public Sector createSector(String sector) {
 		Sector sec = new Sector();
 		sec.setSector(sector);
 		sec.setId(System.currentTimeMillis());
-		
+
 		sectorDao.persist(sec);
 		return sec;
 	}
-	
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public boolean alreadyExisting(String sector) {
 		return sectorDao.findByProperty("sector", sector) != null;
+	}
+
+	@Override
+	public List<Sector> list(long offset, long count) {
+		return sectorDao.list(offset, count);
+	}
+
+	@Override
+	public List<Sector> findAll() {
+		return sectorDao.findAll();
+	}
+
+	@Override
+	@Transactional
+	public Sector findById(Long id) {
+		return sectorDao.findById(id);
+	}
+
+	@Override
+	@Transactional
+	public Sector findByProperty(String propertyName, Object propertyValue) {
+		return sectorDao.findByProperty(propertyName, propertyValue);
+	}
+
+	@Override
+	@Transactional
+	public void remove(Sector entity) {
+		sectorDao.remove(entity);
+	}
+
+	@Override
+	@Transactional
+	public void persist(Sector entity) {
+		sectorDao.persist(entity);
+	}
+
+	@Override
+	@Transactional
+	public long count() {
+		return sectorDao.count();
 	}
 
 }

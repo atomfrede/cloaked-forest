@@ -25,6 +25,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
@@ -209,7 +210,7 @@ public class MemberListPanel extends Panel {
 			}
 
 		};
-		members.setItemsPerPage(15);
+		members.setItemsPerPage(Numbers.TEN + Numbers.FIVE);
 		members.setOutputMarkupId(true);
 		wmc.add(members);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));

@@ -20,6 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.user.detail.UserDetailPage;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
@@ -115,7 +116,7 @@ public class UserListPanel extends Panel {
 			}
 
 		};
-		users.setItemsPerPage(15);
+		users.setItemsPerPage(Numbers.TEN + Numbers.FIVE);
 		users.setOutputMarkupId(true);
 		wmc.add(users);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", users));

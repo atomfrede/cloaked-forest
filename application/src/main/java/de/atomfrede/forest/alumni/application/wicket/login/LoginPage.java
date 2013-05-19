@@ -1,17 +1,11 @@
 package de.atomfrede.forest.alumni.application.wicket.login;
 
-import java.util.List;
-
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import de.atomfrede.forest.alumni.application.wicket.base.AbstractAuthPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
-import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
-import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
-import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 import de.atomfrede.forest.alumni.service.user.UserService;
 import de.atomfrede.forest.alumni.service.user.UsernameAlreadyTakenException;

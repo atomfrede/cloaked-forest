@@ -106,8 +106,6 @@ public class LoginForm extends AbstractBaseForm<User> {
 
 		continueToOriginalDestination();
 		setResponsePage(getApp().getHomePage());
-		return;
-
 	}
 
 }

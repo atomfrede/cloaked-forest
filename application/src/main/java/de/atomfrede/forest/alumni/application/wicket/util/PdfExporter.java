@@ -2,14 +2,19 @@ package de.atomfrede.forest.alumni.application.wicket.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import com.lowagie.text.DocumentException;
 
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
@@ -26,6 +31,8 @@ public class PdfExporter {
 	 * Web address of the logo image
 	 */
 	static final String IMAGE = "https://raw.github.com/atomfrede/cloaked-forest/master/application/src/main/webapp/img/application.png";
+
+	private static Log log = LogFactory.getLog(PdfExporter.class);
 
 	@Autowired
 	private MemberDao memberDao;
@@ -151,13 +158,12 @@ public class PdfExporter {
 		sb.append(getPrivateAddress(member));
 		sb.append("</div>");
 
-		
-		if(isWorkAdressAvailable(member)){
+		if (isWorkAdressAvailable(member)) {
 			sb.append("<div class=\"work-address\">");
 			sb.append("<div class=\"work-address-header\">Dienstadresse</div>");
 			sb.append(getWorkAddress(member));
 			sb.append("</div>");
-			
+
 		}
 		sb.append("</div>");
 		sb.append("</div>");
@@ -166,20 +172,22 @@ public class PdfExporter {
 	}
 
 	/**
-	 * Returns if a valid workadress is available and should be display inside the generated PDF.
+	 * Returns if a valid workadress is available and should be display inside
+	 * the generated PDF.
 	 * 
 	 * @param member
 	 * @return
 	 */
-	private boolean isWorkAdressAvailable(Member member){
+	private boolean isWorkAdressAvailable(Member member) {
 		boolean isValid = false;
-		if(member.getDepartment() != null){
-			if(member.getCompany() != null || member.getDepartment().getCompany() != null){
+		if (member.getDepartment() != null) {
+			if (member.getCompany() != null
+					|| member.getDepartment().getCompany() != null) {
 				isValid = true;
 			}
 		}
-		
-		if(!isValid){
+
+		if (!isValid) {
 			ContactData cData = member.getContactData();
 			if (cData.getPhoneD() != null
 					&& StringCheckUtil.isStringSet(cData.getPhoneD())) {
@@ -202,18 +210,17 @@ public class PdfExporter {
 				return true;
 			}
 		}
-	
-		
+
 		return isValid;
 	}
-	
+
 	private String getWorkAddress(Member member) {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder leftBuilder = new StringBuilder();
 		StringBuilder rightBuilder = new StringBuilder();
 
 		Department dep = null;
-		
+
 		if (member.getDepartment() != null) {
 			dep = member.getDepartment();
 			if (member.getCompany() != null) {
@@ -225,10 +232,10 @@ public class PdfExporter {
 						+ "</b>");
 				leftBuilder.append("<br/>");
 			}
-			if(StringCheckUtil.isStringSet(dep.getDepartment())){
+			if (StringCheckUtil.isStringSet(dep.getDepartment())) {
 				leftBuilder.append(dep.getDepartment() + "<br/>");
 			}
-			
+
 			leftBuilder.append(dep.getStreet() + " " + dep.getNumber()
 					+ "<br/>");
 			if (StringCheckUtil.isStringSet(dep.getAddon())) {
@@ -506,8 +513,12 @@ public class PdfExporter {
 			renderer.finishPDF();
 
 			return tempPdfFile;
-		} catch (Exception e) {
-
+		} catch (IOException ioe) {
+			log.error("Couldn't write PDF file.", ioe);
+		} catch (DocumentException doce) {
+			log.error("Couldn't generate PDF from HTML.", doce);
+		} catch (RuntimeException e) {
+			throw e;
 		}
 		return null;
 	}

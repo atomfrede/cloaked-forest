@@ -13,29 +13,30 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
 
 @SuppressWarnings("serial")
-public class SectorFilterPanel extends Panel{
+public class SectorFilterPanel extends Panel {
 
 	@SpringBean
 	private SectorService sectorService;
-	
+
 	@SpringBean
 	private SectorDao sectorDao;
 
 	private String sector;
 
 	private Typeahead<String> typeahead;
-	
+
 	public SectorFilterPanel(String id) {
 		super(id);
 		add(addTypeahead("typeahead-sector"));
 		setupInput();
 	}
-	
+
 	private Component addTypeahead(String markupId) {
 		final IDataSource<String> dataSource = new IDataSource<String>() {
 
@@ -47,7 +48,7 @@ public class SectorFilterPanel extends Panel{
 
 		PropertyModel<String> model = new PropertyModel<>(this, "sector");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(15));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN + Numbers.FIVE));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;
@@ -65,7 +66,9 @@ public class SectorFilterPanel extends Panel{
 	}
 
 	/**
-	 * Returns the company with the name currently entered inside the typeahead input field.
+	 * Returns the company with the name currently entered inside the typeahead
+	 * input field.
+	 * 
 	 * @return
 	 */
 	public Sector getValue() {

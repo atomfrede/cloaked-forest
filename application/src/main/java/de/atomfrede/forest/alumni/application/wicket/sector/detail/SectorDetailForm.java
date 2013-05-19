@@ -20,6 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.application.wicket.sector.SectorPage;
@@ -108,7 +109,7 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 	@Override
 	protected void onError() {
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!sector.isValid()) {
 			sectorWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -119,7 +120,7 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 	private void onSectorAlreadyExisting(String sectorName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
 				"error.sector.existing", sectorName).getString()));
-		nf.hideAfter(Duration.seconds(10));
+		nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 
@@ -145,7 +146,7 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 			// It Was succesfull, so display a notifications about this
 			NotificationMessage nf = new NotificationMessage(Model.of(_(
 					"success.saved").getString()));
-			nf.hideAfter(Duration.seconds(3));
+			nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (SectorAlreadyExistingException e) {
 			onSectorAlreadyExisting(_sector);

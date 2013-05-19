@@ -69,9 +69,11 @@ public class BusinessCardPanel extends Panel {
 				company = new Label("company", Model.of(mem.getCompany()
 						.getCompany()));
 			}
-			if(mem.getDepartment() != null){ 
-				if(StringCheckUtil.isStringSet(mem.getDepartment().getDepartment())){
-					department = new Label("department", Model.of(mem.getDepartment().getDepartment()));
+			if (mem.getDepartment() != null) {
+				if (StringCheckUtil.isStringSet(mem.getDepartment()
+						.getDepartment())) {
+					department = new Label("department", Model.of(mem
+							.getDepartment().getDepartment()));
 				}
 			}
 		}

@@ -18,8 +18,8 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.department.detail.DepartmentDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
@@ -126,7 +126,6 @@ public class DepartmentListPanel extends Panel {
 				item.add(noHomepage);
 
 				final long departmentId = department.getId();
-				final String title = department.getDepartment();
 
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
 						"action-edit", Buttons.Type.Default) {
@@ -146,9 +145,9 @@ public class DepartmentListPanel extends Panel {
 		};
 
 		if (mCompanyId != null && mCompanyId != -1) {
-			departments.setItemsPerPage(3);
+			departments.setItemsPerPage(Numbers.THREE);
 		} else {
-			departments.setItemsPerPage(15);
+			departments.setItemsPerPage(Numbers.TEN + Numbers.FIVE);
 		}
 
 		departments.setOutputMarkupId(true);
@@ -156,7 +155,7 @@ public class DepartmentListPanel extends Panel {
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", departments));
 		add(wmc);
 	}
-	
+
 	private void editDepartment(long id) {
 		PageParameters params = new PageParameters();
 		params.add(DepartmentDetailPage.EDIT_TYPE, Type.Edit);

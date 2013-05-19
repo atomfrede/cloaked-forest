@@ -3,7 +3,6 @@ package de.atomfrede.forest.alumni.domain.dao;
 import java.util.List;
 
 import de.atomfrede.forest.alumni.domain.entity.IEntity;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
 
 public interface DAO<EntityClass extends IEntity> {
 

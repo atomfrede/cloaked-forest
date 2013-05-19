@@ -27,6 +27,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
@@ -34,6 +35,7 @@ import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
+import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
 
@@ -157,7 +159,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "_company");
 		company = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(20));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN * 2));
 		company.setRequired(true);
 
 		return company;
@@ -204,7 +206,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 	@Override
 	protected void onError() {
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!department.isValid()) {
 			departmentWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -272,17 +274,26 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			// It Was succesfull, so display a notifications about this
 			NotificationMessage nf = new NotificationMessage(Model.of(_(
 					"success.saved").getString()));
-			nf.hideAfter(Duration.seconds(3));
+			nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (DepartmentAlreadyExistingException caee) {
 			onDepartmentAlreadyExisting(_department);
+		} catch (CompanyAlreadyExistingException coaee) {
+			onCompanyAlreadyExisting(_company);
 		}
 	}
 
 	private void onDepartmentAlreadyExisting(String departmentName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
 				"error.department.existing", departmentName).getString()));
-		nf.hideAfter(Duration.seconds(10));
+		nf.hideAfter(Duration.seconds(Numbers.TEN));
+		error(nf);
+	}
+	
+	private void onCompanyAlreadyExisting(String companyName) {
+		NotificationMessage nf = new NotificationMessage(Model.of(_(
+				"error.company.existing", companyName).getString()));
+		nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 

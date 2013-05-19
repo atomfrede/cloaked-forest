@@ -27,6 +27,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
@@ -34,6 +35,7 @@ import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
+import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
 
@@ -126,9 +128,9 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 		case Create:
 			_company = "";
 			_sector = "";
-			if(mSectorId != null){
+			if (mSectorId != null) {
 				Sector sec = sectorDao.findById(mSectorId);
-				if(sec.getSector() != null){
+				if (sec.getSector() != null) {
 					_sector = sec.getSector();
 				}
 			}
@@ -159,7 +161,8 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "_sector");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(15));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
+						+ Numbers.FIVE));
 		typeahead.setRequired(true);
 
 		return typeahead;
@@ -168,7 +171,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 	@Override
 	protected void onError() {
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!company.isValid()) {
 			companyWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -213,7 +216,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 			// It Was succesfull, so display a notifications about this
 			NotificationMessage nf = new NotificationMessage(Model.of(_(
 					"success.saved").getString()));
-			nf.hideAfter(Duration.seconds(3));
+			nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (CompanyAlreadyExistingException caee) {
 			onCompanyAlreadyExisting(_company);
@@ -223,14 +226,8 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 	private void onCompanyAlreadyExisting(String companyName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
 				"error.company.existing", companyName).getString()));
-		nf.hideAfter(Duration.seconds(10));
+		nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 
-	private static class CompanyAlreadyExistingException extends Exception {
-
-		public CompanyAlreadyExistingException(String companyName) {
-			super();
-		}
-	}
 }

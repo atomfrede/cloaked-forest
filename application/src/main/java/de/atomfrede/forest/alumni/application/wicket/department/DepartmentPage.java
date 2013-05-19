@@ -9,7 +9,7 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 @MountPath(value = "/departments")
 public class DepartmentPage extends BasePage<Void> {
 
-	public static String COMPANY_ID = "companyId";
+	public static final String COMPANY_ID = "companyId";
 
 	private Long mCompanyId = null;
 

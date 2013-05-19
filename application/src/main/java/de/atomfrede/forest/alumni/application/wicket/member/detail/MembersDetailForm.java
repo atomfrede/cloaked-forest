@@ -44,6 +44,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.activity.ActivityProvider;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.custom.CompanySelectOption;
@@ -88,7 +89,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 	@SpringBean
 	private MemberService memberService;
-	
+
 	@SpringBean
 	private ProfessionService professionService;
 
@@ -164,17 +165,18 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		};
 
 		add(submitBtn);
-		
-		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel", Buttons.Type.Default){
+
+		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
 				setResponsePage(Homepage.class);
 			}
 		};
-		
+
 		add(cancel);
-		
+
 		cancel.setLabel(Model.of(_("global.cancel")));
 
 		emptySector = new Sector();
@@ -438,23 +440,13 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		add(lastnameWrapper);
 		add(personalMailWrapper);
 
-		/*
-		 * Select<Degree> degreeSelect = new Select<Degree>("degree-select", new
-		 * PropertyModel<Degree>(this, "selectedDegree"));
-		 * 
-		 * degreeSelect.add(new ListView<Degree>("degree-options", degrees) {
-		 * 
-		 * @Override protected void populateItem(ListItem<Degree> item) {
-		 * item.add(new DegreeSelectOption("degree-option", item
-		 * .getModelObject())); } });
-		 */
 		salutationSelect = new Select<String>("salutation-select",
 				new PropertyModel<String>(this, "_salutation"));
 
 		salutationSelect.add(new SelectOption<String>("male-select", Model
 				.of(_("salutation.male").getString())));
-		salutationSelect.add(new SelectOption<String>("female-select", Model.of(_(
-				"salutation.male").getString())));
+		salutationSelect.add(new SelectOption<String>("female-select", Model
+				.of(_("salutation.male").getString())));
 
 		firstname = new RequiredTextField<String>("firstname",
 				new PropertyModel<String>(this, "_firstname"));
@@ -512,9 +504,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	 * Sets up the second ('degree') tab
 	 */
 	private void setupDegreeTab() {
-		
-		
-		 final IDataSource<String> dataSource = new IDataSource<String>() {
+
+		final IDataSource<String> dataSource = new IDataSource<String>() {
 
 			@Override
 			public List<String> load() {
@@ -524,9 +515,10 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "_profession");
 		profession = new Typeahead<String>("profession", model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(15));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
+						+ Numbers.FIVE));
 		profession.size(SpanType.SPAN5);
-		
+
 		graduationYear = new TextField<String>("graduationyear",
 				new PropertyModel<String>(this, "_graduationYear"));
 
@@ -602,7 +594,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	protected void onError() {
 		// Only on validation errors we make the feedbackpanel visible
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!firstname.isValid()) {
 			firstnameWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -631,10 +623,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 					_personalMail);
 			editType = Type.Edit;
 			if (getPage() instanceof DetailPageListener) {
-				((DetailPageListener) getPage())
-						.editTypeChanged(editType);
+				((DetailPageListener) getPage()).editTypeChanged(editType);
 			}
-			
+
 			setModel(new AbstractEntityModel<Member>(member));
 		} else {
 			member = getModelObject();
@@ -714,7 +705,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		// It Was succesfull, so display a notifications about this
 		NotificationMessage nf = new NotificationMessage(
 				Model.of("Gespeichert"));
-		nf.hideAfter(Duration.seconds(3));
+		nf.hideAfter(Duration.seconds(Numbers.FIVE));
 		success(nf);
 
 	}

@@ -13,6 +13,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
 
 @SuppressWarnings("serial")
@@ -42,7 +43,7 @@ public class ProfessionFilterPanel extends Panel {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "value");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(8));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;
