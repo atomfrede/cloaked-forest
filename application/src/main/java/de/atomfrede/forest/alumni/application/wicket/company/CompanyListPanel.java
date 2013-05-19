@@ -20,6 +20,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
@@ -136,13 +137,12 @@ public class CompanyListPanel extends Panel {
 						}
 					};
 
-					link.add(new Label("label", Model.of(0 + "")));
+					link.add(new Label("label", Model.of(Numbers.ZERO + "")));
 					link.setEnabled(false);
 					item.add(link);
 				}
 
 				final long companyId = company.getId();
-				final String title = company.getCompany();
 
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
 						"action-edit", Buttons.Type.Default) {
@@ -160,7 +160,7 @@ public class CompanyListPanel extends Panel {
 			}
 
 		};
-		companies.setItemsPerPage(15);
+		companies.setItemsPerPage(Numbers.TEN + Numbers.FIVE);
 		companies.setOutputMarkupId(true);
 		wmc.add(companies);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", companies));

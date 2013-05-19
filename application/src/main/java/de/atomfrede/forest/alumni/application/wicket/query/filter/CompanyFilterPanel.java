@@ -13,6 +13,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
@@ -47,7 +48,7 @@ public class CompanyFilterPanel extends Panel {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "company");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(10));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;

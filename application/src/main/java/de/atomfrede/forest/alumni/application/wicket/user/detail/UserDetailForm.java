@@ -21,6 +21,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.application.wicket.user.UserPage;
 import de.atomfrede.forest.alumni.application.wicket.user.detail.UserDetailPage.Type;
@@ -135,7 +136,7 @@ public class UserDetailForm extends BootstrapForm<User> {
 	protected void onError() {
 		// Only on validation errors we make the feedbackpanel visible
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!username.isValid()) {
 			usernameWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -183,12 +184,12 @@ public class UserDetailForm extends BootstrapForm<User> {
 
 			NotificationMessage nf = new NotificationMessage(
 					Model.of("Gespeichert"));
-			nf.hideAfter(Duration.seconds(3));
+			nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (UsernameAlreadyTakenException e) {
 			NotificationMessage nf = new NotificationMessage(
 					Model.of("Benutzername bereits vergeben"));
-			nf.hideAfter(Duration.seconds(3));
+			nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			error(nf);
 		}
 	}
