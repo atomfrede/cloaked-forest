@@ -13,21 +13,22 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
 
 @SuppressWarnings("serial")
-public class CompanyListActionPanel extends Panel{
+public class CompanyListActionPanel extends Panel {
 
 	private BootstrapLink<Void> newCompany;
 	private Long mSectorId;
-	
-	public CompanyListActionPanel(String id){
+
+	public CompanyListActionPanel(String id) {
 		this(id, null);
 	}
-	
+
 	public CompanyListActionPanel(String id, Long sectorId) {
 		super(id);
-		addNewCompany();;
+		addNewCompany();
+		;
 		mSectorId = sectorId;
 	}
-	
+
 	private void addNewCompany() {
 		newCompany = new BootstrapLink<Void>("btn-new-company",
 				Buttons.Type.Primary) {
@@ -42,12 +43,12 @@ public class CompanyListActionPanel extends Panel{
 				Model.of(_("company.action.new")));
 		add(newCompany);
 	}
-	
-	private void onNewCompany(){
+
+	private void onNewCompany() {
 		PageParameters params = new PageParameters();
 		params.add(CompanyDetailPage.EDIT_TYPE, Type.Create);
 		params.add(CompanyDetailPage.COMPANY_ID, "-1");
-		params.add(CompanyDetailPage.SECTOR_ID, mSectorId+"");
+		params.add(CompanyDetailPage.SECTOR_ID, mSectorId + "");
 		setResponsePage(CompanyDetailPage.class, params);
 	}
 }

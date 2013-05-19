@@ -126,9 +126,9 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 		case Create:
 			_company = "";
 			_sector = "";
-			if(mSectorId != null){
+			if (mSectorId != null) {
 				Sector sec = sectorDao.findById(mSectorId);
-				if(sec.getSector() != null){
+				if (sec.getSector() != null) {
 					_sector = sec.getSector();
 				}
 			}
