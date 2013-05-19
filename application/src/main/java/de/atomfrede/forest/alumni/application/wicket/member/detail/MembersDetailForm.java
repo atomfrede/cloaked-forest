@@ -88,7 +88,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 	@SpringBean
 	private MemberService memberService;
-	
+
 	@SpringBean
 	private ProfessionService professionService;
 
@@ -164,17 +164,18 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		};
 
 		add(submitBtn);
-		
-		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel", Buttons.Type.Default){
+
+		BootstrapLink<Void> cancel = new BootstrapLink<Void>("btn-cancel",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
 				setResponsePage(Homepage.class);
 			}
 		};
-		
+
 		add(cancel);
-		
+
 		cancel.setLabel(Model.of(_("global.cancel")));
 
 		emptySector = new Sector();
@@ -453,8 +454,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 		salutationSelect.add(new SelectOption<String>("male-select", Model
 				.of(_("salutation.male").getString())));
-		salutationSelect.add(new SelectOption<String>("female-select", Model.of(_(
-				"salutation.male").getString())));
+		salutationSelect.add(new SelectOption<String>("female-select", Model
+				.of(_("salutation.male").getString())));
 
 		firstname = new RequiredTextField<String>("firstname",
 				new PropertyModel<String>(this, "_firstname"));
@@ -512,9 +513,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	 * Sets up the second ('degree') tab
 	 */
 	private void setupDegreeTab() {
-		
-		
-		 final IDataSource<String> dataSource = new IDataSource<String>() {
+
+		final IDataSource<String> dataSource = new IDataSource<String>() {
 
 			@Override
 			public List<String> load() {
@@ -526,7 +526,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		profession = new Typeahead<String>("profession", model, dataSource,
 				new TypeaheadConfig().withNumberOfItems(15));
 		profession.size(SpanType.SPAN5);
-		
+
 		graduationYear = new TextField<String>("graduationyear",
 				new PropertyModel<String>(this, "_graduationYear"));
 
@@ -631,10 +631,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 					_personalMail);
 			editType = Type.Edit;
 			if (getPage() instanceof DetailPageListener) {
-				((DetailPageListener) getPage())
-						.editTypeChanged(editType);
+				((DetailPageListener) getPage()).editTypeChanged(editType);
 			}
-			
+
 			setModel(new AbstractEntityModel<Member>(member));
 		} else {
 			member = getModelObject();

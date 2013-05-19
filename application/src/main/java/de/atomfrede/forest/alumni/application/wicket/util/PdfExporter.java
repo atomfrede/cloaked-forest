@@ -151,13 +151,12 @@ public class PdfExporter {
 		sb.append(getPrivateAddress(member));
 		sb.append("</div>");
 
-		
-		if(isWorkAdressAvailable(member)){
+		if (isWorkAdressAvailable(member)) {
 			sb.append("<div class=\"work-address\">");
 			sb.append("<div class=\"work-address-header\">Dienstadresse</div>");
 			sb.append(getWorkAddress(member));
 			sb.append("</div>");
-			
+
 		}
 		sb.append("</div>");
 		sb.append("</div>");
@@ -166,20 +165,22 @@ public class PdfExporter {
 	}
 
 	/**
-	 * Returns if a valid workadress is available and should be display inside the generated PDF.
+	 * Returns if a valid workadress is available and should be display inside
+	 * the generated PDF.
 	 * 
 	 * @param member
 	 * @return
 	 */
-	private boolean isWorkAdressAvailable(Member member){
+	private boolean isWorkAdressAvailable(Member member) {
 		boolean isValid = false;
-		if(member.getDepartment() != null){
-			if(member.getCompany() != null || member.getDepartment().getCompany() != null){
+		if (member.getDepartment() != null) {
+			if (member.getCompany() != null
+					|| member.getDepartment().getCompany() != null) {
 				isValid = true;
 			}
 		}
-		
-		if(!isValid){
+
+		if (!isValid) {
 			ContactData cData = member.getContactData();
 			if (cData.getPhoneD() != null
 					&& StringCheckUtil.isStringSet(cData.getPhoneD())) {
@@ -202,18 +203,17 @@ public class PdfExporter {
 				return true;
 			}
 		}
-	
-		
+
 		return isValid;
 	}
-	
+
 	private String getWorkAddress(Member member) {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder leftBuilder = new StringBuilder();
 		StringBuilder rightBuilder = new StringBuilder();
 
 		Department dep = null;
-		
+
 		if (member.getDepartment() != null) {
 			dep = member.getDepartment();
 			if (member.getCompany() != null) {
@@ -225,10 +225,10 @@ public class PdfExporter {
 						+ "</b>");
 				leftBuilder.append("<br/>");
 			}
-			if(StringCheckUtil.isStringSet(dep.getDepartment())){
+			if (StringCheckUtil.isStringSet(dep.getDepartment())) {
 				leftBuilder.append(dep.getDepartment() + "<br/>");
 			}
-			
+
 			leftBuilder.append(dep.getStreet() + " " + dep.getNumber()
 					+ "<br/>");
 			if (StringCheckUtil.isStringSet(dep.getAddon())) {

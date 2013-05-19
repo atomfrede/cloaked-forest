@@ -10,19 +10,19 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.sector.detail.SectorDetailPage;
 
 @SuppressWarnings("serial")
-public class SectorListActionPanel extends Panel{
+public class SectorListActionPanel extends Panel {
 
 	private BootstrapLink<Void> newSector;
-	
+
 	public SectorListActionPanel(String id) {
 		super(id);
-		addNewSector();;
+		addNewSector();
+		;
 	}
-	
+
 	private void addNewSector() {
 		newSector = new BootstrapLink<Void>("btn-new-sector",
 				Buttons.Type.Primary) {
@@ -37,8 +37,8 @@ public class SectorListActionPanel extends Panel{
 				Model.of(_("sector.action.new")));
 		add(newSector);
 	}
-	
-	private void onNewSector(){
+
+	private void onNewSector() {
 		PageParameters params = new PageParameters();
 		params.add(SectorDetailPage.EDIT_TYPE, Type.Create);
 		params.add(SectorDetailPage.SECTOR_ID, "-1");

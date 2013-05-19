@@ -13,18 +13,18 @@ import de.atomfrede.forest.alumni.domain.dao.activity.ActivityDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 
 @SuppressWarnings("serial")
-public class ActivityFilterPanel extends Panel{
+public class ActivityFilterPanel extends Panel {
 
 	@SpringBean
 	private ActivityDao activityDao;
-	
+
 	DataView<Activity> activities;
-	
+
 	public ActivityFilterPanel(String id) {
 		super(id);
 		populateItems();
 	}
-	
+
 	/**
 	 * Populates the last Tab with checkboxes for possible activites.
 	 */
@@ -38,7 +38,6 @@ public class ActivityFilterPanel extends Panel{
 				CheckBox checkBox = null;
 				boolean checked = false;
 				checkBox = new CheckBox("activity", Model.of(Boolean.FALSE));
-				
 
 				checkBox.add(new AttributeModifier("data-label", item
 						.getModelObject().getActivity()));

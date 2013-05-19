@@ -33,41 +33,40 @@ import de.atomfrede.forest.alumni.service.member.MemberService;
 import de.atomfrede.forest.alumni.service.query.Query;
 
 @SuppressWarnings("serial")
-public class MemberResultsPanel extends Panel{
+public class MemberResultsPanel extends Panel {
 
 	@SpringBean
 	private MemberDao memberDao;
 
 	@SpringBean
 	private MemberService memberService;
-	
+
 	private MemberQueryProvider memberProvider;
 	private DataView<Member> members;
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
-	
+
 	private Query memberQuery = null;
-	
-	public MemberResultsPanel(String id){
+
+	public MemberResultsPanel(String id) {
 		this(id, null);
 	}
-	
+
 	public MemberResultsPanel(String id, Query query) {
 		super(id);
-		
+
 		this.memberQuery = query;
-		
+
 		setOutputMarkupId(true);
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 		setupModalInfo();
-		
-		
+
 	}
-	
+
 	private void populateItems() {
 
 		members = new DataView<Member>("members", getMemberProvider()) {
@@ -158,34 +157,34 @@ public class MemberResultsPanel extends Panel{
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
 		add(wmc);
 	}
-	
+
 	protected void doFilter(Query query) {
 		getMemberProvider().setQuery(query);
 	}
-	
+
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
 		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalWarning);
 	}
-	
+
 	private void setupModalInfo() {
 		modalInfo = new BusinessCardModal("modal-info", null);
 		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalInfo);
 	}
-	
+
 	private MemberQueryProvider getMemberProvider() {
 		if (memberProvider == null) {
 			memberProvider = new MemberQueryProvider();
-			if(memberQuery != null){
+			if (memberQuery != null) {
 				memberProvider.setQuery(memberQuery);
 			}
 		}
 		return memberProvider;
 	}
-	
+
 	private void infoMember(final long id) {
 		Member mem = memberDao.findById(id);
 
@@ -205,8 +204,7 @@ public class MemberResultsPanel extends Panel{
 				mem.getFirstname(), mem.getLastname(), street, postTown,
 				mailPrivate).getString();
 
-		final BusinessCardModal modal = new BusinessCardModal(
-				"modal-info", id);
+		final BusinessCardModal modal = new BusinessCardModal("modal-info", id);
 		modal.setOutputMarkupId(true);
 		modal.addCloseButton(Model.of(_("global.close").getString()));
 		modal.header(Model.of(header));

@@ -35,7 +35,7 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	@Transactional
 	public List<?> queryDatabase(Query<?> query) {
-		if(query == null) {
+		if (query == null) {
 			return new ArrayList<>();
 		}
 		Criteria crit = getSession().createCriteria(query.clazz);

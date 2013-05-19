@@ -6,9 +6,9 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
 
 @SuppressWarnings("serial")
 @MountPath(value = "/sectors")
-public class SectorPage extends BasePage<Void>{
+public class SectorPage extends BasePage<Void> {
 
-	public SectorPage(){
+	public SectorPage() {
 		super();
 		add(new SectorListPanel("sectors"));
 	}

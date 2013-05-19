@@ -12,7 +12,7 @@ import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 
 @SuppressWarnings("serial")
-public class SectorProvider implements IDataProvider<Sector>{
+public class SectorProvider implements IDataProvider<Sector> {
 
 	@SpringBean
 	private SectorDao sectorDao;
@@ -20,11 +20,11 @@ public class SectorProvider implements IDataProvider<Sector>{
 	public SectorProvider() {
 		Injector.get().inject(this);
 	}
-	
+
 	@Override
 	public void detach() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class SectorServiceImpl implements SectorService {
 
 	@Resource
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	private SectorDao sectorDao;
 
@@ -34,6 +34,7 @@ public class SectorServiceImpl implements SectorService {
 			return sessionFactory.openSession();
 		}
 	}
+
 	@Override
 	@Transactional
 	public List<String> getTypeAheadSectors() {
@@ -48,20 +49,20 @@ public class SectorServiceImpl implements SectorService {
 		}
 		return results;
 	}
-	
+
 	@Override
 	@Transactional
 	public Sector createSector(String sector) {
 		Sector sec = new Sector();
 		sec.setSector(sector);
 		sec.setId(System.currentTimeMillis());
-		
+
 		sectorDao.persist(sec);
 		return sec;
 	}
-	
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public boolean alreadyExisting(String sector) {
 		return sectorDao.findByProperty("sector", sector) != null;
 	}

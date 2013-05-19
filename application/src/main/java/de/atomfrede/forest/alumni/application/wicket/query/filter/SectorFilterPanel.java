@@ -18,24 +18,24 @@ import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
 
 @SuppressWarnings("serial")
-public class SectorFilterPanel extends Panel{
+public class SectorFilterPanel extends Panel {
 
 	@SpringBean
 	private SectorService sectorService;
-	
+
 	@SpringBean
 	private SectorDao sectorDao;
 
 	private String sector;
 
 	private Typeahead<String> typeahead;
-	
+
 	public SectorFilterPanel(String id) {
 		super(id);
 		add(addTypeahead("typeahead-sector"));
 		setupInput();
 	}
-	
+
 	private Component addTypeahead(String markupId) {
 		final IDataSource<String> dataSource = new IDataSource<String>() {
 
@@ -65,7 +65,9 @@ public class SectorFilterPanel extends Panel{
 	}
 
 	/**
-	 * Returns the company with the name currently entered inside the typeahead input field.
+	 * Returns the company with the name currently entered inside the typeahead
+	 * input field.
+	 * 
 	 * @return
 	 */
 	public Sector getValue() {

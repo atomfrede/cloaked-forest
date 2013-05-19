@@ -20,44 +20,40 @@ import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
-import de.atomfrede.forest.alumni.application.wicket.company.detail.CompanyDetailPage;
-import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
-import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
-import de.atomfrede.forest.alumni.application.wicket.member.MemberListActionPanel;
 import de.atomfrede.forest.alumni.application.wicket.sector.detail.SectorDetailPage;
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
 
 @SuppressWarnings("serial")
-public class SectorListPanel extends Panel{
+public class SectorListPanel extends Panel {
 
 	@SpringBean
 	private SectorService sectorService;
-	
+
 	@SpringBean
 	private CompanyDao companyDao;
-	
+
 	private SectorListActionPanel actionPanel;
-	
+
 	private SectorProvider sectorProvider;
 	private DataView<Sector> sectors;
 
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
-	
+
 	public SectorListPanel(String id) {
 		super(id);
-		
+
 		actionPanel = new SectorListActionPanel("sector-action");
 		add(actionPanel);
-		
+
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 	}
-	
+
 	private SectorProvider getSectorProvider() {
 		if (sectorProvider == null) {
 			sectorProvider = new SectorProvider();
@@ -71,7 +67,7 @@ public class SectorListPanel extends Panel{
 		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalWarning);
 	}
-	
+
 	private void populateItems() {
 
 		sectors = new DataView<Sector>("sectors", getSectorProvider()) {
@@ -80,22 +76,23 @@ public class SectorListPanel extends Panel{
 			protected void populateItem(Item<Sector> item) {
 				final Sector sector = item.getModel().getObject();
 
-				item.add(new Label("sector-name",
-						new PropertyModel<String>(sector, "sector")));
+				item.add(new Label("sector-name", new PropertyModel<String>(
+						sector, "sector")));
 
 				final long sectorId = sector.getId();
-				
-				int companyCount = companyDao.findAllByProperty("sector.id", sectorId).size();
-				
-				Link<Void> link = new Link<Void>("sector-companies"){
+
+				int companyCount = companyDao.findAllByProperty("sector.id",
+						sectorId).size();
+
+				Link<Void> link = new Link<Void>("sector-companies") {
 
 					@Override
 					public void onClick() {
 						showCompanies(sectorId);
 					}
 				};
-				
-				link.add(new Label("label", Model.of(companyCount+"")));
+
+				link.add(new Label("label", Model.of(companyCount + "")));
 				item.add(link);
 
 				BootstrapLink<Void> editUser = new BootstrapLink<Void>(
@@ -110,7 +107,6 @@ public class SectorListPanel extends Panel{
 				editUser.setIconType(IconType.pencil)
 						.setSize(Buttons.Size.Mini).setInverted(false);
 
-
 				item.add(editUser);
 			}
 
@@ -121,14 +117,14 @@ public class SectorListPanel extends Panel{
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", sectors));
 		add(wmc);
 	}
-	
-	private void editSector(Long sectorId){
+
+	private void editSector(Long sectorId) {
 		PageParameters params = new PageParameters();
 		params.add(SectorDetailPage.EDIT_TYPE, Type.Edit);
 		params.add(SectorDetailPage.SECTOR_ID, sectorId);
 		setResponsePage(SectorDetailPage.class, params);
 	}
-	
+
 	private void showCompanies(long id) {
 		PageParameters params = new PageParameters();
 		params.add(CompanyPage.SECTOR_ID, id);
