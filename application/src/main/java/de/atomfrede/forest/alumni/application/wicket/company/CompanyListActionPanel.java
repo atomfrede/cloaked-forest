@@ -25,7 +25,6 @@ public class CompanyListActionPanel extends Panel {
 	public CompanyListActionPanel(String id, Long sectorId) {
 		super(id);
 		addNewCompany();
-		;
 		mSectorId = sectorId;
 	}
 

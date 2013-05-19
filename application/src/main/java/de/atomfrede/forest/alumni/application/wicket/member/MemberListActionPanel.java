@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
@@ -33,6 +35,8 @@ import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 @SuppressWarnings("serial")
 public class MemberListActionPanel extends Panel {
 
+	private final Log log = LogFactory.getLog(MemberListActionPanel.class);
+	
 	@SpringBean
 	private MemberDao memberDao;
 
@@ -47,7 +51,6 @@ public class MemberListActionPanel extends Panel {
 	private BootstrapLink<Void> pdfDownload;
 	private TextField<String> nameFilter;
 	private Form<String> filterForm;
-	private String currentFilter = "";
 
 	public MemberListActionPanel(String id) {
 		super(id);
@@ -107,7 +110,7 @@ public class MemberListActionPanel extends Panel {
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
 					} catch (IOException ioe) {
-
+						log.error("Couldn't write PDF File.", ioe);
 					}
 				}
 
@@ -138,7 +141,7 @@ public class MemberListActionPanel extends Panel {
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
 					} catch (IOException ioe) {
-
+						log.error("Couldn't write CSV file.", ioe);
 					}
 				}
 

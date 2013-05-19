@@ -2,14 +2,19 @@ package de.atomfrede.forest.alumni.application.wicket.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import com.lowagie.text.DocumentException;
 
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
@@ -26,6 +31,8 @@ public class PdfExporter {
 	 * Web address of the logo image
 	 */
 	static final String IMAGE = "https://raw.github.com/atomfrede/cloaked-forest/master/application/src/main/webapp/img/application.png";
+
+	private static Log log = LogFactory.getLog(PdfExporter.class);
 
 	@Autowired
 	private MemberDao memberDao;
@@ -506,8 +513,12 @@ public class PdfExporter {
 			renderer.finishPDF();
 
 			return tempPdfFile;
-		} catch (Exception e) {
-
+		} catch (IOException ioe) {
+			log.error("Couldn't write PDF file.", ioe);
+		} catch (DocumentException doce) {
+			log.error("Couldn't generate PDF from HTML.", doce);
+		} catch (RuntimeException e) {
+			throw e;
 		}
 		return null;
 	}

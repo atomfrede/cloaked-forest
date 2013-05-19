@@ -30,14 +30,6 @@ public class MemberCountGraphPanel extends Panel {
 	public MemberCountGraphPanel(String id) {
 		super(id);
 		setupGraph();
-		
-		/*
-		 *  $('#chart1').bind('jqplotDataClick',
-            function (ev, seriesIndex, pointIndex, data) {                
-                alert(1);
-            }
-        );
-		 */
 	}
 
 	/**
@@ -64,12 +56,6 @@ public class MemberCountGraphPanel extends Panel {
 			Arrays.sort(dates);
 			int count = 0;
 			for (Date key : dates) {
-				if (count == 0) {
-					// lineChart.getXAxis().setMin(sdfPlot2.format(key));
-				}
-				if (count == dates.length) {
-
-				}
 				LabeledItem<Integer> item = new LabeledItem<Integer>(
 						sdfPlot.format(key), values.get(key));
 				lineChart.addValue(item);

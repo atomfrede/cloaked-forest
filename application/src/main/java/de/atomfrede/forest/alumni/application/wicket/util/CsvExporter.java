@@ -175,7 +175,7 @@ public class CsvExporter {
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (IOException ioe) {
-
+			log.error("Could not write CSV. CLosing stream failed.", ioe);
 		}
 
 		return null;
@@ -211,9 +211,9 @@ public class CsvExporter {
 				}
 			}
 		} catch (RuntimeException e) {
-
+			throw e;
 		} catch (IOException ioe) {
-
+			log.error("Could not write CSV. Closing stream failed.", ioe);
 		}
 
 		return null;

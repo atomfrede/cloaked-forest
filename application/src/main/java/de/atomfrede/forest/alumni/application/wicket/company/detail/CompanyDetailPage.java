@@ -2,6 +2,8 @@ package de.atomfrede.forest.alumni.application.wicket.company.detail;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -19,6 +21,8 @@ public class CompanyDetailPage extends BasePage<Void> {
 	public static final String SECTOR_ID = "sectorId";
 	public static final String FROM_PAGE = "fromPage";
 
+	private final Log log = LogFactory.getLog(CompanyDetailPage.class);
+	
 	@SpringBean
 	private CompanyDao companyDao;
 
@@ -40,6 +44,7 @@ public class CompanyDetailPage extends BasePage<Void> {
 				mSectorId = Long.parseLong(params.get(SECTOR_ID).toString());
 			} catch (NumberFormatException nfe) {
 				// Doesn't matter if this happens here
+				log.trace("Couldn't parse sector ID.", nfe);
 			}
 		}
 

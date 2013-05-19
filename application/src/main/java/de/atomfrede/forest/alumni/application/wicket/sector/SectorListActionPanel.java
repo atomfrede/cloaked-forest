@@ -20,7 +20,6 @@ public class SectorListActionPanel extends Panel {
 	public SectorListActionPanel(String id) {
 		super(id);
 		addNewSector();
-		;
 	}
 
 	private void addNewSector() {
