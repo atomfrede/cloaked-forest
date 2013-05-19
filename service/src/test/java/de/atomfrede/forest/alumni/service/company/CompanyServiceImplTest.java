@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,13 +30,21 @@ public class CompanyServiceImplTest {
 	private String company_2 = "Lenovo";
 	private String company_3 = "Google";
 	private String company_4 = "Apple";
-
+	
 	@Before
 	public void setup() {
 		companyService.createCompany(company_1);
 		companyService.createCompany(company_2);
 		companyService.createCompany(company_3);
 		companyService.createCompany(company_4);
+	}
+	
+	@After
+	public void cleanup(){
+		List<Company> companies = companyDao.findAll();
+		for(Company cmp:companies){
+			companyDao.remove(cmp);
+		}
 	}
 	
 	@Test
