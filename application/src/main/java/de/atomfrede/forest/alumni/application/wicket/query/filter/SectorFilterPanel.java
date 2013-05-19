@@ -13,6 +13,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
@@ -47,7 +48,7 @@ public class SectorFilterPanel extends Panel {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "sector");
 		typeahead = new Typeahead<String>(markupId, model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(15));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN + Numbers.FIVE));
 		typeahead.size(SpanType.SPAN5);
 
 		return typeahead;

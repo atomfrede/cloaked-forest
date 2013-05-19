@@ -47,12 +47,14 @@ public class MemberResultsPanel extends Panel {
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
 
+	@SuppressWarnings("rawtypes")
 	private Query memberQuery = null;
 
 	public MemberResultsPanel(String id) {
 		this(id, null);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MemberResultsPanel(String id, Query query) {
 		super(id);
 

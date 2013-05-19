@@ -1,6 +1,7 @@
 package de.atomfrede.forest.alumni.application.wicket.graph;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
+
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -10,7 +11,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import br.com.digilabs.jqplot.JqPlotResources;
 import br.com.digilabs.jqplot.chart.BarChart;
-import br.com.digilabs.jqplot.elements.RendererOptions;
 import br.com.digilabs.jqplot.elements.TickOptions;
 import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 import de.atomfrede.forest.alumni.service.member.MemberService;
@@ -19,7 +19,8 @@ import de.atomfrede.forest.alumni.service.member.MemberService;
 public class SectorGraphPanel extends Panel {
 
 	private final Log log = LogFactory.getLog(SectorGraphPanel.class);
-
+	
+	private static final int ANGLE = -45;
 	@SpringBean
 	MemberService memberService;
 
@@ -44,7 +45,7 @@ public class SectorGraphPanel extends Panel {
 		barchart.addValues(intValues);
 		barchart.getXAxis().setTicks(ticks);
 		TickOptions tickOptions = new TickOptions();
-		tickOptions.setAngle(-45);
+		tickOptions.setAngle(ANGLE);
 
 		barchart.getAxesDefaults().setTickRenderer(
 				JqPlotResources.CanvasAxisTickRenderer);

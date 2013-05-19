@@ -18,6 +18,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
 import de.atomfrede.forest.alumni.application.wicket.sector.detail.SectorDetailPage;
@@ -111,7 +112,7 @@ public class SectorListPanel extends Panel {
 			}
 
 		};
-		sectors.setItemsPerPage(15);
+		sectors.setItemsPerPage(Numbers.TEN + Numbers.FIVE);
 		sectors.setOutputMarkupId(true);
 		wmc.add(sectors);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", sectors));

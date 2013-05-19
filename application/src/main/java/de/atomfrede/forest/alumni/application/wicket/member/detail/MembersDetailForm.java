@@ -44,6 +44,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.activity.ActivityProvider;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.custom.CompanySelectOption;
@@ -439,16 +440,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		add(lastnameWrapper);
 		add(personalMailWrapper);
 
-		/*
-		 * Select<Degree> degreeSelect = new Select<Degree>("degree-select", new
-		 * PropertyModel<Degree>(this, "selectedDegree"));
-		 * 
-		 * degreeSelect.add(new ListView<Degree>("degree-options", degrees) {
-		 * 
-		 * @Override protected void populateItem(ListItem<Degree> item) {
-		 * item.add(new DegreeSelectOption("degree-option", item
-		 * .getModelObject())); } });
-		 */
 		salutationSelect = new Select<String>("salutation-select",
 				new PropertyModel<String>(this, "_salutation"));
 
@@ -524,7 +515,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 		PropertyModel<String> model = new PropertyModel<>(this, "_profession");
 		profession = new Typeahead<String>("profession", model, dataSource,
-				new TypeaheadConfig().withNumberOfItems(15));
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
+						+ Numbers.FIVE));
 		profession.size(SpanType.SPAN5);
 
 		graduationYear = new TextField<String>("graduationyear",
@@ -602,7 +594,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	protected void onError() {
 		// Only on validation errors we make the feedbackpanel visible
 		this.feedbackPanel.setVisible(true);
-		this.feedbackPanel.hideAfter(Duration.seconds(10));
+		this.feedbackPanel.hideAfter(Duration.seconds(Numbers.TEN));
 		if (!firstname.isValid()) {
 			firstnameWrapper.add(new AttributeAppender("class", " error"));
 		} else {
@@ -713,7 +705,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		// It Was succesfull, so display a notifications about this
 		NotificationMessage nf = new NotificationMessage(
 				Model.of("Gespeichert"));
-		nf.hideAfter(Duration.seconds(3));
+		nf.hideAfter(Duration.seconds(Numbers.FIVE));
 		success(nf);
 
 	}
