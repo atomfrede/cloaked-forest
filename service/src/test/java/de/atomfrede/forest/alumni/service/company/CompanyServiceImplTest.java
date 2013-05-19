@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "../../../../../../domain-context.xml" })
@@ -43,5 +44,21 @@ public class CompanyServiceImplTest {
 		
 		assertNotNull(typeahed);
 		assertEquals(4, typeahed.size());
+	}
+	
+	@Test
+	public void createCompany(){
+		String newCompanyName = "Neue Firma";
+		Company cmp = companyService.createCompany(newCompanyName);
+		
+		assertNotNull(cmp);
+		assertNotNull(cmp.getId());
+		assertEquals(newCompanyName, cmp.getCompany());
+	}
+	
+	@Test
+	public void alreadyExisting(){
+		assertEquals(true, companyService.alreadyExisting(company_1));
+		assertEquals(false, companyService.alreadyExisting("Gibt es nicht!"));
 	}
 }
