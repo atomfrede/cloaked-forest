@@ -24,6 +24,12 @@ public interface EntityService<EntityClass extends IEntity> {
 	 */
 	List<EntityClass> findAll();
 
+	/**
+	 * Returns the element with the given id or null if it doesn't exist.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	EntityClass findById(Long id);
 
 	EntityClass findByProperty(String propertyName, Object propertyValue);
