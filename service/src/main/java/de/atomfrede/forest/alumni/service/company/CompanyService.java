@@ -8,7 +8,7 @@ public interface CompanyService {
 
 	List<String> getTypeAheadCompanies();
 	
-	Company createCompany(String company);
+	Company createCompany(String company) throws CompanyAlreadyExistingException;
 	
 	boolean alreadyExisting(String company);
 	

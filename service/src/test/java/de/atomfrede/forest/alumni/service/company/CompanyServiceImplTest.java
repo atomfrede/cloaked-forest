@@ -22,7 +22,7 @@ public class CompanyServiceImplTest {
 
 	@Autowired
 	private CompanyDao companyDao;
-	
+
 	@Autowired
 	private CompanyService companyService;
 
@@ -30,44 +30,54 @@ public class CompanyServiceImplTest {
 	private String company_2 = "Lenovo";
 	private String company_3 = "Google";
 	private String company_4 = "Apple";
-	
+
 	@Before
 	public void setup() {
-		companyService.createCompany(company_1);
-		companyService.createCompany(company_2);
-		companyService.createCompany(company_3);
-		companyService.createCompany(company_4);
+		try {
+			companyService.createCompany(company_1);
+			companyService.createCompany(company_2);
+			companyService.createCompany(company_3);
+			companyService.createCompany(company_4);
+		} catch (CompanyAlreadyExistingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	@After
-	public void cleanup(){
+	public void cleanup() {
 		List<Company> companies = companyDao.findAll();
-		for(Company cmp:companies){
+		for (Company cmp : companies) {
 			companyDao.remove(cmp);
 		}
 	}
-	
+
 	@Test
-	public void testTypeahead(){
+	public void testTypeahead() {
 		List<String> typeahed = companyService.getTypeAheadCompanies();
-		
+
 		assertNotNull(typeahed);
 		assertEquals(4, typeahed.size());
 	}
-	
+
 	@Test
-	public void createCompany(){
+	public void createCompany() throws CompanyAlreadyExistingException {
 		String newCompanyName = "Neue Firma";
 		Company cmp = companyService.createCompany(newCompanyName);
-		
+
 		assertNotNull(cmp);
 		assertNotNull(cmp.getId());
 		assertEquals(newCompanyName, cmp.getCompany());
 	}
-	
+
 	@Test
-	public void alreadyExisting(){
+	public void alreadyExisting() {
 		assertEquals(true, companyService.alreadyExisting(company_1));
 		assertEquals(false, companyService.alreadyExisting("Gibt es nicht!"));
+	}
+
+	@Test(expected=CompanyAlreadyExistingException.class)
+	public void create() throws CompanyAlreadyExistingException {
+		companyService.createCompany(company_1);
 	}
 }

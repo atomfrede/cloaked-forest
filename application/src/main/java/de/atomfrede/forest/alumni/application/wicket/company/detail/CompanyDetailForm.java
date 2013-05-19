@@ -35,6 +35,7 @@ import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
+import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
 
@@ -229,10 +230,4 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 		error(nf);
 	}
 
-	private static class CompanyAlreadyExistingException extends Exception {
-
-		public CompanyAlreadyExistingException(String companyName) {
-			super();
-		}
-	}
 }

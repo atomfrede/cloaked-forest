@@ -21,6 +21,7 @@ import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 import de.atomfrede.forest.alumni.service.query.filter.Filter;
@@ -55,7 +56,7 @@ public class QueryServiceImplTest {
 	Company intel, google, ibm;
 
 	@Before
-	public void setup() {
+	public void setup() throws CompanyAlreadyExistingException {
 		intel = companyService.createCompany("Intel");
 		google = companyService.createCompany("google");
 		ibm = companyService.createCompany("ibm");
