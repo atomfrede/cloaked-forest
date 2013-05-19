@@ -35,6 +35,7 @@ import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
+import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
 
@@ -277,12 +278,21 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			success(nf);
 		} catch (DepartmentAlreadyExistingException caee) {
 			onDepartmentAlreadyExisting(_department);
+		} catch (CompanyAlreadyExistingException coaee) {
+			onCompanyAlreadyExisting(_company);
 		}
 	}
 
 	private void onDepartmentAlreadyExisting(String departmentName) {
 		NotificationMessage nf = new NotificationMessage(Model.of(_(
 				"error.department.existing", departmentName).getString()));
+		nf.hideAfter(Duration.seconds(Numbers.TEN));
+		error(nf);
+	}
+	
+	private void onCompanyAlreadyExisting(String companyName) {
+		NotificationMessage nf = new NotificationMessage(Model.of(_(
+				"error.company.existing", companyName).getString()));
 		nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
