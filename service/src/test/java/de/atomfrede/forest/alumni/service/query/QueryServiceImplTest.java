@@ -100,6 +100,11 @@ public class QueryServiceImplTest {
 		memberService.deleteMember(fred);
 		memberService.deleteMember(john);
 		memberService.deleteMember(max);
+		
+		companyService.remove(google);
+		companyService.remove(ibm);
+		companyService.remove(intel);
+		
 	}
 
 	@Test

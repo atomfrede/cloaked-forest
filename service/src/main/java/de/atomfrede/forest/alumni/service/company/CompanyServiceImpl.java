@@ -106,4 +106,39 @@ public class CompanyServiceImpl implements CompanyService {
 
 		return false;
 	}
+
+	@Override
+	public List<Company> list(long offset, long count) {
+		return companyDao.list(offset, count);
+	}
+
+	@Override
+	public List<Company> findAll() {
+		return companyDao.findAll();
+	}
+
+	@Override
+	public Company findById(Long id) {
+		return companyDao.findById(id);
+	}
+
+	@Override
+	public Company findByProperty(String propertyName, Object propertyValue) {
+		return companyDao.findByProperty(propertyName, propertyValue);
+	}
+
+	@Override
+	public void remove(Company entity) {
+		companyDao.remove(entity);
+	}
+
+	@Override
+	public void persist(Company entity) {
+		companyDao.persist(entity);
+	}
+
+	@Override
+	public long count() {
+		return companyDao.count();
+	}
 }
