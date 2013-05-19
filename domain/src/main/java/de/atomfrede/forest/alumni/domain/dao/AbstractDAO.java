@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.entity.AbstractEntity;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
 
 @Repository
 public abstract class AbstractDAO<EntityClass extends AbstractEntity>
