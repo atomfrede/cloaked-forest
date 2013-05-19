@@ -16,6 +16,13 @@ import de.atomfrede.forest.alumni.domain.entity.IEntity;
  */
 public interface EntityService<EntityClass extends IEntity> {
 
+	/**
+	 * Returns the specific subset of all elements.
+	 * 
+	 * @param offset starting element.
+	 * @param count number of elements to retrieve. 
+	 * @return elements starting at 0 + offset until offset + count number of elements.
+	 */
 	List<EntityClass> list(long offset, long count);
 
 	/**
@@ -35,12 +42,12 @@ public interface EntityService<EntityClass extends IEntity> {
 	/**
 	 * Returns the element that has the given value for the requested property.
 	 * 
-	 * @param propertyName Name of the property to check
-	 * @param propertyValue value the property must have
+	 * @param propertyName Name of the property to check.
+	 * @param propertyValue value the property must have.
 	 * @return element with e.propertyName == propertyValue or NULL if such an element can't be found.
 	 */
 	EntityClass findByProperty(String propertyName, Object propertyValue);
-
+	
 	void remove(EntityClass entity);
 
 	void persist(EntityClass entity);
