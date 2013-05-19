@@ -32,6 +32,13 @@ public interface EntityService<EntityClass extends IEntity> {
 	 */
 	EntityClass findById(Long id);
 
+	/**
+	 * Returns the element that has the given value for the requested property.
+	 * 
+	 * @param propertyName Name of the property to check
+	 * @param propertyValue value the property must have
+	 * @return element with e.propertyName == propertyValue or NULL if such an element can't be found.
+	 */
 	EntityClass findByProperty(String propertyName, Object propertyValue);
 
 	void remove(EntityClass entity);
