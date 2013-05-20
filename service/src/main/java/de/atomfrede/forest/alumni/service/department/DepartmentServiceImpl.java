@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
+import de.atomfrede.forest.alumni.service.company.CompanyService;
 
 @Service(value = "departmentService")
 @Transactional(rollbackFor = Exception.class)
@@ -25,6 +26,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Autowired
 	private DepartmentDao departmentDao;
+
+	@Autowired
+	private CompanyService companyService;
 
 	public Session getSession() {
 		try {
@@ -39,7 +43,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Transactional(readOnly = true)
 	public List<Department> list(long offset, long count, String orderProperty,
 			boolean desc, Long companyId) {
-		// TODO Auto-generated method stub
 		Session session = getSession();
 		Criteria crit = session.createCriteria(Department.class);
 		crit.add(Restrictions.eq("company.id", companyId));
@@ -55,12 +58,51 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	@Transactional
-	public Department createDepartment(String department) {
+	public Department createDepartment(String department, String company)
+			throws DepartmentAlreadyExistingException {
+		if (companyService.departmentAlreadyExisting(company, department)) {
+			throw new DepartmentAlreadyExistingException(department);
+		}
 		Department dp = new Department();
 		dp.setId(System.currentTimeMillis());
 		dp.setDepartment(department);
 
 		departmentDao.persist(dp);
 		return dp;
+	}
+
+	@Override
+	public List<Department> list(long offset, long count) {
+		return departmentDao.list(offset, count);
+	}
+
+	@Override
+	public List<Department> findAll() {
+		return departmentDao.findAll();
+	}
+
+	@Override
+	public Department findById(Long id) {
+		return departmentDao.findById(id);
+	}
+
+	@Override
+	public Department findByProperty(String propertyName, Object propertyValue) {
+		return departmentDao.findByProperty(propertyName, propertyValue);
+	}
+
+	@Override
+	public void remove(Department entity) {
+		departmentDao.remove(entity);
+	}
+
+	@Override
+	public void persist(Department entity) {
+		departmentDao.persist(entity);
+	}
+
+	@Override
+	public long count() {
+		return departmentDao.count();
 	}
 }

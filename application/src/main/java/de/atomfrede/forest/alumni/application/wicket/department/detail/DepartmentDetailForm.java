@@ -37,6 +37,7 @@ import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
+import de.atomfrede.forest.alumni.service.department.DepartmentAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
 
 @SuppressWarnings("serial")
@@ -230,7 +231,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 					throw new DepartmentAlreadyExistingException(_department);
 				}
 				mEditType = Type.Edit;
-				dep = departmentService.createDepartment(_department);
+				dep = departmentService.createDepartment(_department, _company);
 				Company cmp = companyDao.findByProperty("company", _company);
 
 				if (cmp != null) {
@@ -297,10 +298,4 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 		error(nf);
 	}
 
-	private static class DepartmentAlreadyExistingException extends Exception {
-
-		public DepartmentAlreadyExistingException(String departmentName) {
-			super();
-		}
-	}
 }
