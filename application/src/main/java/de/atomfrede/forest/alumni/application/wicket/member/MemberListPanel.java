@@ -73,9 +73,10 @@ public class MemberListPanel extends Panel {
 
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
+				target.add(wmc);
 				String input = actionPanel.getNameFilter().getConvertedInput();
 				doFilter(input);
-				target.add(wmc);
+				
 			}
 
 			@Override

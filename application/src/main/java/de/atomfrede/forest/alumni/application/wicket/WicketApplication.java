@@ -60,17 +60,17 @@ public class WicketApplication extends WebApplication implements
 		new AnnotatedMountScanner().scanPackage(
 				"de.atomfrede.forest.alumni.application.*").mount(this);
 		
-		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(80, 443)){
-			
-			@Override
-			protected Scheme getDesiredSchemeFor(Class pageClass){
-				if(getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT){
-					return Scheme.HTTP;
-				}else{
-					return super.getDesiredSchemeFor(pageClass);
-				}
-			}
-		});
+//		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(80, 443)){
+//			
+//			@Override
+//			protected Scheme getDesiredSchemeFor(Class pageClass){
+//				if(getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT){
+//					return Scheme.HTTP;
+//				}else{
+//					return super.getDesiredSchemeFor(pageClass);
+//				}
+//			}
+//		});
 
 
 	}
