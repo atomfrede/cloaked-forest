@@ -4,6 +4,10 @@ import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.https.HttpsConfig;
+import org.apache.wicket.protocol.https.HttpsMapper;
+import org.apache.wicket.protocol.https.Scheme;
+import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -53,8 +57,22 @@ public class WicketApplication extends WebApplication implements
 		// enable ajax debug etc.
 		getDebugSettings().setDevelopmentUtilitiesEnabled(false);
 
+		
 		new AnnotatedMountScanner().scanPackage(
 				"de.atomfrede.forest.alumni.application.*").mount(this);
+		
+		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(8080, 8443)){
+			
+			@Override
+			protected Scheme getDesiredSchemeFor(Class pageClass){
+				if(getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT){
+					return Scheme.HTTP;
+				}else{
+					return super.getDesiredSchemeFor(pageClass);
+				}
+			}
+		});
+
 
 	}
 
@@ -100,7 +118,8 @@ public class WicketApplication extends WebApplication implements
 
 	@Override
 	public RuntimeConfigurationType getConfigurationType() {
-		return RuntimeConfigurationType.DEPLOYMENT;
+		return RuntimeConfigurationType.DEVELOPMENT;
 	}
+
 
 }

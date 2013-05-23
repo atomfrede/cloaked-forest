@@ -139,7 +139,8 @@ public class PdfExporter {
 		}
 		if (member.getProfession() != null
 				&& StringCheckUtil.isStringSet(member.getProfession())) {
-			sb.append(member.getProfession().replaceAll("&", "&amp;") + " ");
+//			sb.append(member.getProfession().replaceAll("&", "&amp;") + " ");
+			sb.append(member.getProfession() + " ");
 		}
 		if (member.getYearOfGraduation() != null
 				&& StringCheckUtil.isStringSet(member.getYearOfGraduation())) {
@@ -337,9 +338,9 @@ public class PdfExporter {
 			if (member.getDegree() != null
 					&& StringCheckUtil.isStringSet(member.getDegree()
 							.getShortForm())) {
-				sb.append(member.getDegree().getShortForm() + " ");
 				sb.append(member.getFirstname() + " " + member.getLastname()
 						+ " ");
+				sb.append(", "+member.getDegree().getShortForm() + " ");
 			} else {
 				sb.append(member.getFirstname() + " " + member.getLastname()
 						+ " ");
@@ -466,7 +467,8 @@ public class PdfExporter {
 			if (member.getActivities() != null
 					&& !member.getActivities().isEmpty()) {
 				for (Activity act : member.getActivities()) {
-					sb.append(act.getActivity().replaceAll("&", "&amp;") + " ");
+//					sb.append(act.getActivity().replaceAll("&", "&amp;") + " ");
+					sb.append(act.getActivity() + " ");
 				}
 			}
 

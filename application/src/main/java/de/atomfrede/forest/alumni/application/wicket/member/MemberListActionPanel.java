@@ -51,6 +51,7 @@ public class MemberListActionPanel extends Panel {
 	private BootstrapLink<Void> pdfDownload;
 	private TextField<String> nameFilter;
 	private Form<String> filterForm;
+	private String currentFilter = "";
 
 	public MemberListActionPanel(String id) {
 		super(id);
