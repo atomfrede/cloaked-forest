@@ -6,12 +6,14 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
 import de.agilecoders.wicket.Bootstrap;
 
 @SuppressWarnings("serial")
+@RequireHttps
 public class AbstractAuthPage<T> extends GenericWebPage<T> {
 
 	protected Label pageTitel;

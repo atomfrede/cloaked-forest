@@ -57,20 +57,21 @@ public class WicketApplication extends WebApplication implements
 		// enable ajax debug etc.
 		getDebugSettings().setDevelopmentUtilitiesEnabled(false);
 
+		
 		new AnnotatedMountScanner().scanPackage(
 				"de.atomfrede.forest.alumni.application.*").mount(this);
 		
-//		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(80, 443)){
-//			
-//			@Override
-//			protected Scheme getDesiredSchemeFor(Class pageClass){
-//				if(getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT){
-//					return Scheme.HTTP;
-//				}else{
-//					return super.getDesiredSchemeFor(pageClass);
-//				}
-//			}
-//		});
+		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(8080, 8443)){
+			
+			@Override
+			protected Scheme getDesiredSchemeFor(Class pageClass){
+				if(getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT){
+					return Scheme.HTTP;
+				}else{
+					return super.getDesiredSchemeFor(pageClass);
+				}
+			}
+		});
 
 
 	}
@@ -117,7 +118,7 @@ public class WicketApplication extends WebApplication implements
 
 	@Override
 	public RuntimeConfigurationType getConfigurationType() {
-		return RuntimeConfigurationType.DEPLOYMENT;
+		return RuntimeConfigurationType.DEVELOPMENT;
 	}
 
 

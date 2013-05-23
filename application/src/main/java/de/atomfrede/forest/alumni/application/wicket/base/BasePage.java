@@ -44,6 +44,7 @@ import de.atomfrede.forest.alumni.application.wicket.user.UserPage;
 import de.atomfrede.forest.alumni.domain.entity.user.User;
 
 @SuppressWarnings("serial")
+@RequireHttps
 public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	public enum Type {
