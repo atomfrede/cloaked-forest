@@ -24,6 +24,13 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.query.Query;
 import de.atomfrede.forest.alumni.service.query.QueryService;
 
+/**
+ * PDFExporter is repsonsible for generating a PDF file of members with the help of 
+ * flying saucer XHTML renderer.
+ * 
+ * @author fred
+ *
+ */
 @Component
 public class PdfExporter {
 
@@ -39,6 +46,8 @@ public class PdfExporter {
 
 	@Autowired
 	private QueryService queryService;
+	
+	private Query query;
 
 	public PdfExporter() {
 	}
@@ -60,11 +69,19 @@ public class PdfExporter {
 		headerAndStyles.append("@page {@bottom-center {content:\"Abrufdatum: "
 				+ date + "\"}}");
 
-		headerAndStyles.append("@page{margin-bottom: 1.5in;}");
+		if(query != null){
+			headerAndStyles.append("@page{margin-bottom: 1.5in; margin-top: 1in;}");
+		}else{
+			headerAndStyles.append("@page{margin-bottom: 1.5in;}");
+		}
+		
 		headerAndStyles.append("@page {" + "@bottom-left {"
 				+ "content: element(pageHeader);" + "}" + "}" + "#pageHeader{"
 				+ "position: running(pageHeader);" + "}");
-
+		
+		headerAndStyles.append("@page {" + "@top-left {"
+				+ "content: element(topHeader);" + "}" + "}" + "#topHeader{"
+				+ "position: running(topHeader);" + "}");
 		headerAndStyles
 				.append("logo-image{ margin-bottom: 50px; padding-bottom: 50px;"
 						+ "}");
@@ -113,6 +130,12 @@ public class PdfExporter {
 		return headerAndStyles.toString();
 	}
 
+	/**
+	 * Generates a XHMTL snippet for the given member.
+	 * 
+	 * @param member
+	 * @return
+	 */
 	private String getEntryForMember(Member member) {
 		StringBuilder sb = new StringBuilder();
 
@@ -215,6 +238,12 @@ public class PdfExporter {
 		return isValid;
 	}
 
+	/**
+	 * Returns the work address XHTML part for the given member.
+	 * 
+	 * @param member
+	 * @return
+	 */
 	private String getWorkAddress(Member member) {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder leftBuilder = new StringBuilder();
@@ -319,6 +348,11 @@ public class PdfExporter {
 		return sb.toString();
 	}
 
+	/**
+	 * Returns the private address part (Xhtml) for the given member.
+	 * @param member
+	 * @return
+	 */
 	private String getPrivateAddress(Member member) {
 		StringBuilder sb = new StringBuilder();
 
@@ -338,8 +372,7 @@ public class PdfExporter {
 			if (member.getDegree() != null
 					&& StringCheckUtil.isStringSet(member.getDegree()
 							.getShortForm())) {
-				sb.append(member.getFirstname() + " " + member.getLastname()
-						+ " ");
+				sb.append(member.getFirstname() + " " + member.getLastname());
 				sb.append(", "+member.getDegree().getShortForm() + " ");
 			} else {
 				sb.append(member.getFirstname() + " " + member.getLastname()
@@ -481,6 +514,12 @@ public class PdfExporter {
 		return sb.toString();
 	}
 
+	/**
+	 * Creates a list of all members inside the given list.
+	 * 
+	 * @param members Members that are contained in the resulting PDF file.
+	 * @return
+	 */
 	private File createPdf(List<Member> members) {
 		try {
 			File tempPdfFile = File.createTempFile("members", "pdf");
@@ -491,9 +530,13 @@ public class PdfExporter {
 			StringBuilder content = new StringBuilder();
 
 			content.append(header.toString());
-
+			
 			content.append("<div class=\"pageHeader\" id=\"pageHeader\"><img class=\"logo-image\" src=\""
 					+ IMAGE + "\" style=\" height: 60px;\"/></div>");
+
+			if(query != null){
+				content.append("<div class=\"topHeader\" id=\"topHeader\">"+query.toString(true)+"</div>");
+			}
 
 			for (Member mem : members) {
 				// Replacing all & with the htmnl entity...
@@ -526,7 +569,13 @@ public class PdfExporter {
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * Generates a PDF for all members found by the given query.
+	 * @param query
+	 * @return
+	 */
 	public File generatePdfFile(@SuppressWarnings("rawtypes") Query query) {
+		this.query = query;
 		return createPdf((List<Member>) queryService.queryDatabase(query));
 	}
 
