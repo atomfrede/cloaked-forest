@@ -54,4 +54,29 @@ public class Query<T extends AbstractEntity> implements Serializable {
 		subQueries.add(subQuery);
 	}
 
+	@Override
+	public String toString() {
+		return toString(false);
+	}
+
+	public String toString(boolean htmlOutput) {
+		StringBuilder sb = new StringBuilder();
+		int count = 0;
+		if (filters != null) {
+			for (Filter f : filters) {
+				count++;
+				if (count == filters.size()) {
+					sb.append(f.toString());
+				} else {
+					if (htmlOutput) {
+						sb.append(f.toString() + "<br/>");
+					} else {
+						sb.append(f.toString() + " und ");
+					}
+				}
+			}
+		}
+		return sb.toString();
+	}
+
 }
