@@ -88,7 +88,6 @@ public class MemberListPanel extends Panel {
 	 * @param input
 	 */
 	protected void doFilter(String input) {
-		System.out.println("Do FIlter");
 		getMemberProvider().setNameFilter(input);
 	}
 

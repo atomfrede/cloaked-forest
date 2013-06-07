@@ -34,7 +34,6 @@ public class MemberProvider implements IDataProvider<Member> {
 
 	@Override
 	public Iterator<? extends Member> iterator(long offset, long count) {
-		System.out.println("Iterator Called!");
 		if (isFilteredByName()) {
 			FilterElement elem = new FilterElement().propertyName("lastname")
 					.filter(nameFilter);
