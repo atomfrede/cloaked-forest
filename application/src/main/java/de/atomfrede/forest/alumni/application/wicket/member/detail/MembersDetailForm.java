@@ -446,7 +446,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		salutationSelect.add(new SelectOption<String>("male-select", Model
 				.of(_("salutation.male").getString())));
 		salutationSelect.add(new SelectOption<String>("female-select", Model
-				.of(_("salutation.male").getString())));
+				.of(_("salutation.female").getString())));
 
 		firstname = new RequiredTextField<String>("firstname",
 				new PropertyModel<String>(this, "_firstname"));
