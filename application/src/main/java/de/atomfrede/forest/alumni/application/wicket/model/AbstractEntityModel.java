@@ -85,4 +85,20 @@ public class AbstractEntityModel<T extends AbstractEntity> implements
 				+ " does not support #setObject(T entity)");
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if(obj instanceof AbstractEntityModel){
+			if(((AbstractEntityModel)obj).id.equals(id) && ((AbstractEntityModel)obj).entity.equals(entity)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

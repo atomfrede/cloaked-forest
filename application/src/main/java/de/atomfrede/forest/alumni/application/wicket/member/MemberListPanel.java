@@ -4,6 +4,7 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -69,23 +70,15 @@ public class MemberListPanel extends Panel {
 	}
 
 	private void addFilter() {
-		actionPanel.getNameFilter().add(new OnChangeAjaxBehavior() {
-
+		
+		actionPanel.getNameFilter().add(new AjaxFormComponentUpdatingBehavior("keyUp"){
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				target.add(wmc);
 				String input = actionPanel.getNameFilter().getConvertedInput();
 				doFilter(input);
-				
-			}
-
-			@Override
-			protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
-				super.updateAjaxAttributes(attributes);
-				// Do need to declare some additional Attributes?
 			}
 		});
-
 	}
 
 	/**
@@ -95,6 +88,7 @@ public class MemberListPanel extends Panel {
 	 * @param input
 	 */
 	protected void doFilter(String input) {
+		System.out.println("Do FIlter");
 		getMemberProvider().setNameFilter(input);
 	}
 

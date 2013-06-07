@@ -165,5 +165,9 @@ public class MemberListActionPanel extends Panel {
 	public TextField<String> getNameFilter() {
 		return nameFilter;
 	}
+	
+	public Form<String> getFilterForm(){
+		return filterForm;
+	}
 
 }
