@@ -10,7 +10,7 @@ import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
-import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.core.Bootstrap;
 
 @SuppressWarnings("serial")
 @RequireHttps

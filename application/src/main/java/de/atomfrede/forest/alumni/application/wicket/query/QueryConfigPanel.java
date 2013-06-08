@@ -1,6 +1,7 @@
 package de.atomfrede.forest.alumni.application.wicket.query;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
+
 import java.util.List;
 
 import org.apache.wicket.extensions.markup.html.form.select.Select;

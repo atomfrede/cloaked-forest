@@ -9,10 +9,10 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.markup.html.bootstrap.form.IDataSource;
-import de.agilecoders.wicket.markup.html.bootstrap.form.Typeahead;
-import de.agilecoders.wicket.markup.html.bootstrap.form.TypeaheadConfig;
-import de.agilecoders.wicket.markup.html.bootstrap.layout.SpanType;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.IDataSource;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.Typeahead;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.TypeaheadConfig;
+import de.agilecoders.wicket.core.markup.html.bootstrap.layout.SpanType;
 import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
 

@@ -3,7 +3,7 @@ package de.atomfrede.forest.alumni.application.wicket.custom;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.IModel;
 
-import de.agilecoders.wicket.markup.html.bootstrap.dialog.Modal;
+import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.Modal;
 
 @SuppressWarnings("serial")
 /**

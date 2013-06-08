@@ -2,7 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.member.custom;
 
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.markup.html.bootstrap.dialog.Modal;
+import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.Modal;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 
 /**
