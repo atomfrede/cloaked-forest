@@ -4,10 +4,17 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.Page;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.AjaxRequestTarget.IListener;
+import org.apache.wicket.ajax.AjaxRequestTarget.ITargetRespondListener;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
@@ -15,7 +22,10 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.ILogData;
+import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.handler.resource.ResourceRequestHandler;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ByteArrayResource;
@@ -23,8 +33,10 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapAjaxLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.LoadingBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
@@ -94,6 +106,8 @@ public class MemberListActionPanel extends Panel {
 	}
 
 	private void addPdfDownload() {
+		final LoadingBehavior load = new LoadingBehavior(Model.of("Bitte Warten"));
+		
 		pdfDownload = new BootstrapLink<Void>("btn-pdf-download",
 				Buttons.Type.Default) {
 
@@ -110,6 +124,7 @@ public class MemberListActionPanel extends Panel {
 								resource, null);
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
+				
 					} catch (IOException ioe) {
 						log.error("Couldn't write PDF File.", ioe);
 					}
@@ -119,6 +134,8 @@ public class MemberListActionPanel extends Panel {
 
 		};
 
+//		pdfDownload.add(load);
+		
 		pdfDownload.setIconType(IconType.file)
 				.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
 
