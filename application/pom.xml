@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>alumni</artifactId>
 		<groupId>de.atomfrede.forest</groupId>
-		<version>1.2.0</version>
+		<version>1.3.2-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>alumni.application</artifactId>
@@ -16,12 +16,12 @@
 		<dependency>
 			<groupId>de.atomfrede.forest</groupId>
 			<artifactId>alumni.domain</artifactId>
-			<version>1.2.0</version>
+			<version>1.3.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.atomfrede.forest</groupId>
 			<artifactId>alumni.service</artifactId>
-			<version>1.2.0</version>
+			<version>1.3.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lowagie</groupId>
