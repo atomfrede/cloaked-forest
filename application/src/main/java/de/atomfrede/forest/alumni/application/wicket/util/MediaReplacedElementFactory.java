@@ -1,6 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.util;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;

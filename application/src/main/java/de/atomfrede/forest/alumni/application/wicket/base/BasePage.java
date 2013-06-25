@@ -20,15 +20,15 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
-import de.agilecoders.wicket.Bootstrap;
-import de.agilecoders.wicket.markup.html.bootstrap.button.dropdown.MenuBookmarkablePageLink;
-import de.agilecoders.wicket.markup.html.bootstrap.extensions.button.DropDownAutoOpen;
-import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarDropDownButton;
+import de.agilecoders.wicket.core.Bootstrap;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.dropdown.MenuBookmarkablePageLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.Navbar;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarButton;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarComponents;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarDropDownButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.button.DropDownAutoOpen;
 import de.atomfrede.forest.alumni.application.wicket.base.footer.Footer;
 import de.atomfrede.forest.alumni.application.wicket.company.CompanyPage;
 import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
@@ -36,6 +36,7 @@ import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
 import de.atomfrede.forest.alumni.application.wicket.graph.GraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
+import de.atomfrede.forest.alumni.application.wicket.member.MemberListPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.QueryPage;
 import de.atomfrede.forest.alumni.application.wicket.sector.SectorPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
@@ -204,6 +205,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 						"prettyCheckable.js")));
 
 		Bootstrap.renderHead(response);
+
 	}
 
 	@SuppressWarnings("unchecked")

@@ -16,11 +16,11 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 
-import de.agilecoders.wicket.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationMessage;
-import de.agilecoders.wicket.markup.html.bootstrap.common.NotificationPanel;
-import de.agilecoders.wicket.markup.html.bootstrap.form.BootstrapForm;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
+import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationPanel;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
 import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.application.wicket.user.UserPage;
