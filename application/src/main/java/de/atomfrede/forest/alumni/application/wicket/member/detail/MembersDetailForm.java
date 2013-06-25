@@ -22,6 +22,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -29,6 +30,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
@@ -41,6 +43,7 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.TypeaheadConfig;
+import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.core.markup.html.bootstrap.layout.SpanType;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
@@ -142,6 +145,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	public MembersDetailForm(String id, Type editType,
 			AbstractEntityModel<Member> model) {
 		super(id, model);
+		
+		
 		this.editType = editType;
 
 		feedbackPanel = new NotificationPanel("feedbackPanel");
@@ -174,10 +179,31 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(Homepage.class);
 			}
 		};
-
+		
 		add(cancel);
 
 		cancel.setLabel(Model.of(_("global.cancel")));
+		
+		Member nextMember = memberService.getNextMember(getModelObject().getId());
+		final long nextId = nextMember.getId();
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next", Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				PageParameters params = new PageParameters();
+				params.add(MemberDetailPage.EDIT_TYPE, Type.Edit);
+				params.add(MemberDetailPage.MEMBER_ID, nextId);
+				setResponsePage(MemberDetailPage.class, params);
+				
+			}
+		};
+		
+		
+		next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
+		
+		add(next);
+
+		
 
 		emptySector = new Sector();
 		emptySector.setSector(_("model.empty").getString());

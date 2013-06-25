@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.service.member;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -215,6 +216,24 @@ public class MemberServiceImpl implements MemberService {
 			values.put(deg, size);
 		}
 		return values;
+	}
+
+	@Override
+	@Transactional
+	public Member getNextMember(long id) {
+		@SuppressWarnings("unchecked")
+		List<String> lastnames = getSession().createSQLQuery("SELECT m.lastname as lastname FROM member m ORDER BY m.lastname").list();
+		Member cMember = findById(id);
+		String nameToFind = cMember.getLastname();
+		int index = Collections.binarySearch(lastnames, nameToFind);
+		String nextName = "";
+		if(index+1 != lastnames.size()){
+			nextName = lastnames.get(index+1);
+		}else{
+			nextName = lastnames.get(0);
+		}
+		Member nextMember = findByProperty("lastname", nextName);
+		return nextMember;
 	}
 
 }

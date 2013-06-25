@@ -42,5 +42,7 @@ public interface MemberService extends EntityService<Member> {
 	Map<String, Integer> getMembersPerSector(boolean withZero);
 
 	Map<Degree, Integer> getMembersPerDegree();
+	
+	Member getNextMember(long id);
 
 }

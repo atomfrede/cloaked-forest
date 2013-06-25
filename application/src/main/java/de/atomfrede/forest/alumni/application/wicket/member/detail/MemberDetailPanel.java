@@ -13,7 +13,7 @@ public class MemberDetailPanel extends Panel {
 
 	@SpringBean
 	private MemberDao memberDao;
-
+	
 	private Type editType;
 	private Long memberId;
 
