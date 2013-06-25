@@ -5,6 +5,7 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -15,9 +16,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapAjaxButton;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapAjaxLink;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapButton;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
@@ -32,6 +30,7 @@ import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
 import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
@@ -55,6 +54,9 @@ public class MemberListPanel extends Panel {
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
 
+	private Long currentlyDisplayedId = null;
+	private Integer currentlyDisplayPosition = null;
+
 	public MemberListPanel(String id) {
 		super(id);
 
@@ -71,15 +73,17 @@ public class MemberListPanel extends Panel {
 	}
 
 	private void addFilter() {
-		
-		actionPanel.getNameFilter().add(new AjaxFormComponentUpdatingBehavior("keyUp"){
-			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
-				target.add(wmc);
-				String input = actionPanel.getNameFilter().getConvertedInput();
-				doFilter(input);
-			}
-		});
+
+		actionPanel.getNameFilter().add(
+				new AjaxFormComponentUpdatingBehavior("keyUp") {
+					@Override
+					protected void onUpdate(AjaxRequestTarget target) {
+						target.add(wmc);
+						String input = actionPanel.getNameFilter()
+								.getConvertedInput();
+						doFilter(input);
+					}
+				});
 	}
 
 	/**
@@ -101,6 +105,7 @@ public class MemberListPanel extends Panel {
 
 			@Override
 			protected void populateItem(Item<Member> item) {
+				final int index = item.getIndex();
 				final Member member = item.getModel().getObject();
 				final Degree degree = member.getDegree();
 
@@ -144,11 +149,13 @@ public class MemberListPanel extends Panel {
 
 				if (StringCheckUtil.isStringSet(companyName)
 						&& StringCheckUtil.isStringSet(departmentName)) {
-					PopoverConfig popConfig = new PopoverConfig().withAnimation(true).withHoverTrigger();
-					
-					PopoverBehavior popOver = new PopoverBehavior(Model.of(companyName),
-							Model.of(departmentName), popConfig);
-					
+					PopoverConfig popConfig = new PopoverConfig()
+							.withAnimation(true).withHoverTrigger();
+
+					PopoverBehavior popOver = new PopoverBehavior(
+							Model.of(companyName), Model.of(departmentName),
+							popConfig);
+
 					actLabel.add(popOver);
 				} else {
 					if (StringCheckUtil.isStringSet(companyName)) {
@@ -167,7 +174,7 @@ public class MemberListPanel extends Panel {
 				BootstrapLink<Void> infoUser = new BootstrapLink<Void>(
 						"action-info", Buttons.Type.Default) {
 					public void onClick() {
-						infoMember(memberId);
+						infoMember(memberId, index);
 					}
 				};
 
@@ -232,7 +239,82 @@ public class MemberListPanel extends Panel {
 		return memberProvider;
 	}
 
-	private BusinessCardModal createModalInfoContent(final long id){
+	private BootstrapLink<String> getNextButton() {
+		BootstrapLink<String> nextButton = new BootstrapLink<String>("button",
+				Model.of("Weiter"), Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				// We want only next and work on the current page
+				if (currentlyDisplayPosition < members.getItemsPerPage() - 1) {
+					@SuppressWarnings("unchecked")
+					Long newId = ((AbstractEntityModel<Member>) members.get(
+							currentlyDisplayPosition + 1).getInnermostModel())
+							.getObject().getId();
+					Integer newPosition = currentlyDisplayPosition + 1;
+					infoMember(newId, newPosition);
+				}
+			}
+		};
+
+		if (currentlyDisplayPosition == members.getItemsPerPage() - 1) {
+			nextButton.add(new AttributeAppender("class", " disabled"));
+		}
+
+		nextButton.setLabel(Model.of(_("next")))
+				.setIconType(IconType.arrowright).setInverted(false);
+
+		return nextButton;
+	}
+
+	private BootstrapLink<String> getPrevButton() {
+		BootstrapLink<String> prevButton = new BootstrapLink<String>("button",
+				Model.of("Back"), Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				if (currentlyDisplayPosition > 0) {
+					@SuppressWarnings("unchecked")
+					Long newId = ((AbstractEntityModel<Member>) members.get(
+							currentlyDisplayPosition - 1).getInnermostModel())
+							.getObject().getId();
+					Integer newPosition = currentlyDisplayPosition - 1;
+					infoMember(newId, newPosition);
+				}
+
+			}
+		};
+
+		if (currentlyDisplayPosition == 0) {
+			prevButton.add(new AttributeAppender("class", " disabled"));
+		}
+
+		prevButton.setLabel(Model.of(_("back")))
+				.setIconType(IconType.arrowleft).setInverted(false);
+
+		return prevButton;
+	}
+
+	private BootstrapLink<String> getEditButton() {
+		BootstrapLink<String> editButton = new BootstrapLink<String>("button",
+				Model.of("legend.edit"), Buttons.Type.Info) {
+
+			@Override
+			public void onClick() {
+				// TODO Auto-generated method stub
+				modalInfo.setVisible(false);
+				modalInfo.show(false);
+				editMember(66L);
+
+			}
+		};
+
+		editButton.setLabel(Model.of(_("legend.edit")))
+				.setIconType(IconType.edit).setInverted(true);
+		return editButton;
+	}
+
+	private BusinessCardModal createModalInfoContent(final long id) {
 		Member mem = memberDao.findById(id);
 
 		String header = "";
@@ -243,57 +325,35 @@ public class MemberListPanel extends Panel {
 		header = header + " " + mem.getFirstname() + " " + mem.getLastname();
 
 		BusinessCardModal modal = new BusinessCardModal("modal-info", id);
-		
-		modal.setOutputMarkupId(true);
-		
-		BootstrapAjaxLink<String> nextButton = new BootstrapAjaxLink<String>("button", Model.of("Weiter>"), Buttons.Type.Default) {
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				modalInfo.update(86L);
-//				modalInfo.show(false);
-//				modalInfo.setVisible(false);
-//				
-//				BusinessCardModal modal = createModalInfoContent(86);
-//				modalInfo.replaceWith(modal);
-//				modalInfo = modal;
-//				modalWarning.setVisible(false);
-//				
-//				modalInfo.setEscapeModelStrings(false);
-//				modalInfo.setOutputMarkupId(true);
-//				modalInfo.show(true);
-				
-				
-				target.add(modalInfo);
-			}
-		};
-		
-		modal.addButton(nextButton);
-		
+		modal.setOutputMarkupId(true);
+
+		modal.addButton(getPrevButton());
+		modal.addButton(getEditButton());
+		modal.addButton(getNextButton());
+
 		modal.addCloseButton(Model.of(_("global.close").getString()));
 		modal.header(Model.of(header));
 
 		modal.setEscapeModelStrings(false);
 		modal.setOutputMarkupId(true);
-		
+
 		return modal;
 	}
-	
-	private void infoMember(final long id) {
-		System.out.println("Info about ID "+id);
-		
+
+	private void infoMember(final long id, final int index) {
+		currentlyDisplayedId = id;
+		currentlyDisplayPosition = index;
+
 		final BusinessCardModal modal = createModalInfoContent(id);
-		
+
 		this.modalInfo.replaceWith(modal);
 		this.modalInfo = modal;
 		this.modalWarning.setVisible(false);
-		
+
 		modalInfo.setEscapeModelStrings(false);
 		modalInfo.setOutputMarkupId(true);
 		modalInfo.show(true);
-		
-		
-
 	}
 
 	private void deleteMember(final long id, String firstname, String lastname) {

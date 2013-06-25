@@ -206,9 +206,6 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		Bootstrap.renderHead(response);
 
-		response.render(JavaScriptHeaderItem
-				.forReference(new JavaScriptResourceReference(
-						MemberListPanel.class, "modalHelper.js")));
 	}
 
 	@SuppressWarnings("unchecked")
