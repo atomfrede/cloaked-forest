@@ -15,6 +15,9 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapAjaxButton;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapAjaxLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapButton;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
@@ -229,7 +232,7 @@ public class MemberListPanel extends Panel {
 		return memberProvider;
 	}
 
-	private void infoMember(final long id) {
+	private BusinessCardModal createModalInfoContent(final long id){
 		Member mem = memberDao.findById(id);
 
 		String header = "";
@@ -238,28 +241,58 @@ public class MemberListPanel extends Panel {
 		}
 
 		header = header + " " + mem.getFirstname() + " " + mem.getLastname();
-		String street = mem.getContactData().getStreet() + " "
-				+ mem.getContactData().getNumber();
-		String postTown = mem.getContactData().getPostCode() + " "
-				+ mem.getContactData().getTown();
-		String mailPrivate = mem.getContactData().getEmail();
 
-		String content = _("member.info.modal", mem.getSalutation(),
-				mem.getFirstname(), mem.getLastname(), street, postTown,
-				mailPrivate).getString();
-
-		final BusinessCardModal modal = new BusinessCardModal("modal-info", id);
+		BusinessCardModal modal = new BusinessCardModal("modal-info", id);
+		
 		modal.setOutputMarkupId(true);
+		
+		BootstrapAjaxLink<String> nextButton = new BootstrapAjaxLink<String>("button", Model.of("Weiter>"), Buttons.Type.Default) {
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				modalInfo.update(86L);
+//				modalInfo.show(false);
+//				modalInfo.setVisible(false);
+//				
+//				BusinessCardModal modal = createModalInfoContent(86);
+//				modalInfo.replaceWith(modal);
+//				modalInfo = modal;
+//				modalWarning.setVisible(false);
+//				
+//				modalInfo.setEscapeModelStrings(false);
+//				modalInfo.setOutputMarkupId(true);
+//				modalInfo.show(true);
+				
+				
+				target.add(modalInfo);
+			}
+		};
+		
+		modal.addButton(nextButton);
+		
 		modal.addCloseButton(Model.of(_("global.close").getString()));
 		modal.header(Model.of(header));
 
 		modal.setEscapeModelStrings(false);
-
+		modal.setOutputMarkupId(true);
+		
+		return modal;
+	}
+	
+	private void infoMember(final long id) {
+		System.out.println("Info about ID "+id);
+		
+		final BusinessCardModal modal = createModalInfoContent(id);
+		
 		this.modalInfo.replaceWith(modal);
 		this.modalInfo = modal;
 		this.modalWarning.setVisible(false);
+		
 		modalInfo.setEscapeModelStrings(false);
+		modalInfo.setOutputMarkupId(true);
 		modalInfo.show(true);
+		
+		
 
 	}
 

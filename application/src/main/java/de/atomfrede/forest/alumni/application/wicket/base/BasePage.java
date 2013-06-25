@@ -36,6 +36,7 @@ import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
 import de.atomfrede.forest.alumni.application.wicket.graph.GraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
+import de.atomfrede.forest.alumni.application.wicket.member.MemberListPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.QueryPage;
 import de.atomfrede.forest.alumni.application.wicket.sector.SectorPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
@@ -204,6 +205,10 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 						"prettyCheckable.js")));
 
 		Bootstrap.renderHead(response);
+
+		response.render(JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(
+						MemberListPanel.class, "modalHelper.js")));
 	}
 
 	@SuppressWarnings("unchecked")
