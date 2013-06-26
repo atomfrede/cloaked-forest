@@ -1,1 +1,3 @@
 /application_mysql.properties
+/deployment_mysql.properties
+/development_mysql.properties
