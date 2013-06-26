@@ -304,7 +304,7 @@ public class MemberListPanel extends Panel {
 				// TODO Auto-generated method stub
 				modalInfo.setVisible(false);
 				modalInfo.show(false);
-				editMember(66L);
+				editMember(currentlyDisplayedId);
 
 			}
 		};
