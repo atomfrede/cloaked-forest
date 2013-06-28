@@ -184,26 +184,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 		cancel.setLabel(Model.of(_("global.cancel")));
 		
-		Member nextMember = memberService.getNextMember(getModelObject().getId());
-		final long nextId = nextMember.getId();
-		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next", Buttons.Type.Default) {
-
-			@Override
-			public void onClick() {
-				PageParameters params = new PageParameters();
-				params.add(MemberDetailPage.EDIT_TYPE, Type.Edit);
-				params.add(MemberDetailPage.MEMBER_ID, nextId);
-				setResponsePage(MemberDetailPage.class, params);
-				
-			}
-		};
-		
-		
-		next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
-		
-		add(next);
-
-		
+		addNextMemberButton();
+		addPrevMemberButton();
 
 		emptySector = new Sector();
 		emptySector.setSector(_("model.empty").getString());
@@ -222,6 +204,40 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		setupActivityTab();
 	}
 
+	private void addNextMemberButton(){
+		Member nextMember = memberService.getNextMember(getModelObject().getId());
+		final long nextId = nextMember.getId();
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next", Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				PageParameters params = new PageParameters();
+				params.add(MemberDetailPage.EDIT_TYPE, Type.Edit);
+				params.add(MemberDetailPage.MEMBER_ID, nextId);
+				setResponsePage(MemberDetailPage.class, params);
+			}
+		};
+		next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
+		add(next);
+	}
+	
+	private void addPrevMemberButton(){
+		Member prevMember = memberService.getPrevMember(getModelObject().getId());
+		final long prevId = prevMember.getId();
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-prev", Buttons.Type.Default) {
+
+			@Override
+			public void onClick() {
+				PageParameters params = new PageParameters();
+				params.add(MemberDetailPage.EDIT_TYPE, Type.Edit);
+				params.add(MemberDetailPage.MEMBER_ID, prevId);
+				setResponsePage(MemberDetailPage.class, params);
+			}
+		};
+		next.setLabel(Model.of(prevMember.getFirstname()+" "+prevMember.getLastname())).setIconType(IconType.arrowleft).setInverted(false);
+		add(next);
+	}
+	
 	private void initFormValues(AbstractEntityModel<Member> model) {
 		if (editType == Type.Create) {
 			_salutation = "";

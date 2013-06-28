@@ -44,5 +44,7 @@ public interface MemberService extends EntityService<Member> {
 	Map<Degree, Integer> getMembersPerDegree();
 	
 	Member getNextMember(long id);
+	
+	Member getPrevMember(long id);
 
 }

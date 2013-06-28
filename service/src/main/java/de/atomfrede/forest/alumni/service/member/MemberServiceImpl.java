@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -219,7 +220,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Member getNextMember(long id) {
 		@SuppressWarnings("unchecked")
 		List<String> lastnames = getSession().createSQLQuery("SELECT m.lastname as lastname FROM member m ORDER BY m.lastname").list();
@@ -232,6 +233,25 @@ public class MemberServiceImpl implements MemberService {
 		}else{
 			nextName = lastnames.get(0);
 		}
+		Member nextMember = findByProperty("lastname", nextName);
+		return nextMember;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Member getPrevMember(long id) {
+		@SuppressWarnings("unchecked")
+		List<String> lastnames = getSession().createSQLQuery("SELECT m.lastname as lastname FROM member m ORDER BY m.lastname").list();
+		Member cMember = findById(id);
+		String nameToFind = cMember.getLastname();
+		int index = Collections.binarySearch(lastnames, nameToFind);
+		String nextName = "";
+		if(index-1 != -1){
+			nextName = lastnames.get(index-1);
+		}else{
+			nextName = lastnames.get(lastnames.size()-1);
+		}
+		
 		Member nextMember = findByProperty("lastname", nextName);
 		return nextMember;
 	}
