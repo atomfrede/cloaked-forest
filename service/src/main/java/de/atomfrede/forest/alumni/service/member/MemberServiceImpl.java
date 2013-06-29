@@ -233,31 +233,42 @@ public class MemberServiceImpl implements MemberService {
 			public Member execute(Connection connection) throws SQLException {
 				// TODO Auto-generated method stub
 				Statement stm = connection.createStatement();
-				String sql = "SELECT m.id as id, m.lastname as lastname FROM member m ORDER BY m.lastname";
+				String sql = "SELECT m.id as id, m.lastname as lastname, m.firstname as firstname FROM member m ORDER BY m.lastname";
 				stm.execute(sql);
 
 				ResultSet rs = stm.getResultSet();
 
 				ArrayList<Long> idList = new ArrayList<>();
 				ArrayList<String> lastnames = new ArrayList<>();
-
+				
+				ArrayList<String> fullnames = new ArrayList<>();
 				while (rs.next()) {
 					long id = rs.getLong("id");
 					String lastname = rs.getString("lastname");
+					String firstname = rs.getString("firstname");
 
 					idList.add(id);
 					lastnames.add(lastname);
+					fullnames.add(lastname+" "+firstname);
 				}
 
 				Member cMember = findById(id);
-				String nameToFind = cMember.getLastname();
-				int index = Collections.binarySearch(lastnames, nameToFind);
+				String nameToFind = cMember.getLastname()+" "+cMember.getFirstname();
+				int index = Collections.binarySearch(fullnames, nameToFind);
 
 				long nextId;
 				if (index + 1 != lastnames.size()) {
 					nextId = idList.get(index + 1);
 				} else {
 					nextId = idList.get(0);
+				}
+				while(nextId == id){
+					index++;
+					if (index + 1 < lastnames.size()) {
+						nextId = idList.get(index + 1);
+					} else {
+						nextId = idList.get(0);
+					}
 				}
 
 				Member nextMember = findById(nextId);
@@ -274,31 +285,43 @@ public class MemberServiceImpl implements MemberService {
 			@Override
 			public Member execute(Connection connection) throws SQLException {
 				Statement stm = connection.createStatement();
-				String sql = "SELECT m.id as id, m.lastname as lastname FROM member m ORDER BY m.lastname";
+				String sql = "SELECT m.id as id, m.lastname as lastname, m.firstname as firstname FROM member m ORDER BY m.lastname";
 				stm.execute(sql);
 
 				ResultSet rs = stm.getResultSet();
 
 				ArrayList<Long> idList = new ArrayList<>();
 				ArrayList<String> lastnames = new ArrayList<>();
-
+				
+				ArrayList<String> fullnames = new ArrayList<>();
 				while (rs.next()) {
 					long id = rs.getLong("id");
 					String lastname = rs.getString("lastname");
-
+					String firstname = rs.getString("firstname");
+					
 					idList.add(id);
 					lastnames.add(lastname);
+					fullnames.add(lastname+" "+firstname);
 				}
 
 				Member cMember = findById(id);
 				String nameToFind = cMember.getLastname();
-				int index = Collections.binarySearch(lastnames, nameToFind);
+				int index = Collections.binarySearch(fullnames, nameToFind+" "+cMember.getFirstname());
 
 				long nextId;
 				if (index - 1 != -1) {
 					nextId = idList.get(index - 1);
 				} else {
 					nextId = idList.get(idList.size() - 1);
+				}
+				
+				while(nextId == id){
+					index--;
+					if (index - 1 > -1) {
+						nextId = idList.get(index - 1);
+					} else {
+						nextId = idList.get(idList.size() - 1);
+					}
 				}
 
 				Member nextMember = findById(nextId);
