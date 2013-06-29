@@ -1,5 +1,10 @@
 package de.atomfrede.forest.alumni.service.member;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,10 +15,10 @@ import javax.annotation.Resource;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.jdbc.ReturningWork;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +40,7 @@ import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 public class MemberServiceImpl implements MemberService {
 
 	private static final int days = 31;
-	
+
 	@Resource
 	private SessionFactory sessionFactory;
 
@@ -221,39 +226,85 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Member getNextMember(long id) {
-		@SuppressWarnings("unchecked")
-		List<String> lastnames = getSession().createSQLQuery("SELECT m.lastname as lastname FROM member m ORDER BY m.lastname").list();
-		Member cMember = findById(id);
-		String nameToFind = cMember.getLastname();
-		int index = Collections.binarySearch(lastnames, nameToFind);
-		String nextName = "";
-		if(index+1 != lastnames.size()){
-			nextName = lastnames.get(index+1);
-		}else{
-			nextName = lastnames.get(0);
-		}
-		Member nextMember = findByProperty("lastname", nextName);
-		return nextMember;
+	public Member getNextMember(final long id) {
+		return getSession().doReturningWork(new ReturningWork<Member>() {
+
+			@Override
+			public Member execute(Connection connection) throws SQLException {
+				// TODO Auto-generated method stub
+				Statement stm = connection.createStatement();
+				String sql = "SELECT m.id as id, m.lastname as lastname FROM member m ORDER BY m.lastname";
+				stm.execute(sql);
+
+				ResultSet rs = stm.getResultSet();
+
+				ArrayList<Long> idList = new ArrayList<>();
+				ArrayList<String> lastnames = new ArrayList<>();
+
+				while (rs.next()) {
+					long id = rs.getLong("id");
+					String lastname = rs.getString("lastname");
+
+					idList.add(id);
+					lastnames.add(lastname);
+				}
+
+				Member cMember = findById(id);
+				String nameToFind = cMember.getLastname();
+				int index = Collections.binarySearch(lastnames, nameToFind);
+
+				long nextId;
+				if (index + 1 != lastnames.size()) {
+					nextId = idList.get(index + 1);
+				} else {
+					nextId = idList.get(0);
+				}
+
+				Member nextMember = findById(nextId);
+				return nextMember;
+			}
+		});
 	}
 
 	@Override
-	@Transactional(readOnly=true)
-	public Member getPrevMember(long id) {
-		@SuppressWarnings("unchecked")
-		List<String> lastnames = getSession().createSQLQuery("SELECT m.lastname as lastname FROM member m ORDER BY m.lastname").list();
-		Member cMember = findById(id);
-		String nameToFind = cMember.getLastname();
-		int index = Collections.binarySearch(lastnames, nameToFind);
-		String nextName = "";
-		if(index-1 != -1){
-			nextName = lastnames.get(index-1);
-		}else{
-			nextName = lastnames.get(lastnames.size()-1);
-		}
-		
-		Member nextMember = findByProperty("lastname", nextName);
-		return nextMember;
+	@Transactional(readOnly = true)
+	public Member getPrevMember(final long id) {
+		return getSession().doReturningWork(new ReturningWork<Member>() {
+
+			@Override
+			public Member execute(Connection connection) throws SQLException {
+				Statement stm = connection.createStatement();
+				String sql = "SELECT m.id as id, m.lastname as lastname FROM member m ORDER BY m.lastname";
+				stm.execute(sql);
+
+				ResultSet rs = stm.getResultSet();
+
+				ArrayList<Long> idList = new ArrayList<>();
+				ArrayList<String> lastnames = new ArrayList<>();
+
+				while (rs.next()) {
+					long id = rs.getLong("id");
+					String lastname = rs.getString("lastname");
+
+					idList.add(id);
+					lastnames.add(lastname);
+				}
+
+				Member cMember = findById(id);
+				String nameToFind = cMember.getLastname();
+				int index = Collections.binarySearch(lastnames, nameToFind);
+
+				long nextId;
+				if (index - 1 != -1) {
+					nextId = idList.get(index - 1);
+				} else {
+					nextId = idList.get(idList.size() - 1);
+				}
+
+				Member nextMember = findById(nextId);
+				return nextMember;
+			}
+		});
 	}
 
 }
