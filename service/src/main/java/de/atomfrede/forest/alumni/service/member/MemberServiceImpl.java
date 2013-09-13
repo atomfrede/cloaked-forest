@@ -240,7 +240,7 @@ public class MemberServiceImpl implements MemberService {
 
 				ArrayList<Long> idList = new ArrayList<>();
 				ArrayList<String> lastnames = new ArrayList<>();
-				
+
 				ArrayList<String> fullnames = new ArrayList<>();
 				while (rs.next()) {
 					long id = rs.getLong("id");
@@ -249,11 +249,12 @@ public class MemberServiceImpl implements MemberService {
 
 					idList.add(id);
 					lastnames.add(lastname);
-					fullnames.add(lastname+" "+firstname);
+					fullnames.add(lastname + " " + firstname);
 				}
 
 				Member cMember = findById(id);
-				String nameToFind = cMember.getLastname()+" "+cMember.getFirstname();
+				String nameToFind = cMember.getLastname() + " "
+						+ cMember.getFirstname();
 				int index = Collections.binarySearch(fullnames, nameToFind);
 
 				long nextId;
@@ -262,7 +263,7 @@ public class MemberServiceImpl implements MemberService {
 				} else {
 					nextId = idList.get(0);
 				}
-				while(nextId == id){
+				while (nextId == id) {
 					index++;
 					if (index + 1 < lastnames.size()) {
 						nextId = idList.get(index + 1);
@@ -292,21 +293,22 @@ public class MemberServiceImpl implements MemberService {
 
 				ArrayList<Long> idList = new ArrayList<>();
 				ArrayList<String> lastnames = new ArrayList<>();
-				
+
 				ArrayList<String> fullnames = new ArrayList<>();
 				while (rs.next()) {
 					long id = rs.getLong("id");
 					String lastname = rs.getString("lastname");
 					String firstname = rs.getString("firstname");
-					
+
 					idList.add(id);
 					lastnames.add(lastname);
-					fullnames.add(lastname+" "+firstname);
+					fullnames.add(lastname + " " + firstname);
 				}
 
 				Member cMember = findById(id);
 				String nameToFind = cMember.getLastname();
-				int index = Collections.binarySearch(fullnames, nameToFind+" "+cMember.getFirstname());
+				int index = Collections.binarySearch(fullnames, nameToFind
+						+ " " + cMember.getFirstname());
 
 				long nextId;
 				if (index - 1 != -1) {
@@ -314,8 +316,8 @@ public class MemberServiceImpl implements MemberService {
 				} else {
 					nextId = idList.get(idList.size() - 1);
 				}
-				
-				while(nextId == id){
+
+				while (nextId == id) {
 					index--;
 					if (index - 1 > -1) {
 						nextId = idList.get(index - 1);

@@ -19,7 +19,7 @@ public class BusinessCardModal extends Modal {
 
 	@SpringBean
 	private MemberDao memberDao;
-	
+
 	private BusinessCardPanel content;
 
 	public BusinessCardModal(String markupId, Long memberId) {
@@ -27,8 +27,8 @@ public class BusinessCardModal extends Modal {
 		content = new BusinessCardPanel("content", memberId);
 		add(content);
 	}
-	
-	public void update(Long memberId){
+
+	public void update(Long memberId) {
 		content.replaceWith(new BusinessCardPanel("content", memberId));
 		Member mem = memberDao.findById(memberId);
 		String headerTxt = " " + mem.getFirstname() + " " + mem.getLastname();
