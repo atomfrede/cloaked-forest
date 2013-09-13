@@ -93,8 +93,9 @@ public class AbstractEntityModel<T extends AbstractEntity> implements
 		if (obj == null) {
 			return false;
 		}
-		if(obj instanceof AbstractEntityModel){
-			if(((AbstractEntityModel)obj).id.equals(id) && ((AbstractEntityModel)obj).entity.equals(entity)){
+		if (obj instanceof AbstractEntityModel) {
+			if (((AbstractEntityModel) obj).id.equals(id)
+					&& ((AbstractEntityModel) obj).entity.equals(entity)) {
 				return true;
 			}
 		}

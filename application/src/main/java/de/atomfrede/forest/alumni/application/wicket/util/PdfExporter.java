@@ -25,11 +25,11 @@ import de.atomfrede.forest.alumni.service.query.Query;
 import de.atomfrede.forest.alumni.service.query.QueryService;
 
 /**
- * PDFExporter is repsonsible for generating a PDF file of members with the help of 
- * flying saucer XHTML renderer.
+ * PDFExporter is repsonsible for generating a PDF file of members with the help
+ * of flying saucer XHTML renderer.
  * 
  * @author fred
- *
+ * 
  */
 @Component
 public class PdfExporter {
@@ -46,7 +46,7 @@ public class PdfExporter {
 
 	@Autowired
 	private QueryService queryService;
-	
+
 	private Query query;
 
 	public PdfExporter() {
@@ -69,16 +69,17 @@ public class PdfExporter {
 		headerAndStyles.append("@page {@bottom-center {content:\"Abrufdatum: "
 				+ date + "\"}}");
 
-		if(query != null){
-			headerAndStyles.append("@page{margin-bottom: 1.5in; margin-top: 1in;}");
-		}else{
+		if (query != null) {
+			headerAndStyles
+					.append("@page{margin-bottom: 1.5in; margin-top: 1in;}");
+		} else {
 			headerAndStyles.append("@page{margin-bottom: 1.5in;}");
 		}
-		
+
 		headerAndStyles.append("@page {" + "@bottom-left {"
 				+ "content: element(pageHeader);" + "}" + "}" + "#pageHeader{"
 				+ "position: running(pageHeader);" + "}");
-		
+
 		headerAndStyles.append("@page {" + "@top-left {"
 				+ "content: element(topHeader);" + "}" + "}" + "#topHeader{"
 				+ "position: running(topHeader);" + "}");
@@ -162,7 +163,7 @@ public class PdfExporter {
 		}
 		if (member.getProfession() != null
 				&& StringCheckUtil.isStringSet(member.getProfession())) {
-//			sb.append(member.getProfession().replaceAll("&", "&amp;") + " ");
+			// sb.append(member.getProfession().replaceAll("&", "&amp;") + " ");
 			sb.append(member.getProfession() + " ");
 		}
 		if (member.getYearOfGraduation() != null
@@ -350,6 +351,7 @@ public class PdfExporter {
 
 	/**
 	 * Returns the private address part (Xhtml) for the given member.
+	 * 
 	 * @param member
 	 * @return
 	 */
@@ -373,7 +375,7 @@ public class PdfExporter {
 					&& StringCheckUtil.isStringSet(member.getDegree()
 							.getShortForm())) {
 				sb.append(member.getFirstname() + " " + member.getLastname());
-				sb.append(", "+member.getDegree().getShortForm() + " ");
+				sb.append(", " + member.getDegree().getShortForm() + " ");
 			} else {
 				sb.append(member.getFirstname() + " " + member.getLastname()
 						+ " ");
@@ -500,7 +502,8 @@ public class PdfExporter {
 			if (member.getActivities() != null
 					&& !member.getActivities().isEmpty()) {
 				for (Activity act : member.getActivities()) {
-//					sb.append(act.getActivity().replaceAll("&", "&amp;") + " ");
+					// sb.append(act.getActivity().replaceAll("&", "&amp;") +
+					// " ");
 					sb.append(act.getActivity() + " ");
 				}
 			}
@@ -517,7 +520,8 @@ public class PdfExporter {
 	/**
 	 * Creates a list of all members inside the given list.
 	 * 
-	 * @param members Members that are contained in the resulting PDF file.
+	 * @param members
+	 *            Members that are contained in the resulting PDF file.
 	 * @return
 	 */
 	private File createPdf(List<Member> members) {
@@ -530,12 +534,13 @@ public class PdfExporter {
 			StringBuilder content = new StringBuilder();
 
 			content.append(header.toString());
-			
+
 			content.append("<div class=\"pageHeader\" id=\"pageHeader\"><img class=\"logo-image\" src=\""
 					+ IMAGE + "\" style=\" height: 60px;\"/></div>");
 
-			if(query != null){
-				content.append("<div class=\"topHeader\" id=\"topHeader\">"+query.toString(true)+"</div>");
+			if (query != null) {
+				content.append("<div class=\"topHeader\" id=\"topHeader\">"
+						+ query.toString(true) + "</div>");
 			}
 
 			for (Member mem : members) {

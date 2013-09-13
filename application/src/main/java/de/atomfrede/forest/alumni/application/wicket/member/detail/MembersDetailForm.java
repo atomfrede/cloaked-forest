@@ -22,7 +22,6 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -145,8 +144,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	public MembersDetailForm(String id, Type editType,
 			AbstractEntityModel<Member> model) {
 		super(id, model);
-		
-		
+
 		this.editType = editType;
 
 		feedbackPanel = new NotificationPanel("feedbackPanel");
@@ -179,11 +177,11 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(Homepage.class);
 			}
 		};
-		
+
 		add(cancel);
 
 		cancel.setLabel(Model.of(_("global.cancel")));
-		
+
 		addNextMemberButton();
 		addPrevMemberButton();
 
@@ -204,10 +202,12 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		setupActivityTab();
 	}
 
-	private void addNextMemberButton(){
-		Member nextMember = memberService.getNextMember(getModelObject().getId());
+	private void addNextMemberButton() {
+		Member nextMember = memberService.getNextMember(getModelObject()
+				.getId());
 		final long nextId = nextMember.getId();
-		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next", Buttons.Type.Default) {
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -217,14 +217,19 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(MemberDetailPage.class, params);
 			}
 		};
-		next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
+		next.setLabel(
+				Model.of(nextMember.getFirstname() + " "
+						+ nextMember.getLastname()))
+				.setIconType(IconType.arrowright).setInverted(false);
 		add(next);
 	}
-	
-	private void addPrevMemberButton(){
-		Member prevMember = memberService.getPrevMember(getModelObject().getId());
+
+	private void addPrevMemberButton() {
+		Member prevMember = memberService.getPrevMember(getModelObject()
+				.getId());
 		final long prevId = prevMember.getId();
-		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-prev", Buttons.Type.Default) {
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-prev",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -234,10 +239,13 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(MemberDetailPage.class, params);
 			}
 		};
-		next.setLabel(Model.of(prevMember.getFirstname()+" "+prevMember.getLastname())).setIconType(IconType.arrowleft).setInverted(false);
+		next.setLabel(
+				Model.of(prevMember.getFirstname() + " "
+						+ prevMember.getLastname()))
+				.setIconType(IconType.arrowleft).setInverted(false);
 		add(next);
 	}
-	
+
 	private void initFormValues(AbstractEntityModel<Member> model) {
 		if (editType == Type.Create) {
 			_salutation = "";
