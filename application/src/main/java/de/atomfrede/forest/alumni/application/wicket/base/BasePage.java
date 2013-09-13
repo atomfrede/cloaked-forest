@@ -35,7 +35,7 @@ import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
 import de.atomfrede.forest.alumni.application.wicket.department.DepartmentPage;
 import de.atomfrede.forest.alumni.application.wicket.graph.GraphPage;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
-import de.atomfrede.forest.alumni.application.wicket.logout.LogoutPage;
+import de.atomfrede.forest.alumni.application.wicket.login.LoginPage;
 import de.atomfrede.forest.alumni.application.wicket.query.QueryPage;
 import de.atomfrede.forest.alumni.application.wicket.sector.SectorPage;
 import de.atomfrede.forest.alumni.application.wicket.security.UserAuthModel;
@@ -147,10 +147,11 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 						UserPage.class, Model.of(_("nav.users").getString()))
 						.setIconType(IconType.user)));
 
+		PageParameters params = new PageParameters();
+		params.add("doLogout", true);
 		navbar.addComponents(new ImmutableNavbarComponent(
-				new NavbarButton<LogoutPage>(LogoutPage.class, Model
-						.of("Logout")).setIconType(IconType.off),
-				Navbar.ComponentPosition.RIGHT));
+				new NavbarButton<LoginPage>(LoginPage.class, params, Model.of("Logout"))
+				.setIconType(IconType.off), Navbar.ComponentPosition.RIGHT));
 
 		return navbar;
 	}
