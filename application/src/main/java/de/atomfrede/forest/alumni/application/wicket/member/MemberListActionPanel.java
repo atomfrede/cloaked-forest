@@ -25,7 +25,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.LoadingBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
@@ -95,9 +94,6 @@ public class MemberListActionPanel extends Panel {
 	}
 
 	private void addPdfDownload() {
-		final LoadingBehavior load = new LoadingBehavior(
-				Model.of("Bitte Warten"));
-
 		pdfDownload = new BootstrapLink<Void>("btn-pdf-download",
 				Buttons.Type.Default) {
 
