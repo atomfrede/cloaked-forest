@@ -18,6 +18,7 @@ import de.atomfrede.forest.alumni.service.member.MemberService;
 @SuppressWarnings("serial")
 public class DegreeGraphPanel extends Panel {
 
+	@SuppressWarnings("unused")
 	private final Log log = LogFactory.getLog(DegreeGraphPanel.class);
 
 	@SpringBean

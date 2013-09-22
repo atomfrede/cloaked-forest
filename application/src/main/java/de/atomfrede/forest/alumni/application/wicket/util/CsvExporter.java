@@ -153,7 +153,8 @@ public class CsvExporter {
 
 				linesToWrite.add(header);
 
-				List members = queryService.queryDatabase(query);
+				@SuppressWarnings("unchecked")
+				List<Member> members = (List<Member>) queryService.queryDatabase(query);
 
 				for (Object mem : members) {
 					if (mem instanceof Member) {

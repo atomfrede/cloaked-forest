@@ -76,6 +76,7 @@ public class AbstractEntityModel<T extends AbstractEntity> implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected T load(Serializable id) {
 		return (T) mEntityLoader.load(clazz, id);
 	}
@@ -94,7 +95,7 @@ public class AbstractEntityModel<T extends AbstractEntity> implements
 			return false;
 		}
 		if(obj instanceof AbstractEntityModel){
-			if(((AbstractEntityModel)obj).id.equals(id) && ((AbstractEntityModel)obj).entity.equals(entity)){
+			if(((AbstractEntityModel<?>)obj).id.equals(id) && ((AbstractEntityModel<?>)obj).entity.equals(entity)){
 				return true;
 			}
 		}

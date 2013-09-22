@@ -18,6 +18,7 @@ public class UserSession<T extends UserAuthModel> extends WebSession implements
 	// current user
 	protected T user;
 
+	@SuppressWarnings("unchecked")
 	public UserSession(Request request) {
 		this(request, (T) new UserAuthModel(User.class, -1L));
 	}
