@@ -55,8 +55,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@Transactional
-	public Company createCompany(String company) throws CompanyAlreadyExistingException{
-		if(alreadyExisting(company)){
+	public Company createCompany(String company)
+			throws CompanyAlreadyExistingException {
+		if (alreadyExisting(company)) {
 			throw new CompanyAlreadyExistingException(company);
 		}
 		Company cp = new Company();

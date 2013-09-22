@@ -17,6 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 
+/**
+ * Implementation of {@link SectorService} interface.
+ * @see SectorService
+ * @author fred
+ *
+ */
 @Service(value = "sectorService")
 @Transactional(rollbackFor = Exception.class)
 public class SectorServiceImpl implements SectorService {
@@ -27,7 +33,7 @@ public class SectorServiceImpl implements SectorService {
 	@Autowired
 	private SectorDao sectorDao;
 
-	public Session getSession() {
+	private Session getSession() {
 		try {
 			return sessionFactory.getCurrentSession();
 		} catch (HibernateException he) {

@@ -25,7 +25,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.LoadingBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
@@ -37,7 +36,7 @@ import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 public class MemberListActionPanel extends Panel {
 
 	private final Log log = LogFactory.getLog(MemberListActionPanel.class);
-	
+
 	@SpringBean
 	private MemberDao memberDao;
 
@@ -95,8 +94,6 @@ public class MemberListActionPanel extends Panel {
 	}
 
 	private void addPdfDownload() {
-		final LoadingBehavior load = new LoadingBehavior(Model.of("Bitte Warten"));
-		
 		pdfDownload = new BootstrapLink<Void>("btn-pdf-download",
 				Buttons.Type.Default) {
 
@@ -113,7 +110,7 @@ public class MemberListActionPanel extends Panel {
 								resource, null);
 						getRequestCycle().scheduleRequestHandlerAfterCurrent(
 								handler);
-				
+
 					} catch (IOException ioe) {
 						log.error("Couldn't write PDF File.", ioe);
 					}
@@ -123,8 +120,8 @@ public class MemberListActionPanel extends Panel {
 
 		};
 
-//		pdfDownload.add(load);
-		
+		// pdfDownload.add(load);
+
 		pdfDownload.setIconType(IconType.file)
 				.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
 
@@ -171,8 +168,8 @@ public class MemberListActionPanel extends Panel {
 	public TextField<String> getNameFilter() {
 		return nameFilter;
 	}
-	
-	public Form<String> getFilterForm(){
+
+	public Form<String> getFilterForm() {
 		return filterForm;
 	}
 

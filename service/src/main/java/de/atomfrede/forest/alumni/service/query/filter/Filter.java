@@ -33,10 +33,10 @@ public class Filter implements Serializable {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(convertPropertyName()+" ");
-		sb.append(convertOperator()+" ");
+		sb.append(convertPropertyName() + " ");
+		sb.append(convertOperator() + " ");
 		sb.append(value.toString());
-		
+
 		return sb.toString();
 	}
 
