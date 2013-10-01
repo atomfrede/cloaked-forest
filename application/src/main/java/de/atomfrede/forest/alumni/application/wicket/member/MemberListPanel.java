@@ -240,13 +240,15 @@ public class MemberListPanel extends Panel {
 	}
 
 	private BootstrapLink<String> getNextButton() {
+		final int ending = (int) Math.min(members.getItemsPerPage() - 1, members.getItemCount());
+		
 		BootstrapLink<String> nextButton = new BootstrapLink<String>("button",
 				Model.of("Weiter"), Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
 				// We want only next and work on the current page
-				if (currentlyDisplayPosition < members.getItemsPerPage() - 1) {
+				if (currentlyDisplayPosition < ending - 1) {
 					@SuppressWarnings("unchecked")
 					Long newId = ((AbstractEntityModel<Member>) members.get(
 							currentlyDisplayPosition + 1).getInnermostModel())
@@ -257,7 +259,8 @@ public class MemberListPanel extends Panel {
 			}
 		};
 
-		if (currentlyDisplayPosition == members.getItemsPerPage() - 1) {
+		
+		if (currentlyDisplayPosition == ending - 1) {
 			nextButton.add(new AttributeAppender("class", " disabled"));
 		}
 
