@@ -205,8 +205,15 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	}
 
 	private void addNextMemberButton(){
-		Member nextMember = memberService.getNextMember(getModelObject().getId());
-		final long nextId = nextMember.getId();
+		Member nextMember = null;
+		final long nextId;
+		if(this.editType != Type.Create && memberService.count() != 1) {
+			nextMember = memberService.getNextMember(getModelObject().getId());
+			nextId = nextMember.getId();
+		}else{
+			nextId = -1;
+		}
+		
 		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next", Buttons.Type.Default) {
 
 			@Override
@@ -217,13 +224,26 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(MemberDetailPage.class, params);
 			}
 		};
-		next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
+		if(nextId != -1) {
+			next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
+		}else{
+			next.setVisible(false);
+		}
 		add(next);
 	}
 	
 	private void addPrevMemberButton(){
-		Member prevMember = memberService.getPrevMember(getModelObject().getId());
-		final long prevId = prevMember.getId();
+		Member prevMember = null;
+		final long prevId;
+		
+		if(editType != Type.Create && memberService.count() != 1) {
+			prevMember = memberService.getPrevMember(getModelObject().getId());
+			prevId = prevMember.getId();
+		}else{
+			prevId = -1;
+		}
+		
+	
 		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-prev", Buttons.Type.Default) {
 
 			@Override
@@ -234,7 +254,13 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(MemberDetailPage.class, params);
 			}
 		};
-		next.setLabel(Model.of(prevMember.getFirstname()+" "+prevMember.getLastname())).setIconType(IconType.arrowleft).setInverted(false);
+		
+		if(prevId != -1 && memberService.count() > 2) {
+			next.setLabel(Model.of(prevMember.getFirstname()+" "+prevMember.getLastname())).setIconType(IconType.arrowleft).setInverted(false);
+		}else{
+			next.setVisible(false);
+		}
+		
 		add(next);
 	}
 	
