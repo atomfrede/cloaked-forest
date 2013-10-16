@@ -39,6 +39,10 @@ public class Member extends AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "entrydate")
 	private java.util.Date entryDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "leavedate")
+	private java.util.Date leaveDate;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Activity> activities;
@@ -96,6 +100,14 @@ public class Member extends AbstractEntity {
 
 	public void setEntryDate(java.util.Date entryDate) {
 		this.entryDate = entryDate;
+	}
+	
+	public java.util.Date getLeaveDate() {
+		return leaveDate;
+	}
+
+	public void setLeaveDate(java.util.Date leaveDate) {
+		this.leaveDate = leaveDate;
 	}
 
 	public Set<Activity> getActivities() {

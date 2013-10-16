@@ -17,6 +17,10 @@ public interface MemberService extends EntityService<Member> {
 
 	boolean deleteMember(long id);
 
+	boolean leaveMember(Member member, Date leaveDate);
+	
+	boolean leaveMember(long id, Date leaveDate);
+	
 	List<Member> list(long offset, long count, String orderProperty,
 			boolean desc);
 

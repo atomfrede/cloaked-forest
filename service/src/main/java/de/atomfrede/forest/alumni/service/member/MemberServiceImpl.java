@@ -211,6 +211,21 @@ public class MemberServiceImpl implements MemberService {
 		Member mem = memberDao.findById(id);
 		return deleteMember(mem);
 	}
+	
+	@Override
+	@Transactional
+	public boolean leaveMember(Member member, Date leaveDate) {
+		member.setLeaveDate(leaveDate);
+		memberDao.persist(member);
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean leaveMember(long id, Date leaveDate) {
+		Member mem = memberDao.findById(id);
+		return leaveMember(mem, leaveDate);
+	}
 
 	@Override
 	@Transactional
@@ -331,5 +346,7 @@ public class MemberServiceImpl implements MemberService {
 			}
 		});
 	}
+
+	
 
 }
