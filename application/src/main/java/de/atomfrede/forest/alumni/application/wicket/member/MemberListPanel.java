@@ -432,13 +432,9 @@ public class MemberListPanel extends Panel {
 			
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				// TODO Auto-generated method stub
-				System.out.println(modal.getEnteredDate());
 				memberService.leaveMember(id, modal.getEnteredDate());
 				target.appendJavaScript("$('.modal').modal('close');");
 				setResponsePage(Homepage.class);
-//				setResponsePage(Homepage.class);
-				
 			}
 		};
 		
