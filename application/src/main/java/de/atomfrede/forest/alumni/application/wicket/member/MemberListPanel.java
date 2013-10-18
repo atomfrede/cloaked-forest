@@ -438,6 +438,31 @@ public class MemberListPanel extends Panel {
 			}
 		};
 		
+		if(memberService.findById(id).getLeaveDate() != null) {
+			AjaxLink<String> doEnter = new AjaxLink<String>("button", Model.of(_("modal.reenter").getString())) {
+
+				@Override
+				protected void onConfigure() {
+					super.onConfigure();
+
+					setBody(getDefaultModel());
+					add(new ButtonBehavior(Buttons.Type.Success));
+					// add(new IconBehavior(IconType.remove));
+				}
+				
+				@Override
+				public void onClick(AjaxRequestTarget target) {
+					memberService.leaveMember(id, null);
+					target.appendJavaScript("$('.modal').modal('close');");
+					setResponsePage(Homepage.class);
+					
+				}
+				
+			};
+			modal.addButton(doEnter);
+		}
+		
+		
 		modal.addButton(doLeave);
 
 		this.leaveModal.replaceWith(modal);
@@ -481,6 +506,7 @@ public class MemberListPanel extends Panel {
 
 			}
 		};
+		
 
 		modal.addButton(doDelete);
 		this.modalWarning.replaceWith(modal);
