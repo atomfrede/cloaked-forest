@@ -220,5 +220,17 @@ public class Member extends AbstractEntity {
 			activities.clear();
 		}
 	}
+	
+	public String getFullname() {
+		return getFullname(false);
+	}
+	
+	public String getFullname(boolean lastnameFirst) {
+		if(lastnameFirst) {
+			return lastname + " " + firstname;
+		} else {
+			return firstname + " " + lastname;
+		}
+	}
 
 }
