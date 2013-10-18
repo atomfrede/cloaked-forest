@@ -149,7 +149,6 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public Map<Date, Integer> getMemberCountPerYear(final Date from,
 			final Date to) {
-		System.out.println("#######");
 		Map<Date, Integer> values = new HashMap<Date, Integer>();
 		// Always use December 31 as fixed date
 		
@@ -170,12 +169,8 @@ public class MemberServiceImpl implements MemberService {
 					.add(Restrictions.ge("leaveDate", start.toDate())));
 			int size = crit.list().size();
 			values.put(start.toDate(), size);
-			
-			System.out.println("Start "+start.toDate()+" count "+size);
-			
 			start = start.year().addToCopy(1);
 		}
-		System.out.println("######");
 		return values;
 	}
 
