@@ -14,6 +14,7 @@
 					<th><wicket:message key="member.headers.lastname" /></th>
 					<th><wicket:message key="member.headers.profession" /></th>
 					<th><wicket:message key="member.headers.activity" /></th>
+					<th><wicket:message key="member.headers.leavedate" /></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -25,10 +26,12 @@
 						<td><span wicket:id="lastname"></span></td>
 						<td><span wicket:id="profession"></span></td>
 						<td><span wicket:id="activity"></span></td>
+						<td><span wicket:id="leavedate"></span></td>
 						<td>
 							<div class="btn-group">
 								<a wicket:id="action-info" class="btn btn-mini" href="#"></a>
 								<a wicket:id="action-edit" class="btn btn-mini" href="#"></a>
+								<a wicket:id="action-leave" class="btn btn-mini btn-warning" href="#"></a>
 								<a wicket:id="action-delete" class="btn btn-mini btn-danger" href=""></a>
 							</div>
 						</td>
@@ -38,6 +41,19 @@
 		</table>
 		<div wicket:id="pager"></div>
 		</div>
+	</div>
+	
+	<div wicket:id="modal-leave" class="modal hide fade">
+		<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    			<h3>Modal header</h3>
+    	</div>
+    	<div class="modal-body">
+    		<p>One fine body…</p>
+    	</div>
+    	<div class="modal-footer">
+    		<a href="#" class="btn">Close</a>
+    	</div>
 	</div>
 	
 	<div wicket:id="modal-info" class="modal hide fade">

@@ -2,6 +2,8 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
+import java.text.DateFormat;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -29,6 +31,7 @@ import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.homepage.Homepage;
 import de.atomfrede.forest.alumni.application.wicket.member.custom.BusinessCardModal;
+import de.atomfrede.forest.alumni.application.wicket.member.custom.LeaveMemberModal;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
 import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
@@ -53,13 +56,18 @@ public class MemberListPanel extends Panel {
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
+	private LeaveMemberModal leaveModal;
 
 	private Long currentlyDisplayedId = null;
 	private Integer currentlyDisplayPosition = null;
+	
+	private DateFormat df;
 
 	public MemberListPanel(String id) {
 		super(id);
 
+		df = DateFormat.getDateInstance(DateFormat.SHORT, getSession().getLocale());
+		
 		actionPanel = new MemberListActionPanel("members-action");
 		add(actionPanel);
 		addFilter();
@@ -69,6 +77,7 @@ public class MemberListPanel extends Panel {
 		populateItems();
 		setupModal();
 		setupModalInfo();
+		setupModalLeave();
 
 	}
 
@@ -167,6 +176,13 @@ public class MemberListPanel extends Panel {
 				}
 				item.add(actLabel);
 
+				String leaveDateText = "--";
+				if(member.getLeaveDate() != null) {
+					leaveDateText = df.format(member.getLeaveDate());
+				}
+				Label leaveDate = new Label("leavedate", Model.of(leaveDateText));
+				item.add(leaveDate);
+				
 				final long memberId = member.getId();
 				final String firstname = member.getFirstname();
 				final String lastname = member.getLastname();
@@ -193,6 +209,18 @@ public class MemberListPanel extends Panel {
 				editUser.setIconType(IconType.pencil)
 						.setSize(Buttons.Size.Mini).setInverted(false);
 
+				BootstrapLink<Void> leaveUser = new BootstrapLink<Void>(
+						"action-leave", Buttons.Type.Warning) {
+
+					@Override
+					public void onClick() {
+						leaveMember(memberId, firstname, lastname);
+					}
+
+				};
+				leaveUser.setIconType(IconType.bancircle).setSize(
+						Buttons.Size.Mini);
+
 				BootstrapLink<Void> deleteUser = new BootstrapLink<Void>(
 						"action-delete", Buttons.Type.Danger) {
 
@@ -208,6 +236,7 @@ public class MemberListPanel extends Panel {
 
 				item.add(infoUser);
 				item.add(editUser);
+				item.add(leaveUser);
 				item.add(deleteUser);
 			}
 
@@ -223,6 +252,12 @@ public class MemberListPanel extends Panel {
 		modalInfo = new BusinessCardModal("modal-info", null);
 		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
 		add(modalInfo);
+	}
+	
+	private void setupModalLeave() {
+		leaveModal = new LeaveMemberModal("modal-leave", null);
+		leaveModal.addCloseButton(Model.of(_("modal.close").getString()));
+		add(leaveModal);
 	}
 
 	private void setupModal() {
@@ -240,8 +275,9 @@ public class MemberListPanel extends Panel {
 	}
 
 	private BootstrapLink<String> getNextButton() {
-		final int ending = (int) Math.min(members.getItemsPerPage() - 1, members.getItemCount());
-		
+		final int ending = (int) Math.min(members.getItemsPerPage() - 1,
+				members.getItemCount());
+
 		BootstrapLink<String> nextButton = new BootstrapLink<String>("button",
 				Model.of("Weiter"), Buttons.Type.Default) {
 
@@ -259,7 +295,6 @@ public class MemberListPanel extends Panel {
 			}
 		};
 
-		
 		if (currentlyDisplayPosition == ending - 1) {
 			nextButton.add(new AttributeAppender("class", " disabled"));
 		}
@@ -317,6 +352,27 @@ public class MemberListPanel extends Panel {
 		return editButton;
 	}
 
+	private LeaveMemberModal createModalLeave(final long id) {
+		Member mem = memberService.findById(id);
+		
+		String header = "";
+		if (mem.getDegree() != null && mem.getDegree().getShortForm() != null) {
+			header = header + mem.getDegree().getShortForm();
+		}
+
+		header = header + " " + mem.getFirstname() + " " + mem.getLastname();
+		
+		LeaveMemberModal modal = new LeaveMemberModal("modal-leave", id);
+		
+		modal.setOutputMarkupId(true);
+
+		modal.addCloseButton(Model.of(_("global.close").getString()));
+		modal.header(Model.of(header));
+		
+		return modal;
+		
+	}
+	
 	private BusinessCardModal createModalInfoContent(final long id) {
 		Member mem = memberDao.findById(id);
 
@@ -353,12 +409,52 @@ public class MemberListPanel extends Panel {
 		this.modalInfo.replaceWith(modal);
 		this.modalInfo = modal;
 		this.modalWarning.setVisible(false);
+		this.leaveModal.setVisible(false);
 
 		modalInfo.setEscapeModelStrings(false);
 		modalInfo.setOutputMarkupId(true);
 		modalInfo.show(true);
 	}
 
+	private void leaveMember(final long id, String firstname, String lastname) {
+		final LeaveMemberModal modal = createModalLeave(id);
+		
+		AjaxLink<String> doLeave = new AjaxLink<String>("button", Model.of(_("modal.leave").getString())) {
+
+			@Override
+			protected void onConfigure() {
+				super.onConfigure();
+
+				setBody(getDefaultModel());
+				add(new ButtonBehavior(Buttons.Type.Warning));
+				// add(new IconBehavior(IconType.remove));
+			}
+			
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				// TODO Auto-generated method stub
+				System.out.println(modal.getEnteredDate());
+				memberService.leaveMember(id, modal.getEnteredDate());
+				target.appendJavaScript("$('.modal').modal('close');");
+				setResponsePage(Homepage.class);
+//				setResponsePage(Homepage.class);
+				
+			}
+		};
+		
+		modal.addButton(doLeave);
+
+		this.leaveModal.replaceWith(modal);
+		this.leaveModal = modal;
+		this.modalWarning.setVisible(false);
+		this.modalInfo.setVisible(false);
+		
+		
+		leaveModal.setEscapeModelStrings(false);
+		leaveModal.setOutputMarkupId(true);
+		leaveModal.show(true);
+	}
+	
 	private void deleteMember(final long id, String firstname, String lastname) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",
@@ -394,6 +490,7 @@ public class MemberListPanel extends Panel {
 		this.modalWarning.replaceWith(modal);
 		this.modalWarning = modal;
 		this.modalInfo.setVisible(false);
+		this.leaveModal.setVisible(false);
 		modalWarning.show(true);
 	}
 
