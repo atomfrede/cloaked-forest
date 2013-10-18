@@ -125,14 +125,14 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			personalMobile, personalFax, personalPhone, personalInternet,
 			workPhone, workMobile, workFax, workInternet, personalNumber;
 	private Typeahead<String> profession;
-	private DateTextField entryDate;
+	private DateTextField entryDate, leaveDate;
 
 	DataView<Activity> activities;
 
 	// Now the data for this formfields. To reuse this panel for new (=non
 	// existing entities we don't use the model directly...)
 	private String _salutation, _firstname, _lastname;
-	private Date _entryDate;
+	private Date _entryDate, _leaveDate;
 	private String _personalStreet, _personalNumber, _personalAddon,
 			_personalPostcode, _personalTown, _personalMail, _personalMobile,
 			_personalPhone, _personalFax, _personalInternet;
@@ -202,18 +202,18 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		setupActivityTab();
 	}
 
-
-	private void addNextMemberButton(){
+	private void addNextMemberButton() {
 		Member nextMember = null;
 		final long nextId;
-		if(this.editType != Type.Create && memberService.count() != 1) {
+		if (this.editType != Type.Create && memberService.count() != 1) {
 			nextMember = memberService.getNextMember(getModelObject().getId());
 			nextId = nextMember.getId();
-		}else{
+		} else {
 			nextId = -1;
 		}
-		
-		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next", Buttons.Type.Default) {
+
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-next",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -224,27 +224,30 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			}
 		};
 
-		if(nextId != -1) {
-			next.setLabel(Model.of(nextMember.getFirstname()+" "+nextMember.getLastname())).setIconType(IconType.arrowright).setInverted(false);
-		}else{
+		if (nextId != -1) {
+			next.setLabel(
+					Model.of(nextMember.getFirstname() + " "
+							+ nextMember.getLastname()))
+					.setIconType(IconType.arrowright).setInverted(false);
+		} else {
 			next.setVisible(false);
 		}
 		add(next);
 	}
-	
-	private void addPrevMemberButton(){
+
+	private void addPrevMemberButton() {
 		Member prevMember = null;
 		final long prevId;
-		
-		if(editType != Type.Create && memberService.count() != 1) {
+
+		if (editType != Type.Create && memberService.count() != 1) {
 			prevMember = memberService.getPrevMember(getModelObject().getId());
 			prevId = prevMember.getId();
-		}else{
+		} else {
 			prevId = -1;
 		}
-		
-	
-		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-prev", Buttons.Type.Default) {
+
+		BootstrapLink<Void> next = new BootstrapLink<Void>("btn-prev",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -254,13 +257,16 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				setResponsePage(MemberDetailPage.class, params);
 			}
 		};
-		
-		if(prevId != -1 && memberService.count() > 2) {
-			next.setLabel(Model.of(prevMember.getFirstname()+" "+prevMember.getLastname())).setIconType(IconType.arrowleft).setInverted(false);
-		}else{
+
+		if (prevId != -1 && memberService.count() > 2) {
+			next.setLabel(
+					Model.of(prevMember.getFirstname() + " "
+							+ prevMember.getLastname()))
+					.setIconType(IconType.arrowleft).setInverted(false);
+		} else {
 			next.setVisible(false);
 		}
-		
+
 		add(next);
 	}
 
@@ -280,6 +286,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			_personalTown = "";
 
 			_entryDate = new Date();
+			_leaveDate = null;
 
 		} else if (model.getObject() != null) {
 			Member mem = model.getObject();
@@ -304,6 +311,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			_workPhone = mem.getContactData().getPhoneD();
 
 			_entryDate = mem.getEntryDate();
+			_leaveDate = mem.getLeaveDate();
 			_profession = mem.getProfession();
 
 			selectedDegree = mem.getDegree();
@@ -565,7 +573,11 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		entryDate = new DateTextField("entrydate", new PropertyModel<Date>(
 				this, "_entryDate"), conf);
 
+		leaveDate = new DateTextField("leavedate", new PropertyModel<Date>(
+				this, "_leaveDate"), conf);
+
 		add(entryDate);
+		add(leaveDate);
 	}
 
 	/**
@@ -711,6 +723,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		}
 
 		member.setEntryDate(_entryDate);
+		member.setLeaveDate(_leaveDate);
 		member.setDegree(selectedDegree);
 		member.setProfession(_profession);
 		member.setYearOfGraduation(_graduationYear);
