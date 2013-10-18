@@ -17,8 +17,10 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,9 +149,10 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public Map<Date, Integer> getMemberCountPerYear(final Date from,
 			final Date to) {
+		System.out.println("#######");
 		Map<Date, Integer> values = new HashMap<Date, Integer>();
 		// Always use December 31 as fixed date
-
+		
 		DateTime start = new DateTime(from.getTime());
 		start = start.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
 		start = start.dayOfMonth().setCopy(MemberServiceImpl.days);
@@ -161,11 +164,18 @@ public class MemberServiceImpl implements MemberService {
 		while (!start.year().equals(end.year())) {
 			Criteria crit = getSession().createCriteria(Member.class);
 			crit.add(Restrictions.le("entryDate", start.toDate()));
+			//Leave date is null or <= end
+			crit.add(Restrictions.disjunction()
+					.add(Restrictions.isNull("leaveDate"))
+					.add(Restrictions.ge("leaveDate", start.toDate())));
 			int size = crit.list().size();
 			values.put(start.toDate(), size);
+			
+			System.out.println("Start "+start.toDate()+" count "+size);
+			
 			start = start.year().addToCopy(1);
 		}
-
+		System.out.println("######");
 		return values;
 	}
 
@@ -185,7 +195,11 @@ public class MemberServiceImpl implements MemberService {
 		List<Sector> sectors = sectorDao.findAll();
 
 		for (Sector sec : sectors) {
-			int value = memberDao.findAllByProperty("sector", sec).size();
+			Criteria crit = getSession().createCriteria(Member.class);
+			crit.add(Restrictions.eq("sector", sec));
+			crit.add(Restrictions.isNull("leaveDate"));
+			
+			int value = crit.list().size();
 			if (value == 0 && withZero) {
 				values.put(sec.getSector(), value);
 			} else if (value != 0) {
@@ -233,7 +247,10 @@ public class MemberServiceImpl implements MemberService {
 		Map<Degree, Integer> values = new HashMap<>();
 		List<Degree> allDegrees = degreeDao.findAll();
 		for (Degree deg : allDegrees) {
-			int size = memberDao.findAllByProperty("degree", deg).size();
+			Criteria crit = getSession().createCriteria(Member.class);
+			crit.add(Restrictions.eq("degree", deg));
+			crit.add(Restrictions.isNull("leaveDate"));
+			int size = crit.list().size();
 			values.put(deg, size);
 		}
 		return values;
@@ -246,9 +263,8 @@ public class MemberServiceImpl implements MemberService {
 
 			@Override
 			public Member execute(Connection connection) throws SQLException {
-				// TODO Auto-generated method stub
 				Statement stm = connection.createStatement();
-				String sql = "SELECT m.id as id, m.lastname as lastname, m.firstname as firstname FROM member m ORDER BY m.lastname";
+				final String sql = "SELECT m.id as id, m.lastname as lastname, m.firstname as firstname FROM member m ORDER BY m.lastname";
 				stm.execute(sql);
 
 				ResultSet rs = stm.getResultSet();
@@ -301,7 +317,7 @@ public class MemberServiceImpl implements MemberService {
 			@Override
 			public Member execute(Connection connection) throws SQLException {
 				Statement stm = connection.createStatement();
-				String sql = "SELECT m.id as id, m.lastname as lastname, m.firstname as firstname FROM member m ORDER BY m.lastname";
+				final String sql = "SELECT m.id as id, m.lastname as lastname, m.firstname as firstname FROM member m ORDER BY m.lastname";
 				stm.execute(sql);
 
 				ResultSet rs = stm.getResultSet();
