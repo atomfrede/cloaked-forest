@@ -46,6 +46,7 @@ public class MemberResultsPanel extends Panel {
 	private WebMarkupContainer wmc;
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
+	private WebMarkupContainer emptyResult;
 
 	@SuppressWarnings("rawtypes")
 	private Query memberQuery = null;
@@ -61,16 +62,18 @@ public class MemberResultsPanel extends Panel {
 		this.memberQuery = query;
 
 		setOutputMarkupId(true);
+		emptyResult = new WebMarkupContainer("empty-result");
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
 		populateItems();
 		setupModal();
 		setupModalInfo();
+		add(emptyResult);
 
 	}
 
 	private void populateItems() {
-
+		
 		members = new DataView<Member>("members", getMemberProvider()) {
 
 			@Override
@@ -158,10 +161,23 @@ public class MemberResultsPanel extends Panel {
 		wmc.add(members);
 		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
 		add(wmc);
+		
+		displayInfoOrTable();
 	}
 
 	protected void doFilter(Query query) {
 		getMemberProvider().setQuery(query);
+		displayInfoOrTable();
+	}
+	
+	private void displayInfoOrTable() {
+		if(getMemberProvider().size() == 0) {
+			emptyResult.setVisible(true);
+			wmc.setVisible(false);
+		} else {
+			emptyResult.setVisible(false);
+			wmc.setVisible(true);
+		}
 	}
 
 	private void setupModal() {
