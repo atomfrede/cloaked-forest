@@ -25,6 +25,7 @@ import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.format.DateTimeFormat;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
@@ -63,6 +64,9 @@ public class MemberListActionPanel extends Panel {
 		filterForm = new Form<String>("filter-form");
 		DateTextFieldConfig conf = new DateTextFieldConfig();
 		conf.autoClose(true);
+		String pattern = DateTimeFormat.patternForStyle("M-", getSession().getLocale());
+		conf.withFormat(pattern);
+		conf.withLanguage(getSession().getLocale().getLanguage());
 		appointedDate = new DateTextField("appointedDate", new PropertyModel<Date>(
 				this, "_appointedDate"), conf);
 		

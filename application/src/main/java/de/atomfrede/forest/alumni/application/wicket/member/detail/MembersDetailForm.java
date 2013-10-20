@@ -33,6 +33,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.joda.time.format.DateTimeFormat;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
@@ -570,6 +571,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		DateTextFieldConfig conf = new DateTextFieldConfig();
 		conf.withView(DateTextFieldConfig.View.Year);
 		conf.autoClose(true);
+		String pattern = DateTimeFormat.patternForStyle("M-", getSession().getLocale());
+		conf.withFormat(pattern);
+		conf.withLanguage(getSession().getLocale().getLanguage());
 		entryDate = new DateTextField("entrydate", new PropertyModel<Date>(
 				this, "_entryDate"), conf);
 
