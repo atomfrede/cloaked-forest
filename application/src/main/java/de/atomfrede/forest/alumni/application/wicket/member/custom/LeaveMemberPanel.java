@@ -2,6 +2,7 @@ package de.atomfrede.forest.alumni.application.wicket.member.custom;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -10,6 +11,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.format.DateTimeFormat;
 
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
@@ -43,6 +45,9 @@ public class LeaveMemberPanel extends Panel {
 		infoLabel.setEscapeModelStrings(false);
 		DateTextFieldConfig conf = new DateTextFieldConfig();
 		conf.autoClose(true);
+		String pattern = DateTimeFormat.patternForStyle("M-", getSession().getLocale());
+		conf.withFormat(pattern);
+		conf.withLanguage(getSession().getLocale().getLanguage());
 		leaveDate = new DateTextField("leavedate", new PropertyModel<Date>(
 				this, "_leaveDate"), conf);
 		

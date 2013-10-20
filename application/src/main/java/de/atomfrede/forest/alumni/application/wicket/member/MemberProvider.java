@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.application.wicket.member;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class MemberProvider implements IDataProvider<Member> {
 	private long count;
 
 	private String nameFilter;
+	
+	private Date appointedDate;
 
 	public MemberProvider() {
 		Injector.get().inject(this);
@@ -68,9 +71,17 @@ public class MemberProvider implements IDataProvider<Member> {
 	public String getNameFilter() {
 		return nameFilter;
 	}
+	
+	public Date getAppointedDate() {
+		return appointedDate;
+	}
 
 	public void setNameFilter(String nameFilter) {
 		this.nameFilter = nameFilter;
+	}
+	
+	public void setAppointedDate(Date appointedDate) {
+		this.appointedDate = appointedDate;
 	}
 
 }

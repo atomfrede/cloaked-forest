@@ -4,10 +4,13 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
@@ -26,6 +29,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
 import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
@@ -46,22 +51,36 @@ public class MemberListActionPanel extends Panel {
 	@SpringBean
 	private PdfExporter pdfExporter;
 
-	private BootstrapLink<Void> newMember;
-	private BootstrapLink<Void> csvDownload;
-	private BootstrapLink<Void> pdfDownload;
+	private BootstrapLink<Void> newMember, csvDownload, pdfDownload;
 	private TextField<String> nameFilter;
+	private DateTextField appointedDate;
 	private Form<String> filterForm;
 	private String currentFilter = "";
+	private Date _appointedDate;
 
 	public MemberListActionPanel(String id) {
 		super(id);
 		filterForm = new Form<String>("filter-form");
+		DateTextFieldConfig conf = new DateTextFieldConfig();
+		conf.autoClose(true);
+		appointedDate = new DateTextField("appointedDate", new PropertyModel<Date>(
+				this, "_appointedDate"), conf);
+		
+		appointedDate.add(new AjaxFormComponentUpdatingBehavior("onChange") {
+			
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) {
+				// Just for updating the model object
+				
+			}
+		});
 		nameFilter = new TextField<String>("name-filter",
 				new PropertyModel<String>(this, "currentFilter"));
 
 		nameFilter.setOutputMarkupId(true);
 
 		filterForm.add(nameFilter);
+		filterForm.add(appointedDate);
 		filterForm.setOutputMarkupId(true);
 		add(filterForm);
 
@@ -99,7 +118,7 @@ public class MemberListActionPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				File file = pdfExporter.generatePdfFile();
+				File file = pdfExporter.generatePdfFile(_appointedDate);
 				if (file != null) {
 					try {
 						IResource resource = new ByteArrayResource(

@@ -21,6 +21,7 @@ import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.contact.ContactData;
 import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.service.member.MemberService;
 import de.atomfrede.forest.alumni.service.query.Query;
 import de.atomfrede.forest.alumni.service.query.QueryService;
 
@@ -43,6 +44,9 @@ public class PdfExporter {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private QueryService queryService;
@@ -590,6 +594,10 @@ public class PdfExporter {
 	 * @return
 	 */
 	public File generatePdfFile() {
-		return createPdf(memberDao.findAll());
+		return createPdf(memberService.findAll());
+	}
+	
+	public File generatePdfFile(Date appointedDate) {
+		return createPdf(memberService.findAll(appointedDate));
 	}
 }
