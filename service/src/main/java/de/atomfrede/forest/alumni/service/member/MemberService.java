@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+
 import de.atomfrede.forest.alumni.domain.dao.filter.FilterElement;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
@@ -30,6 +32,10 @@ public interface MemberService extends EntityService<Member> {
 
 	List<Member> list(long offset, long count, FilterElement... elements);
 
+	List<Member> findAll(Date appointedDate);
+	
+	List<Member> findAll(DateTime appointedDate);
+	
 	/**
 	 * Retrieves the member count per year.
 	 * 

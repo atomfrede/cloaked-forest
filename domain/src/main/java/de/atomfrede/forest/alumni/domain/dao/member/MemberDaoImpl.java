@@ -1,5 +1,6 @@
 package de.atomfrede.forest.alumni.domain.dao.member;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -28,6 +29,17 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 		criteria.addOrder(Order.asc("lastname"));
 		List<Member> entities = (List<Member>) criteria.list();
 		return entities;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Member> findAll(Date appointedDate) {
+		Criteria crit = getSession().createCriteria(getClazz());
+		crit.addOrder(Order.asc("lastname"));
+		crit.add(Restrictions.disjunction()
+				.add(Restrictions.isNull("leaveDate"))
+				.add(Restrictions.ge("leaveDate", appointedDate)));
+		return crit.list();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -68,5 +80,7 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 
 		return crit.list();
 	}
+
+	
 
 }

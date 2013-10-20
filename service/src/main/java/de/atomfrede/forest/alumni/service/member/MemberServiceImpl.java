@@ -17,10 +17,8 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.ReturningWork;
-import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,66 +65,78 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Member> list(final long offset, final long count) {
 		return memberDao.list(offset, count);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Member> findAll() {
 		return memberDao.findAll();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Member findById(final Long id) {
 		return memberDao.findById(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Member findByProperty(final String propertyName,
 			final Object propertyValue) {
 		return memberDao.findByProperty(propertyName, propertyValue);
 	}
 
 	@Override
+	@Transactional
 	public void remove(Member entity) {
 		memberDao.remove(entity);
 	}
 
 	@Override
+	@Transactional
 	public void persist(Member entity) {
 		memberDao.persist(entity);
 
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public long count() {
 		return memberDao.count();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Member> list(final long offset, final long count,
 			final FilterElement... elements) {
 		return memberDao.list(offset, count, elements);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Member> list(final long offset, final long count,
 			final String orderProperty, final boolean desc) {
 		return memberDao.list(offset, count, orderProperty, desc);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Member> findAllByProperty(final String propertName,
 			final Object propertyValue) {
 		return memberDao.findAllByProperty(propertName, propertyValue);
 	}
 
 	@Override
+	@Transactional
 	public void persistAll(List<Member> entities) {
 		memberDao.persistAll(entities);
 	}
 
 	@Override
+	@Transactional
 	public Member createMember(final String firstname, final String lastname,
 			final String personalMail) {
 		Member mem = new Member();
@@ -146,12 +156,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<Date, Integer> getMemberCountPerYear(final Date from,
 			final Date to) {
 		Map<Date, Integer> values = new HashMap<Date, Integer>();
 		// Always use December 31 as fixed date
-		
+
 		DateTime start = new DateTime(from.getTime());
 		start = start.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
 		start = start.dayOfMonth().setCopy(MemberServiceImpl.days);
@@ -163,7 +173,7 @@ public class MemberServiceImpl implements MemberService {
 		while (!start.year().equals(end.year())) {
 			Criteria crit = getSession().createCriteria(Member.class);
 			crit.add(Restrictions.le("entryDate", start.toDate()));
-			//Leave date is null or <= end
+			// Leave date is null or <= end
 			crit.add(Restrictions.disjunction()
 					.add(Restrictions.isNull("leaveDate"))
 					.add(Restrictions.ge("leaveDate", start.toDate())));
@@ -174,16 +184,17 @@ public class MemberServiceImpl implements MemberService {
 		return values;
 	}
 
+	@Transactional(readOnly = true)
 	public Map<Date, Integer> getMemberCountPerYear(final Date from) {
 		return getMemberCountPerYear(from, new Date());
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<String, Integer> getMembersPerSector() {
 		return getMembersPerSector(false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<String, Integer> getMembersPerSector(final boolean withZero) {
 		Map<String, Integer> values = new HashMap<>();
 
@@ -193,7 +204,7 @@ public class MemberServiceImpl implements MemberService {
 			Criteria crit = getSession().createCriteria(Member.class);
 			crit.add(Restrictions.eq("sector", sec));
 			crit.add(Restrictions.isNull("leaveDate"));
-			
+
 			int value = crit.list().size();
 			if (value == 0 && withZero) {
 				values.put(sec.getSector(), value);
@@ -220,7 +231,7 @@ public class MemberServiceImpl implements MemberService {
 		Member mem = memberDao.findById(id);
 		return deleteMember(mem);
 	}
-	
+
 	@Override
 	@Transactional
 	public boolean leaveMember(Member member, Date leaveDate) {
@@ -237,7 +248,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Map<Degree, Integer> getMembersPerDegree() {
 		Map<Degree, Integer> values = new HashMap<>();
 		List<Degree> allDegrees = degreeDao.findAll();
@@ -358,6 +369,15 @@ public class MemberServiceImpl implements MemberService {
 		});
 	}
 
-	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Member> findAll(Date appointedDate) {
+		return memberDao.findAll(appointedDate);
+	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Member> findAll(DateTime appointedDate) {
+		return findAll(appointedDate.toDate());
+	}
 }
