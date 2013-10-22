@@ -10,6 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,9 @@ public class QueryServiceImpl implements QueryService {
 			}
 			crit.add(Restrictions.and(crits.toArray(new Criterion[] {})));
 		}
+		
+		//TODO refactor into query
+		crit.addOrder(Order.asc("lastname"));
 		return crit.list();
 	}
 
@@ -74,6 +78,10 @@ public class QueryServiceImpl implements QueryService {
 			BetweenFilter bf = (BetweenFilter) filter;
 			return Restrictions.between(filter.getPropertyName(),
 					bf.getValue(), bf.getValue2());
+		case GE:
+			return Restrictions.disjunction()
+						.add(Restrictions.isNull(filter.getPropertyName()))
+						.add(Restrictions.ge(filter.getPropertyName(), filter.getValue()));
 		default:
 			return null;
 		}

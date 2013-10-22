@@ -1,18 +1,20 @@
 package de.atomfrede.forest.alumni.service.query.filter;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Filter implements Serializable {
 
 	public enum Type {
-		EQ, LIKE, BETWEEN
+		EQ, LIKE, BETWEEN, GE
 	};
 
 	protected String propertyName;
 	protected Object value;
 	protected Type type;
-
+	
 	public Filter(String propertyName, Object value, Type type) {
 		this.propertyName = propertyName;
 		this.value = value;
@@ -35,7 +37,12 @@ public class Filter implements Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append(convertPropertyName() + " ");
 		sb.append(convertOperator() + " ");
-		sb.append(value.toString());
+		if(value instanceof Date) {
+			sb.append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(value));
+		} else {
+			sb.append(value.toString());
+		}
+		
 
 		return sb.toString();
 	}
@@ -48,6 +55,8 @@ public class Filter implements Serializable {
 			return "~";
 		case BETWEEN:
 			return "zwischen";
+		case GE:
+			return " ";
 		default:
 			break;
 		}
@@ -65,6 +74,8 @@ public class Filter implements Serializable {
 			return "Firma";
 		case "sector":
 			return "Branche";
+		case "leaveDate":
+			return "Stichtag:";
 		default:
 			break;
 		}

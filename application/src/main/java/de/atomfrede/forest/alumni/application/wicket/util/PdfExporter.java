@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -93,6 +94,8 @@ public class PdfExporter {
 		headerAndStyles
 				.append(".member-header{width: 100%; padding: 5px; font-weight: bold; background-color: #DDDDDD;}");
 
+		headerAndStyles.append("#appointedDate-header{font-size: 0.5em; text-align: center; width: 100%;}");
+		
 		headerAndStyles.append(".address{width: 100%;  overflow: auto;}");
 		headerAndStyles
 				.append(".address-header{ width: 100%; padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #DDDDDD; font-weight: bold;: bold;}");
@@ -528,7 +531,7 @@ public class PdfExporter {
 	 *            Members that are contained in the resulting PDF file.
 	 * @return
 	 */
-	private File createPdf(List<Member> members) {
+	private File createPdf(List<Member> members, Date appointedDate) {
 		try {
 			File tempPdfFile = File.createTempFile("members", "pdf");
 
@@ -538,13 +541,23 @@ public class PdfExporter {
 			StringBuilder content = new StringBuilder();
 
 			content.append(header.toString());
-
+				
+			String dateString = "Stichtag: ";
+			if(appointedDate != null) {
+				dateString = dateString + DateFormat.getDateInstance(DateFormat.MEDIUM).format(appointedDate);
+			} else {
+				dateString = dateString + "--";
+			}
 			content.append("<div class=\"pageHeader\" id=\"pageHeader\"><img class=\"logo-image\" src=\""
 					+ IMAGE + "\" style=\" height: 60px;\"/></div>");
 
 			if (query != null) {
 				content.append("<div class=\"topHeader\" id=\"topHeader\">"
 						+ query.toString(true) + "</div>");
+			} else {
+				content.append("<div class=\"topHeader\" id=\"topHeader\"><div id=\"appointedDate-header\">"+dateString+"</div></div>");
+				
+			
 			}
 
 			for (Member mem : members) {
@@ -585,7 +598,7 @@ public class PdfExporter {
 	 */
 	public File generatePdfFile(@SuppressWarnings("rawtypes") Query query) {
 		this.query = query;
-		return createPdf((List<Member>) queryService.queryDatabase(query));
+		return createPdf((List<Member>) queryService.queryDatabase(query), null);
 	}
 
 	/**
@@ -594,10 +607,10 @@ public class PdfExporter {
 	 * @return
 	 */
 	public File generatePdfFile() {
-		return createPdf(memberService.findAll());
+		return createPdf(memberService.findAll(), null);
 	}
 	
 	public File generatePdfFile(Date appointedDate) {
-		return createPdf(memberService.findAll(appointedDate));
+		return createPdf(memberService.findAll(appointedDate), appointedDate);
 	}
 }

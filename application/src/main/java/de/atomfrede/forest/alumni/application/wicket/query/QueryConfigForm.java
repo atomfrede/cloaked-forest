@@ -4,6 +4,7 @@ import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -17,12 +18,16 @@ import org.apache.wicket.request.handler.resource.ResourceRequestHandler;
 import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.ActivityFilterPanel;
+import de.atomfrede.forest.alumni.application.wicket.query.filter.AppointedDateFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.CompanyFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.DegreeFilterPanel;
 import de.atomfrede.forest.alumni.application.wicket.query.filter.ProfessionFilterPanel;
@@ -53,6 +58,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 	private CompanyFilterPanel companyFilterPanel;
 	private ActivityFilterPanel activityFilterPanel;
 	private SectorFilterPanel sectorFilterPanel;
+	private AppointedDateFilterPanel dateFilterPanel;
 
 	private MemberResultsPanel memberResultPanel;
 
@@ -66,6 +72,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		setupCompanyFilter();
 		setupActivityFilter();
 		setupSectorFilter();
+		setupDateFilter();
 
 		addCsvDownload();
 		addPdfDownload();
@@ -115,6 +122,11 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		sectorFilterPanel = new SectorFilterPanel("sector-filter");
 		add(sectorFilterPanel);
 	}
+	
+	private void setupDateFilter() {
+		dateFilterPanel = new AppointedDateFilterPanel("date-filter");
+		add(dateFilterPanel);
+	}
 
 	private Query<Member> setupQuery() {
 		Query<Member> query = new Query<>(Member.class);
@@ -141,6 +153,15 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		if (sector != null) {
 			Filter sectorFilter = new Filter("sector", sector, Type.EQ);
 			query.addFilter(sectorFilter);
+		}
+		
+		Date date = dateFilterPanel.getValue();
+		if(date != null) {
+			Filter leaveDateFilter = new Filter("leaveDate", date, Type.GE);
+			query.addFilter(leaveDateFilter);
+		} else {
+			Filter leaveDateFilter = new Filter("leaveDate", new Date(), Type.GE);
+			query.addFilter(leaveDateFilter);
 		}
 
 		return query;

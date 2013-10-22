@@ -122,7 +122,13 @@ public class MemberListActionPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				File file = pdfExporter.generatePdfFile(_appointedDate);
+				File file = null;
+				if(_appointedDate == null) {
+					file = pdfExporter.generatePdfFile();
+				} else {
+					file = pdfExporter.generatePdfFile(_appointedDate);
+				}
+				
 				if (file != null) {
 					try {
 						IResource resource = new ByteArrayResource(
