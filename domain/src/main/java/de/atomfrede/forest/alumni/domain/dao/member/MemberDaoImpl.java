@@ -62,7 +62,45 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 
 		return crit.list();
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Member> list(long offset, long count, Date appointedDate,
+			FilterElement... elements) {
+		if(appointedDate == null) {
+			return list(offset, count, elements);
+		} else {
+			Session session = this.sessionFactory.getCurrentSession();
 
+			Criteria crit = session.createCriteria(getClazz());
+			crit.addOrder(Order.asc("lastname"));
+			for (FilterElement elem : elements) {
+				crit.add(Restrictions.ilike(elem.getPropertyName(),
+						"%" + elem.getFilter() + "%"));
+			}
+			crit.add(Restrictions.disjunction()
+					.add(Restrictions.isNull("leaveDate"))
+					.add(Restrictions.ge("leaveDate", appointedDate)));
+			crit.setFirstResult((int) offset);
+			crit.setMaxResults((int) count);
+			return crit.list();
+		}
+	}
+
+	@Override
+	public List<Member> list(long offset, long count, Date appointedDate) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Criteria crit = session.createCriteria(getClazz());
+		crit.addOrder(Order.asc("lastname"));
+		crit.add(Restrictions.disjunction()
+				.add(Restrictions.isNull("leaveDate"))
+				.add(Restrictions.ge("leaveDate", appointedDate)));
+		crit.setFirstResult((int) offset);
+		crit.setMaxResults((int) count);
+		return crit.list();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Member> list(long offset, long count, String orderProperty,
@@ -75,12 +113,10 @@ public class MemberDaoImpl extends AbstractDAO<Member> implements MemberDao {
 		} else {
 			crit.addOrder(Order.asc(orderProperty));
 		}
+		
 		crit.setFirstResult((int) offset);
 		crit.setMaxResults((int) count);
 
 		return crit.list();
 	}
-
-	
-
 }

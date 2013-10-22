@@ -37,10 +37,20 @@ public class MemberProvider implements IDataProvider<Member> {
 
 	@Override
 	public Iterator<? extends Member> iterator(long offset, long count) {
-		if (isFilteredByName()) {
+		if (isFilteredByName() && isFilteredByDate()) {
 			FilterElement elem = new FilterElement().propertyName("lastname")
 					.filter(nameFilter);
-			List<Member> members = memberDao.list(offset, count, elem);
+			List<Member> members = memberDao.list(offset, count, appointedDate, elem);
+			this.count = members.size();
+			return members.iterator();
+		} else if(isFilteredByName()) {
+			FilterElement elem = new FilterElement().propertyName("lastname")
+					.filter(nameFilter);
+			List<Member> members = memberDao.list(offset, count, appointedDate, elem);
+			this.count = members.size();
+			return members.iterator();
+		} else if(isFilteredByDate()) {
+			List<Member> members = memberDao.list(offset, count, appointedDate);
 			this.count = members.size();
 			return members.iterator();
 		}
@@ -55,10 +65,18 @@ public class MemberProvider implements IDataProvider<Member> {
 
 	@Override
 	public long size() {
-		if (isFilteredByName()) {
+		if (isFilteredByName() && isFilteredByDate()) {
 			FilterElement elem = new FilterElement().propertyName("lastname")
 					.filter(nameFilter);
-			List<Member> members = memberDao.list(0, memberDao.count(), elem);
+			List<Member> members = memberDao.list(0, memberDao.count(), appointedDate, elem);
+			return members.size();
+		} else if(isFilteredByName()) {
+			FilterElement elem = new FilterElement().propertyName("lastname")
+					.filter(nameFilter);
+			List<Member> members = memberDao.list(0, count, elem);
+			return members.size();
+		} else if(isFilteredByDate()) {
+			List<Member> members = memberDao.list(0, count, appointedDate);
 			return members.size();
 		}
 		return memberDao.count();
@@ -66,6 +84,10 @@ public class MemberProvider implements IDataProvider<Member> {
 
 	private boolean isFilteredByName() {
 		return (nameFilter != null && !"".equals(nameFilter.trim()));
+	}
+	
+	private boolean isFilteredByDate() {
+		return appointedDate != null;
 	}
 
 	public String getNameFilter() {

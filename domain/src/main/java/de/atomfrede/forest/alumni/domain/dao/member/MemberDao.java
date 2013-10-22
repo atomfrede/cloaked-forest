@@ -10,6 +10,10 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 public interface MemberDao extends DAO<Member> {
 	
 	List<Member> list(long offset, long count, FilterElement...elements);
+	
+	List<Member> list(long offset, long count, Date appointedDate, FilterElement... elements);
+	
+	List<Member> list(long offset, long count, Date appointedDate);
 
 	List<Member> list(long offset, long count, String orderProperty, boolean desc);
 	

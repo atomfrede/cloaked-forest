@@ -3,6 +3,7 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -57,6 +58,8 @@ public class MemberListPanel extends Panel {
 	private TextContentModal modalWarning;
 	private BusinessCardModal modalInfo;
 	private LeaveMemberModal leaveModal;
+	private WebMarkupContainer emptyResult;
+	private BootstrapAjaxPagingNavigator pager;
 
 	private Long currentlyDisplayedId = null;
 	private Integer currentlyDisplayPosition = null;
@@ -74,10 +77,20 @@ public class MemberListPanel extends Panel {
 		setOutputMarkupId(true);
 		wmc = new WebMarkupContainer("table-wrapper");
 		wmc.setOutputMarkupId(true);
+		emptyResult = new WebMarkupContainer("empty-result");
 		populateItems();
 		setupModal();
 		setupModalInfo();
 		setupModalLeave();
+		wmc.add(emptyResult);
+		
+		if(getMemberProvider().size() == 0) {
+			emptyResult.setVisible(true);
+			members.setVisible(false);
+		} else {
+			emptyResult.setVisible(false);
+			members.setVisible(true);
+		}
 
 	}
 
@@ -93,6 +106,19 @@ public class MemberListPanel extends Panel {
 						doFilter(input);
 					}
 				});
+		
+		actionPanel.getDateFilter().add(new AjaxFormComponentUpdatingBehavior("onChange") {
+			
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) {
+				// Just for updating the model object
+				target.add(wmc);
+				Date date = actionPanel.getDateFilter().getConvertedInput();
+				doFilter(date);
+			}
+		});
+		
+
 	}
 
 	/**
@@ -103,6 +129,24 @@ public class MemberListPanel extends Panel {
 	 */
 	protected void doFilter(String input) {
 		getMemberProvider().setNameFilter(input);
+		afterDoFilter();
+	}
+	
+	protected void doFilter(Date date) {
+		getMemberProvider().setAppointedDate(date);
+		afterDoFilter();
+	}
+	
+	private void afterDoFilter() {
+		if(getMemberProvider().size() == 0) {
+			emptyResult.setVisible(true);
+			members.setVisible(false);
+			pager.setVisible(false);
+		} else {
+			emptyResult.setVisible(false);
+			members.setVisible(true);
+			pager.setVisible(true);
+		}
 	}
 
 	/**
@@ -244,7 +288,8 @@ public class MemberListPanel extends Panel {
 		members.setItemsPerPage(Numbers.TEN + Numbers.FIVE);
 		members.setOutputMarkupId(true);
 		wmc.add(members);
-		wmc.add(new BootstrapAjaxPagingNavigator("pager", members));
+		pager = new BootstrapAjaxPagingNavigator("pager", members);
+		wmc.add(pager);
 		add(wmc);
 	}
 

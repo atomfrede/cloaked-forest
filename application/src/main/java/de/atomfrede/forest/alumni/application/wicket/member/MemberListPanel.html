@@ -5,7 +5,11 @@
 	<div class="row content-main">
 		
 		<span wicket:id="members-action"></span>
+	
 		<div wicket:id="table-wrapper">
+		<div wicket:id="empty-result" class="alert">
+			<wicket:message key="filter.empty"/>
+		</div>
 		<table class="table table-hover table-bordered table-striped">
 			<thead>
 				<tr>

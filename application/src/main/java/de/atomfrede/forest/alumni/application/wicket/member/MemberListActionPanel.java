@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
@@ -75,9 +76,9 @@ public class MemberListActionPanel extends Panel {
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				// Just for updating the model object
-				
 			}
 		});
+		
 		nameFilter = new TextField<String>("name-filter",
 				new PropertyModel<String>(this, "currentFilter"));
 
@@ -194,6 +195,10 @@ public class MemberListActionPanel extends Panel {
 		setResponsePage(MemberDetailPage.class, params);
 	}
 
+	public DateTextField getDateFilter() {
+		return appointedDate;
+	}
+	
 	public TextField<String> getNameFilter() {
 		return nameFilter;
 	}
