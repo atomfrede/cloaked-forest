@@ -5,8 +5,9 @@
 		<div class="span6">
 			<div class="pull-left">
 				<form wicket:id="filter-form" class="filter-form">
-					<input wicket:id="name-filter" type="text" placeholder="Filter nach Name"/>
-					<input class="input-xlarge"wicket:id="appointedDate" wicket:message="placeholder:appointedDate.placeholder"> 
+					<input id="name-filter" wicket:id="name-filter" type="text" placeholder="Filter nach Name"/>
+					<input id="date-filter" class="input-xlarge"wicket:id="appointedDate" wicket:message="placeholder:appointedDate.placeholder"> 
+					<a wicket:message="title:action.clear.filter" style="margin-bottom: 10px;" href="#" wicket:id="btn-clear-filters" class="btn btn-danger" type="button"></a>
 				</form>
 			</div>
 		</div>

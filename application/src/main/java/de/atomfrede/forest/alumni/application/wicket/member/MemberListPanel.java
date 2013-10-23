@@ -2,6 +2,8 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -43,7 +45,7 @@ import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
-public class MemberListPanel extends Panel {
+public class MemberListPanel extends Panel implements PropertyChangeListener{
 
 	@SpringBean
 	private MemberDao memberDao;
@@ -91,6 +93,8 @@ public class MemberListPanel extends Panel {
 			emptyResult.setVisible(false);
 			members.setVisible(true);
 		}
+		
+		actionPanel.addPropertyChangeListener(this);
 
 	}
 
@@ -117,10 +121,15 @@ public class MemberListPanel extends Panel {
 				doFilter(date);
 			}
 		});
-		
-
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		getMemberProvider().setNameFilter(null);
+		getMemberProvider().setAppointedDate(null);
+		afterDoFilter();
+	}
+	
 	/**
 	 * Filtering the displayed results by setting a filter value into the
 	 * provier.

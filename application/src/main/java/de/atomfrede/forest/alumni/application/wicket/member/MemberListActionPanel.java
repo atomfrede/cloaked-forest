@@ -2,16 +2,19 @@ package de.atomfrede.forest.alumni.application.wicket.member;
 
 import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
@@ -53,12 +56,14 @@ public class MemberListActionPanel extends Panel {
 	@SpringBean
 	private PdfExporter pdfExporter;
 
-	private BootstrapLink<Void> newMember, csvDownload, pdfDownload;
+	private BootstrapLink<Void> newMember, csvDownload, pdfDownload, clearFilter;
 	private TextField<String> nameFilter;
 	private DateTextField appointedDate;
 	private Form<String> filterForm;
 	private String currentFilter = "";
 	private Date _appointedDate;
+	
+	private List<PropertyChangeListener> changeListeners = new ArrayList<>();
 
 	public MemberListActionPanel(String id) {
 		super(id);
@@ -87,8 +92,9 @@ public class MemberListActionPanel extends Panel {
 		filterForm.add(nameFilter);
 		filterForm.add(appointedDate);
 		filterForm.setOutputMarkupId(true);
+		addClearFilter();
 		add(filterForm);
-
+		
 		addNewMember();
 		addCsvDownload();
 		addPdfDownload();
@@ -102,6 +108,10 @@ public class MemberListActionPanel extends Panel {
 				MemberListActionPanel.class, "member.css")));
 	}
 
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		this.changeListeners.add(listener);
+	}
+	
 	private void addNewMember() {
 		newMember = new BootstrapLink<Void>("btn-new-member",
 				Buttons.Type.Primary) {
@@ -187,7 +197,29 @@ public class MemberListActionPanel extends Panel {
 
 		add(csvDownload);
 	}
+	
+	private void addClearFilter() {
+		clearFilter = new BootstrapLink<Void>("btn-clear-filters", Buttons.Type.Danger) {
 
+			@Override
+			public void onClick() {
+				// TODO Auto-generated method stub
+				_appointedDate = null;
+				currentFilter = null;
+				notifyListeners();
+				
+			}
+		};
+		clearFilter.setIconType(IconType.removecircle);
+		filterForm.add(clearFilter);
+	}
+
+	private void notifyListeners() {
+		for(PropertyChangeListener listener:changeListeners) {
+			listener.propertyChange(new PropertyChangeEvent(this, "filter", "", ""));
+		}
+	}
+	
 	private void onNewMember() {
 		PageParameters params = new PageParameters();
 		params.add(MemberDetailPage.EDIT_TYPE, Type.Create);
