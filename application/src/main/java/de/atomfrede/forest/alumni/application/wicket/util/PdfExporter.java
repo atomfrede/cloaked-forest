@@ -601,16 +601,22 @@ public class PdfExporter {
 		return createPdf((List<Member>) queryService.queryDatabase(query), null);
 	}
 
+	public void clearQuery() {
+		this.query = null;
+	}
+	
 	/**
 	 * Generate a PDF of all Members.
 	 * 
 	 * @return
 	 */
 	public File generatePdfFile() {
+		clearQuery();
 		return createPdf(memberService.findAll(), null);
 	}
 	
 	public File generatePdfFile(Date appointedDate) {
+		clearQuery();
 		return createPdf(memberService.findAll(appointedDate), appointedDate);
 	}
 }
