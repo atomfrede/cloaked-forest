@@ -292,8 +292,14 @@ public class MemberServiceImpl implements MemberService {
 				Member cMember = findById(id);
 				String nameToFind = cMember.getLastname() + " "
 						+ cMember.getFirstname();
-				int index = Collections.binarySearch(fullnames, nameToFind);
-
+				int index = 0;
+				for(String name:fullnames){
+					if(name.equals(nameToFind)){
+						break;
+					}
+					index++;
+				}
+				//int index = Collections.binarySearch(fullnames, nameToFind);
 				long nextId;
 				if (index + 1 != lastnames.size()) {
 					nextId = idList.get(index + 1);
@@ -343,17 +349,25 @@ public class MemberServiceImpl implements MemberService {
 				}
 
 				Member cMember = findById(id);
-				String nameToFind = cMember.getLastname();
-				int index = Collections.binarySearch(fullnames, nameToFind
-						+ " " + cMember.getFirstname());
-
+				String nameToFind = cMember.getLastname() + " "
+						+ cMember.getFirstname();
+				int index = 0;
+				for(String name:fullnames){
+					if(name.equals(nameToFind)){
+						break;
+					}
+					index++;
+				}
+				
+//				int index = Collections.binarySearch(fullnames, nameToFind
+//						+ " " + cMember.getFirstname());
 				long nextId;
-				if (index - 1 != -1) {
+				if (index - 1 >= 0) {
 					nextId = idList.get(index - 1);
 				} else {
 					nextId = idList.get(idList.size() - 1);
 				}
-
+				
 				while (nextId == id) {
 					index--;
 					if (index - 1 > -1) {
@@ -363,8 +377,8 @@ public class MemberServiceImpl implements MemberService {
 					}
 				}
 
-				Member nextMember = findById(nextId);
-				return nextMember;
+				Member prevMember = findById(nextId);
+				return prevMember;
 			}
 		});
 	}
