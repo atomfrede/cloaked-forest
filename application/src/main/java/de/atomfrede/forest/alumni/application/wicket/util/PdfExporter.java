@@ -212,9 +212,10 @@ public class PdfExporter {
 	 */
 	private boolean isWorkAdressAvailable(Member member) {
 		boolean isValid = false;
-		if (member.getDepartment() != null) {
-			if (member.getCompany() != null
-					|| member.getDepartment().getCompany() != null) {
+		if(member.getCompany() != null) {
+			isValid = true;
+		} else if(member.getDepartment() != null) {
+			if(member.getDepartment().getCompany() != null) {
 				isValid = true;
 			}
 		}
@@ -259,7 +260,7 @@ public class PdfExporter {
 
 		Department dep = null;
 
-		if (member.getDepartment() != null) {
+		if (member.getDepartment() != null || member.getCompany() != null) {
 			dep = member.getDepartment();
 			if (member.getCompany() != null) {
 				leftBuilder.append("<b>" + member.getCompany().getCompany()
@@ -270,18 +271,20 @@ public class PdfExporter {
 						+ "</b>");
 				leftBuilder.append("<br/>");
 			}
-			if (StringCheckUtil.isStringSet(dep.getDepartment())) {
+			if (dep != null && StringCheckUtil.isStringSet(dep.getDepartment())) {
 				leftBuilder.append(dep.getDepartment() + "<br/>");
 			}
 
-			leftBuilder.append(dep.getStreet() + " " + dep.getNumber()
-					+ "<br/>");
-			if (StringCheckUtil.isStringSet(dep.getAddon())) {
-				leftBuilder.append(dep.getAddon() + "<br/>");
+			if(dep != null) {
+				leftBuilder.append(dep.getStreet() + " " + dep.getNumber()
+						+ "<br/>");
+				if (StringCheckUtil.isStringSet(dep.getAddon())) {
+					leftBuilder.append(dep.getAddon() + "<br/>");
+				}
+				leftBuilder.append(dep.getPostCode() + " " + dep.getTown()
+						+ "<br/>");
+				leftBuilder.append(dep.getCountry());
 			}
-			leftBuilder.append(dep.getPostCode() + " " + dep.getTown()
-					+ "<br/>");
-			leftBuilder.append(dep.getCountry());
 
 		}
 
