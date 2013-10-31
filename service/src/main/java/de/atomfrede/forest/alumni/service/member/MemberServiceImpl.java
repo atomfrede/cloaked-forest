@@ -169,19 +169,27 @@ public class MemberServiceImpl implements MemberService {
 		DateTime end = new DateTime(to.getTime());
 		end = end.monthOfYear().setCopy(DateTimeConstants.DECEMBER);
 		end = end.dayOfMonth().setCopy(MemberServiceImpl.days);
-
+		
 		while (!start.year().equals(end.year())) {
-			Criteria crit = getSession().createCriteria(Member.class);
-			crit.add(Restrictions.le("entryDate", start.toDate()));
-			// Leave date is null or <= end
-			crit.add(Restrictions.disjunction()
-					.add(Restrictions.isNull("leaveDate"))
-					.add(Restrictions.ge("leaveDate", start.toDate())));
-			int size = crit.list().size();
+			int size = getMemberCountForDate(start);
 			values.put(start.toDate(), size);
 			start = start.year().addToCopy(1);
 		}
+		
+		//Only for the current year use the current date.
+		values.put(new Date(), getMemberCountForDate(start));
 		return values;
+	}
+	
+	private int getMemberCountForDate(DateTime start) {
+		Criteria crit = getSession().createCriteria(Member.class);
+		crit.add(Restrictions.le("entryDate", start.toDate()));
+		crit.add(Restrictions.disjunction()
+				.add(Restrictions.isNull("leaveDate"))
+				.add(Restrictions.ge("leaveDate", start.toDate())));
+		int size = crit.list().size();
+		
+		return size;
 	}
 
 	@Transactional(readOnly = true)

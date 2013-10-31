@@ -77,6 +77,9 @@ public class Member extends AbstractEntity {
 
 	@Column(name = "profession")
 	private String profession;
+	
+	@Column(name = "mainFocus")
+	private String mainFocus;
 
 	@Column(name = "graduationyear")
 	private String yearOfGraduation;
@@ -200,6 +203,14 @@ public class Member extends AbstractEntity {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+	
+	public String getMainFocus() {
+		return mainFocus;
+	}
+
+	public void setMainFocus(String mainFocus) {
+		this.mainFocus = mainFocus;
 	}
 
 	public void addActivity(Activity activity) {

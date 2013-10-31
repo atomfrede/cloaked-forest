@@ -13,11 +13,14 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 
+import br.com.digilabs.jqplot.JqPlotResources;
 import br.com.digilabs.jqplot.chart.LabeledLineChart;
 import br.com.digilabs.jqplot.data.item.LabeledItem;
 import br.com.digilabs.jqplot.elements.Highlighter;
+import br.com.digilabs.jqplot.renderer.plugin.DateAxisRenderer;
 import de.atomfrede.forest.alumni.application.wicket.Numbers;
 import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
+//import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
@@ -71,6 +74,9 @@ public class MemberCountGraphPanel extends Panel {
 			lineChart.getXAxis().getTickOptions().setFormatString("%b-%d-%Y");
 			lineChart.getYAxis().setMin(Numbers.ZERO + "");
 			lineChart.getXAxis().setAutoScale(true);
+			lineChart.getXAxis().setRenderer(JqPlotResources.DateAxisRenderer);
+			lineChart.getXAxis().setPad(0.0F);
+			lineChart.getXAxis().setMin("'" + sdfPlot.format(dates[0]) + "'");
 			add(new JQPlotChart("chart1", lineChart));
 		} catch (Exception e) {
 			log.error("Could not retrieve data values for plot.", e);

@@ -70,6 +70,8 @@ import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.member.MemberService;
+import de.atomfrede.forest.alumni.service.member.country.CountryService;
+import de.atomfrede.forest.alumni.service.member.focus.MainFocusService;
 import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
 
 @SuppressWarnings("serial")
@@ -95,6 +97,12 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 	@SpringBean
 	private ProfessionService professionService;
+
+	@SpringBean
+	private MainFocusService mainFocusService;
+
+	@SpringBean
+	private CountryService countryService;
 
 	private List<Company> companies;
 	private List<Department> departments;
@@ -125,7 +133,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			personalStreet, personalTown, personalPostcode, workMail,
 			personalMobile, personalFax, personalPhone, personalInternet,
 			workPhone, workMobile, workFax, workInternet, personalNumber;
-	private Typeahead<String> profession;
+
+	private Typeahead<String> profession, mainfocus, personalCountry;
 	private DateTextField entryDate, leaveDate;
 
 	DataView<Activity> activities;
@@ -136,8 +145,8 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 	private Date _entryDate, _leaveDate;
 	private String _personalStreet, _personalNumber, _personalAddon,
 			_personalPostcode, _personalTown, _personalMail, _personalMobile,
-			_personalPhone, _personalFax, _personalInternet;
-	private String _graduationYear, _profession;
+			_personalPhone, _personalFax, _personalInternet, _personalCountry;
+	private String _graduationYear, _profession, _mainFocus;
 	private String _workMail, _workFax, _workMobile, _workInternet, _workPhone;
 
 	private Map<String, Boolean> activityName_checked = new HashMap<>();
@@ -285,6 +294,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			_personalPostcode = "";
 			_personalStreet = "";
 			_personalTown = "";
+			_personalCountry = "";
 
 			_entryDate = new Date();
 			_leaveDate = null;
@@ -305,6 +315,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			_personalStreet = mem.getContactData().getStreet();
 			_personalTown = mem.getContactData().getTown();
 			_personalPhone = mem.getContactData().getPhone();
+			_personalCountry = mem.getContactData().getCountry();
 			_workFax = mem.getContactData().getFaxD();
 			_workInternet = mem.getContactData().getInternetD();
 			_workMail = mem.getContactData().getEmailD();
@@ -314,6 +325,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			_entryDate = mem.getEntryDate();
 			_leaveDate = mem.getLeaveDate();
 			_profession = mem.getProfession();
+			_mainFocus = mem.getMainFocus();
 
 			selectedDegree = mem.getDegree();
 			selectedSector = mem.getSector();
@@ -555,6 +567,22 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				new PropertyModel<String>(this, "_personalMail"));
 		personalMail.add(EmailAddressValidator.getInstance());
 
+		final IDataSource<String> countryDataSource = new IDataSource<String>() {
+
+			@Override
+			public List<String> load() {
+				return countryService.getTypeaheadCountry();
+			}
+		};
+
+		PropertyModel<String> countryModel = new PropertyModel<>(this,
+				"_personalCountry");
+		personalCountry = new Typeahead<>("personal.country", countryModel,
+				countryDataSource,
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
+						+ Numbers.FIVE));
+		personalCountry.size(SpanType.SPAN5);
+
 		add(personalAddon);
 		add(personalNumber);
 		add(personalPostcode);
@@ -565,13 +593,15 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		add(personalMobile);
 		add(personalPhone);
 		add(personalInternet);
+		add(personalCountry);
 
 		add(salutationSelect);
 
 		DateTextFieldConfig conf = new DateTextFieldConfig();
 		conf.withView(DateTextFieldConfig.View.Year);
 		conf.autoClose(true);
-		String pattern = DateTimeFormat.patternForStyle("M-", getSession().getLocale());
+		String pattern = DateTimeFormat.patternForStyle("M-", getSession()
+				.getLocale());
 		conf.withFormat(pattern);
 		conf.withLanguage(getSession().getLocale().getLanguage());
 		entryDate = new DateTextField("entrydate", new PropertyModel<Date>(
@@ -620,9 +650,26 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 			}
 		});
 
+		final IDataSource<String> focusDatasource = new IDataSource<String>() {
+			@Override
+			public List<String> load() {
+				return mainFocusService.getTypeaheadFocus();
+			}
+		};
+
+		PropertyModel<String> focusModel = new PropertyModel<>(this,
+				"_mainFocus");
+		mainfocus = new Typeahead<String>("mainfocus", focusModel,
+				focusDatasource,
+				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
+						+ Numbers.FIVE));
+
+		mainfocus.size(SpanType.SPAN5);
+
 		add(profession);
 		add(graduationYear);
 		add(degreeSelect);
+		add(mainfocus);
 	}
 
 	/**
@@ -730,6 +777,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		member.setLeaveDate(_leaveDate);
 		member.setDegree(selectedDegree);
 		member.setProfession(_profession);
+		member.setMainFocus(_mainFocus);
 		member.setYearOfGraduation(_graduationYear);
 		if (selectedDepartment.getId() != null) {
 			member.setDepartment(selectedDepartment);
@@ -765,6 +813,7 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		cData.setMobileD(_workMobile);
 		cData.setFaxD(_workFax);
 		cData.setInternetD(_workInternet);
+		cData.setCountry(_personalCountry);
 
 		if (selectedDepartment.getId() == null) {
 			cData.setDepartment(null);
