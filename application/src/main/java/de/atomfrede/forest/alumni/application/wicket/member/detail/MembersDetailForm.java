@@ -44,7 +44,6 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.form.IDataSource;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.Typeahead;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.TypeaheadConfig;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
-import de.agilecoders.wicket.core.markup.html.bootstrap.layout.SpanType;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
 import de.atomfrede.forest.alumni.application.wicket.Numbers;
@@ -581,7 +580,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				countryDataSource,
 				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
 						+ Numbers.FIVE));
-		personalCountry.size(SpanType.SPAN5);
 
 		add(personalAddon);
 		add(personalNumber);
@@ -631,7 +629,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 		profession = new Typeahead<String>("profession", model, dataSource,
 				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
 						+ Numbers.FIVE));
-		profession.size(SpanType.SPAN5);
 
 		graduationYear = new TextField<String>("graduationyear",
 				new PropertyModel<String>(this, "_graduationYear"));
@@ -663,8 +660,6 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				focusDatasource,
 				new TypeaheadConfig().withNumberOfItems(Numbers.TEN
 						+ Numbers.FIVE));
-
-		mainfocus.size(SpanType.SPAN5);
 
 		add(profession);
 		add(graduationYear);
