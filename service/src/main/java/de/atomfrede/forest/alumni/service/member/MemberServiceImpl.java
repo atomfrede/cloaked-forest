@@ -177,7 +177,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		//Only for the current year use the current date.
-		values.put(new Date(), getMemberCountForDate(start));
+		values.put(new Date(), getMemberCountForDate(new DateTime()));
 		return values;
 	}
 	
