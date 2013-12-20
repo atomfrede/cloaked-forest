@@ -176,7 +176,7 @@ public class BusinessCardPanel extends Panel {
 				}
 
 			}
-			if (mem.getProfession() != null && StringUtils.isNotBlank(mem.getProfession()) && StringUtils.isNotEmpty(mem.getProfession())) {
+			if (mem.getProfession() != null && StringUtils.isNotBlank(mem.getProfession()) && StringUtils.isNotEmpty(mem.getProfession()) && isStringSet(mem.getProfession())) {
 					profession = new Label("profession", Model.of(mem.getProfession()));
 			}
 
@@ -188,11 +188,11 @@ public class BusinessCardPanel extends Panel {
 				company = new Label("company", Model.of(mem.getCompany().getCompany()));
 			}
 			
-			if (mem.getDepartment() != null && StringUtils.isNotBlank(mem.getDepartment().getDepartment()) && StringUtils.isNotEmpty(mem.getDepartment().getDepartment())) {
+			if (mem.getDepartment() != null && StringUtils.isNotBlank(mem.getDepartment().getDepartment()) && StringUtils.isNotEmpty(mem.getDepartment().getDepartment()) && isStringSet(mem.getDepartment().getDepartment())) {
 					department = new Label("department", Model.of(mem.getDepartment().getDepartment()));
 			}
 			
-			if (mem.getMainFocus() != null && StringUtils.isNotBlank(mem.getMainFocus()) && StringUtils.isEmpty(mem.getMainFocus())) {
+			if (mem.getMainFocus() != null && StringUtils.isNotBlank(mem.getMainFocus()) && StringUtils.isNotEmpty(mem.getMainFocus()) && isStringSet(mem.getMainFocus())) {
 				mainFocus = new Label("mainfocus", Model.of(mem.getMainFocus()));
 			}
 		}

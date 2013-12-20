@@ -34,7 +34,7 @@ public class CsvExporter {
 	}
 
 	private String[] createHeader() {
-		String[] header = new String[21];
+		String[] header = new String[22];
 
 		header[0] = "Anrede";
 		header[1] = "Abschluss/Titel";
@@ -65,7 +65,7 @@ public class CsvExporter {
 	}
 
 	private String[] createLine(Member member) {
-		String[] line = new String[21];
+		String[] line = new String[22];
 		line[0] = member.getSalutation();
 		if (member.getDegree() != null) {
 			line[1] = member.getDegree().getShortForm();
