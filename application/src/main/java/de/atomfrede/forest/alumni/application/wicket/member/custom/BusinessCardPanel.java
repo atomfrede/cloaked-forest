@@ -102,9 +102,14 @@ public class BusinessCardPanel extends Panel {
 			if (isStringSet(cData.getAddon())) {
 				personalBuilder.append(cData.getAddon() + "<br/>");
 			}
+			
 			if (isStringSet(cData.getPostCode()) && isStringSet(cData.getTown())) {
 				personalBuilder.append(cData.getPostCode() + " "
 						+ cData.getTown() + "<br/>");
+			}
+			
+			if (isStringSet(cData.getCountry())) {
+				personalBuilder.append(cData.getCountry() + "<br/>");
 			}
 
 			if (isStringSet(cData.getEmail())) {
@@ -143,6 +148,10 @@ public class BusinessCardPanel extends Panel {
 					workBuilder.append(cData.getDepartment().getPostCode()
 							+ " " + cData.getDepartment().getTown() + "<br/>");
 				}
+			}
+			
+			if (isStringSet(cData.getCountry())) {
+				workBuilder.append(cData.getCountry() + "<br/>"); 
 			}
 
 			if (isStringSet(cData.getEmailD())) {
