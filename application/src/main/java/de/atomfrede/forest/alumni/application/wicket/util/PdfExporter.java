@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,6 +182,10 @@ public class PdfExporter {
 		sb.append("</span>");
 		sb.append("</div>");
 
+		if(member.getMainFocus() != null && StringUtils.isNotBlank(member.getMainFocus()) && StringUtils.isNotEmpty(member.getMainFocus())) {
+			sb.append(getMainFocus(member));
+		}
+		
 		sb.append(getSectorAndActivity(member));
 
 		sb.append("<div class=\"addresses\">");
@@ -483,6 +488,20 @@ public class PdfExporter {
 		return sb.toString();
 	}
 
+	private String getMainFocus(Member member) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<div class=\"mainfocus\">");
+		
+		sb.append("<table>");
+		sb.append("<tr>");
+		sb.append("<td>" + member.getMainFocus() + "</td>");
+		sb.append("</tr></table>");
+		sb.append("</div>");
+		
+		return sb.toString();
+	}
+	
 	/**
 	 * Returns the (X)HTML code for sector and activity of the given member.
 	 * 

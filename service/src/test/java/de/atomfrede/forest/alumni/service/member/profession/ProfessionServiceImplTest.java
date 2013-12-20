@@ -1,7 +1,6 @@
 package de.atomfrede.forest.alumni.service.member.profession;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 

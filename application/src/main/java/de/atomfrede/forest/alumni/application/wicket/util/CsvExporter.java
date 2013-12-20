@@ -42,23 +42,24 @@ public class CsvExporter {
 		header[3] = "Nachname";
 		header[4] = "Abschlussjahr";
 		header[5] = "Abschluss";
-		header[6] = "Tätigkeit";
-		header[7] = "Straße/Hausnummer";
-		header[8] = "PLZ";
-		header[9] = "Ort";
-		header[10] = "Mail (privat)";
-		header[11] = "Firma/Arbeitgeber";
-		header[12] = "Abteilung";
-		header[13] = "Branche";
+		header[6] = "Schwerpunkt";
+		header[7] = "Tätigkeit";
+		header[8] = "Straße/Hausnummer";
+		header[9] = "PLZ";
+		header[10] = "Ort";
+		header[11] = "Mail (privat)";
+		header[12] = "Firma/Arbeitgeber";
+		header[13] = "Abteilung";
+		header[14] = "Branche";
 
-		header[14] = "Mail (dienstlich)";
-		header[15] = "Telefon (privat)";
-		header[16] = "Mobil (privat)";
-		header[17] = "Mobile (dienstlich)";
+		header[15] = "Mail (dienstlich)";
+		header[16] = "Telefon (privat)";
+		header[17] = "Mobil (privat)";
+		header[18] = "Mobile (dienstlich)";
 
-		header[18] = "Straße/Hausnummer (dienstlich)";
-		header[19] = "PLZ (dienstlich)";
-		header[20] = "Ort (dienstlich)";
+		header[19] = "Straße/Hausnummer (dienstlich)";
+		header[20] = "PLZ (dienstlich)";
+		header[21] = "Ort (dienstlich)";
 
 		return header;
 	}
@@ -77,52 +78,54 @@ public class CsvExporter {
 		line[4] = member.getYearOfGraduation();
 		line[5] = member.getProfession();
 
-		line[6] = "";
+		line[6] = member.getMainFocus();
+		
+		line[7] = "";
 		int actCount = member.getActivities().size();
 		int counter = 1;
 		for (Activity act : member.getActivities()) {
 			if (counter != actCount) {
-				line[6] = line[6] + act.getActivity() + ", ";
+				line[7] = line[7] + act.getActivity() + ", ";
 			} else {
-				line[6] = line[6] + act.getActivity();
+				line[7] = line[7] + act.getActivity();
 			}
 
 		}
 		// Now the Adress and Contact Data
 		ContactData cData = member.getContactData();
-		line[7] = cData.getStreet() + " " + cData.getNumber();
-		line[8] = cData.getPostCode();
-		line[9] = cData.getTown();
-		line[10] = cData.getEmail();
+		line[8] = cData.getStreet() + " " + cData.getNumber();
+		line[9] = cData.getPostCode();
+		line[10] = cData.getTown();
+		line[11] = cData.getEmail();
 
 		if (member.getDepartment() != null) {
-			line[11] = member.getDepartment().getCompany().getCompany();
-			line[12] = member.getDepartment().getDepartment();
+			line[12] = member.getDepartment().getCompany().getCompany();
+			line[13] = member.getDepartment().getDepartment();
 		} else {
-			line[11] = "-/-";
 			line[12] = "-/-";
-		}
-
-		if (member.getSector() != null) {
-			line[13] = member.getSector().getSector();
-		} else {
 			line[13] = "-/-";
 		}
 
+		if (member.getSector() != null) {
+			line[14] = member.getSector().getSector();
+		} else {
+			line[14] = "-/-";
+		}
+
 		if (cData.getEmailD() != null && !cData.getEmailD().equals("NULL")) {
-			line[14] = cData.getEmailD();
+			line[15] = cData.getEmailD();
 		}
 
 		if (cData.getPhone() != null && !cData.getPhone().equals("NULL")) {
-			line[15] = cData.getPhone();
+			line[16] = cData.getPhone();
 		}
 
 		if (cData.getMobile() != null && !cData.getMobile().equals("NULL")) {
-			line[16] = cData.getMobile();
+			line[17] = cData.getMobile();
 		}
 
 		if (cData.getMobileD() != null && !cData.getMobileD().equals("NULL")) {
-			line[17] = cData.getMobileD();
+			line[18] = cData.getMobileD();
 		}
 
 		// Now the adress for work
@@ -132,9 +135,9 @@ public class CsvExporter {
 			String postCodeWork = member.getDepartment().getPostCode();
 			String townWork = member.getDepartment().getTown();
 
-			line[18] = streetWork + " " + numberWork;
-			line[19] = postCodeWork;
-			line[20] = townWork;
+			line[19] = streetWork + " " + numberWork;
+			line[20] = postCodeWork;
+			line[21] = townWork;
 		}
 
 		return line;
