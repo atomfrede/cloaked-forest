@@ -3,7 +3,7 @@ cloaked-forest
 
 A small application to manage members of the alumni of forest faculty in Göttingen. 
 
-
+[![Build Status](https://travis-ci.org/atomfrede/cloaked-forest.svg?branch=master)](https://travis-ci.org/atomfrede/cloaked-forest)
 [![Build Status](https://drone.io/github.com/atomfrede/cloaked-forest/status.png)](https://drone.io/github.com/atomfrede/cloaked-forest/latest)
 [![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
 
