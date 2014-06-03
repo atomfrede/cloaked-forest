@@ -3,8 +3,7 @@ cloaked-forest
 
 A small application to manage members of the alumni of forest faculty in Göttingen. 
 
-[![Build Status](http://v22013021552710884.yourvserver.net:8080/jenkins/job/Alumni-Master/badge/icon)](http://v22013021552710884.yourvserver.net:8080/jenkins/job/Alumni-Master/)
-
+[![Build Status](https://drone.io/github.com/atomfrede/cloaked-forest/status.png)](https://drone.io/github.com/atomfrede/cloaked-forest/latest)
 [![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
 
 License
