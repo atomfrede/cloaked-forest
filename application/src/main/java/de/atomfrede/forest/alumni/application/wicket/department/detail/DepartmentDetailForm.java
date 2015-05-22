@@ -1,24 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.department.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.util.List;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.time.Duration;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
@@ -39,6 +20,24 @@ import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingExceptio
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.department.DepartmentAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.department.DepartmentService;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.time.Duration;
+
+import java.util.List;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DepartmentDetailForm extends BootstrapForm<Department> {
@@ -108,7 +107,7 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 
 		add(cancel);
 
-		cancel.setLabel(Model.of(_("global.cancel")));
+        cancel.setLabel(Model.of(getText("global.cancel")));
 
 		initFormValues();
 
@@ -273,9 +272,9 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 			}
 
 			// It Was succesfull, so display a notifications about this
-			NotificationMessage nf = new NotificationMessage(Model.of(_(
-					"success.saved").getString()));
-			nf.hideAfter(Duration.seconds(Numbers.FIVE));
+            NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                    "success.saved").getString()));
+            nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (DepartmentAlreadyExistingException caee) {
 			onDepartmentAlreadyExisting(_department);
@@ -285,16 +284,16 @@ public class DepartmentDetailForm extends BootstrapForm<Department> {
 	}
 
 	private void onDepartmentAlreadyExisting(String departmentName) {
-		NotificationMessage nf = new NotificationMessage(Model.of(_(
-				"error.department.existing", departmentName).getString()));
-		nf.hideAfter(Duration.seconds(Numbers.TEN));
+        NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                "error.department.existing", departmentName).getString()));
+        nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 	
 	private void onCompanyAlreadyExisting(String companyName) {
-		NotificationMessage nf = new NotificationMessage(Model.of(_(
-				"error.company.existing", companyName).getString()));
-		nf.hideAfter(Duration.seconds(Numbers.TEN));
+        NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                "error.company.existing", companyName).getString()));
+        nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 

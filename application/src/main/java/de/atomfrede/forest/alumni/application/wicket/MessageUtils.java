@@ -17,8 +17,8 @@ public final class MessageUtils {
 	 * @param args
 	 * @return
 	 */
-	public static StringResourceModel _(String message, Object... args) {
-		return new StringResourceModel(message, new Model<Object[]>(args),
+    public static StringResourceModel getText(String message, Object... args) {
+        return new StringResourceModel(message, new Model<Object[]>(args),
 				message);
 	}
 }

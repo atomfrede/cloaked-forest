@@ -1,26 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.member;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
-import java.util.Date;
-
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
@@ -43,6 +22,26 @@ import de.atomfrede.forest.alumni.domain.entity.activity.Activity;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.member.MemberService;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DateFormat;
+import java.util.Date;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class MemberListPanel extends Panel implements PropertyChangeListener{
@@ -304,21 +303,21 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 
 	private void setupModalInfo() {
 		modalInfo = new BusinessCardModal("modal-info", null);
-		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalInfo);
+        modalInfo.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        add(modalInfo);
 	}
 	
 	private void setupModalLeave() {
 		leaveModal = new LeaveMemberModal("modal-leave", null);
-		leaveModal.addCloseButton(Model.of(_("modal.close").getString()));
-		add(leaveModal);
+        leaveModal.addCloseButton(Model.of(getText("modal.close").getString()));
+        add(leaveModal);
 	}
 
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
-		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalWarning);
+        modalWarning.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        add(modalWarning);
 	}
 
 	private MemberProvider getMemberProvider() {
@@ -353,8 +352,8 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 			nextButton.add(new AttributeAppender("class", " disabled"));
 		}
 
-		nextButton.setLabel(Model.of(_("next")))
-				.setIconType(IconType.arrowright).setInverted(false);
+        nextButton.setLabel(Model.of(getText("next")))
+                .setIconType(IconType.arrowright).setInverted(false);
 
 		return nextButton;
 	}
@@ -381,8 +380,8 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 			prevButton.add(new AttributeAppender("class", " disabled"));
 		}
 
-		prevButton.setLabel(Model.of(_("back")))
-				.setIconType(IconType.arrowleft).setInverted(false);
+        prevButton.setLabel(Model.of(getText("back")))
+                .setIconType(IconType.arrowleft).setInverted(false);
 
 		return prevButton;
 	}
@@ -401,8 +400,8 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 			}
 		};
 
-		editButton.setLabel(Model.of(_("legend.edit")))
-				.setIconType(IconType.edit).setInverted(true);
+        editButton.setLabel(Model.of(getText("legend.edit")))
+                .setIconType(IconType.edit).setInverted(true);
 		return editButton;
 	}
 
@@ -420,8 +419,8 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 		
 		modal.setOutputMarkupId(true);
 
-		modal.addCloseButton(Model.of(_("global.close").getString()));
-		modal.header(Model.of(header));
+        modal.addCloseButton(Model.of(getText("global.close").getString()));
+        modal.header(Model.of(header));
 		
 		return modal;
 		
@@ -445,8 +444,8 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 		modal.addButton(getEditButton());
 		modal.addButton(getNextButton());
 
-		modal.addCloseButton(Model.of(_("global.close").getString()));
-		modal.header(Model.of(header));
+        modal.addCloseButton(Model.of(getText("global.close").getString()));
+        modal.header(Model.of(header));
 
 		modal.setEscapeModelStrings(false);
 		modal.setOutputMarkupId(true);
@@ -472,8 +471,8 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 
 	private void leaveMember(final long id, String firstname, String lastname) {
 		final LeaveMemberModal modal = createModalLeave(id);
-		
-		AjaxLink<String> doLeave = new AjaxLink<String>("button", Model.of(_("modal.leave").getString())) {
+
+        AjaxLink<String> doLeave = new AjaxLink<String>("button", Model.of(getText("modal.leave").getString())) {
 
 			@Override
 			protected void onConfigure() {
@@ -493,7 +492,7 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 		};
 		
 		if(memberService.findById(id).getLeaveDate() != null) {
-			AjaxLink<String> doEnter = new AjaxLink<String>("button", Model.of(_("modal.reenter").getString())) {
+            AjaxLink<String> doEnter = new AjaxLink<String>("button", Model.of(getText("modal.reenter").getString())) {
 
 				@Override
 				protected void onConfigure() {
@@ -533,15 +532,15 @@ public class MemberListPanel extends Panel implements PropertyChangeListener{
 	private void deleteMember(final long id, String firstname, String lastname) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",
-				Model.of(_("modal.text", firstname, lastname).getString()));
-		modal.setOutputMarkupId(true);
+                Model.of(getText("modal.text", firstname, lastname).getString()));
+        modal.setOutputMarkupId(true);
 
-		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		modal.header(Model.of(_("modal.header", firstname, lastname)
-				.getString()));
+        modal.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        modal.header(Model.of(getText("modal.header", firstname, lastname)
+                .getString()));
 
-		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_(
-				"modal.delete", "").getString())) {
+        AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(getText(
+                "modal.delete", "").getString())) {
 
 			@Override
 			protected void onConfigure() {

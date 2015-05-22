@@ -1,7 +1,16 @@
 package de.atomfrede.forest.alumni.application.wicket.degree.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
+import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationPanel;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
+import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
+import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage.Type;
+import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
+import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
+import de.atomfrede.forest.alumni.service.degree.DegreeService;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -15,17 +24,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
-import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationPanel;
-import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
-import de.atomfrede.forest.alumni.application.wicket.Numbers;
-import de.atomfrede.forest.alumni.application.wicket.degree.DegreePage;
-import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage.Type;
-import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
-import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
-import de.atomfrede.forest.alumni.service.degree.DegreeService;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DegreeDetailForm extends BootstrapForm<Degree> {
@@ -77,7 +76,7 @@ public class DegreeDetailForm extends BootstrapForm<Degree> {
 				setResponsePage(DegreePage.class);
 			}
 		};
-		cancel.setLabel(Model.of(_("global.cancel")));
+        cancel.setLabel(Model.of(getText("global.cancel")));
 
 		add(cancel);
 

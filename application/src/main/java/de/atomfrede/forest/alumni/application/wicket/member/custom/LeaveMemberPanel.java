@@ -1,10 +1,8 @@
 package de.atomfrede.forest.alumni.application.wicket.member.custom;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.text.DateFormat;
-import java.util.Date;
-
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
+import de.atomfrede.forest.alumni.service.member.MemberService;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.basic.Label;
@@ -13,9 +11,9 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.format.DateTimeFormat;
 
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
-import de.atomfrede.forest.alumni.service.member.MemberService;
+import java.util.Date;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 public class LeaveMemberPanel extends Panel {
 
@@ -33,9 +31,9 @@ public class LeaveMemberPanel extends Panel {
 		String message = "";
 		if(memberId != null) {
 			_leaveDate = memberService.findById(memberId).getLeaveDate();
-			message = _("modal.leave.info", memberService.findById(memberId).getFullname()).getString();
-			
-		} else {
+            message = getText("modal.leave.info", memberService.findById(memberId).getFullname()).getString();
+
+        } else {
 			_leaveDate = null;
 		}
 		

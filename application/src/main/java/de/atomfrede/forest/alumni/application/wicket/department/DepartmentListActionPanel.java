@@ -1,16 +1,15 @@
 package de.atomfrede.forest.alumni.application.wicket.department;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
 import de.atomfrede.forest.alumni.application.wicket.department.detail.DepartmentDetailPage;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DepartmentListActionPanel extends Panel {
@@ -40,8 +39,8 @@ public class DepartmentListActionPanel extends Panel {
 		};
 
 		newDepartment.setIconType(IconType.plussign).setLabel(
-				Model.of(_("department.action.new")));
-		add(newDepartment);
+                Model.of(getText("department.action.new")));
+        add(newDepartment);
 	}
 
 	private void onNewDepartment() {

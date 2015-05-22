@@ -1,7 +1,6 @@
 package de.atomfrede.forest.alumni.application.wicket.base;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.agilecoders.wicket.core.Bootstrap;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.GenericWebPage;
@@ -10,7 +9,7 @@ import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
-import de.agilecoders.wicket.core.Bootstrap;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 @RequireHttps
@@ -19,8 +18,8 @@ public class AbstractAuthPage<T> extends GenericWebPage<T> {
 	protected Label pageTitel;
 
 	protected void commonInit(PageParameters pageParameters) {
-		pageTitel = new Label("pageTitle", _("global.page.title", "global.page.title"));
-		add(pageTitel);
+        pageTitel = new Label("pageTitle", getText("global.page.title", "global.page.title"));
+        add(pageTitel);
 	}
 	
 	@Override

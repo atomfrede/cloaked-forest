@@ -1,17 +1,16 @@
 package de.atomfrede.forest.alumni.application.wicket.department.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
+import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
+import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
+import de.atomfrede.forest.alumni.domain.entity.department.Department;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
-import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
-import de.atomfrede.forest.alumni.domain.dao.department.DepartmentDao;
-import de.atomfrede.forest.alumni.domain.entity.department.Department;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DepartmentDetailPage extends BasePage<Void> {
@@ -60,13 +59,13 @@ public class DepartmentDetailPage extends BasePage<Void> {
 			switch (mEditType) {
 			case Create:
 				header = new Label("detail-header",
-						_("legend.create.department"));
-				subHeader = new Label("detail-sub-header", "");
+                        getText("legend.create.department"));
+                subHeader = new Label("detail-sub-header", "");
 				break;
 			case Edit:
 				Department dmp = departmentDao.findById(mDepartmentId);
-				header = new Label("detail-header", _("legend.edit"));
-				if (dmp != null
+                header = new Label("detail-header", getText("legend.edit"));
+                if (dmp != null
 						&& StringCheckUtil.isStringSet(dmp.getDepartment())) {
 					subHeader = new Label("detail-sub-header", dmp.getCompany());
 				}
@@ -74,13 +73,13 @@ public class DepartmentDetailPage extends BasePage<Void> {
 
 			default:
 				header = new Label("detail-header",
-						_("legend.create.department"));
-				subHeader = new Label("detail-sub-header", "");
+                        getText("legend.create.department"));
+                subHeader = new Label("detail-sub-header", "");
 				break;
 			}
 		} else {
-			header = new Label("detail-header", _("legend.create.department"));
-			subHeader = new Label("detail-sub-header", "");
+            header = new Label("detail-header", getText("legend.create.department"));
+            subHeader = new Label("detail-sub-header", "");
 		}
 
 		add(header, subHeader);

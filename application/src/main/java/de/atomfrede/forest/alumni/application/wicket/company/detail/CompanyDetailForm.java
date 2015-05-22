@@ -1,24 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.company.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.util.List;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.time.Duration;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
@@ -38,6 +19,24 @@ import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.company.CompanyAlreadyExistingException;
 import de.atomfrede.forest.alumni.service.company.CompanyService;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.time.Duration;
+
+import java.util.List;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class CompanyDetailForm extends BootstrapForm<Company> {
@@ -103,7 +102,7 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 
 		add(cancel);
 
-		cancel.setLabel(Model.of(_("global.cancel")));
+        cancel.setLabel(Model.of(getText("global.cancel")));
 
 		initFormValues();
 
@@ -214,9 +213,9 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 			}
 
 			// It Was succesfull, so display a notifications about this
-			NotificationMessage nf = new NotificationMessage(Model.of(_(
-					"success.saved").getString()));
-			nf.hideAfter(Duration.seconds(Numbers.FIVE));
+            NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                    "success.saved").getString()));
+            nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (CompanyAlreadyExistingException caee) {
 			onCompanyAlreadyExisting(_company);
@@ -224,9 +223,9 @@ public class CompanyDetailForm extends BootstrapForm<Company> {
 	}
 
 	private void onCompanyAlreadyExisting(String companyName) {
-		NotificationMessage nf = new NotificationMessage(Model.of(_(
-				"error.company.existing", companyName).getString()));
-		nf.hideAfter(Duration.seconds(Numbers.TEN));
+        NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                "error.company.existing", companyName).getString()));
+        nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 

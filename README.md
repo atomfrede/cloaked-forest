@@ -4,13 +4,11 @@ cloaked-forest
 A small application to manage members of the alumni of forest faculty in Göttingen. 
 
 [![Build Status](https://travis-ci.org/atomfrede/cloaked-forest.svg?branch=master)](https://travis-ci.org/atomfrede/cloaked-forest)
-[![Build Status](https://drone.io/github.com/atomfrede/cloaked-forest/status.png)](https://drone.io/github.com/atomfrede/cloaked-forest/latest)
-[![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
 
 License
 =======
 
-    Copyright 2013 Frederik Hahne
+    Copyright Frederik Hahne
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

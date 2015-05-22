@@ -1,27 +1,26 @@
 package de.atomfrede.forest.alumni.application.wicket.graph;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-
+import br.com.digilabs.jqplot.JqPlotResources;
+import br.com.digilabs.jqplot.chart.LabeledLineChart;
+import br.com.digilabs.jqplot.data.item.LabeledItem;
+import br.com.digilabs.jqplot.elements.Highlighter;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
+import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
+import de.atomfrede.forest.alumni.service.member.MemberService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 
-import br.com.digilabs.jqplot.JqPlotResources;
-import br.com.digilabs.jqplot.chart.LabeledLineChart;
-import br.com.digilabs.jqplot.data.item.LabeledItem;
-import br.com.digilabs.jqplot.elements.Highlighter;
-import br.com.digilabs.jqplot.renderer.plugin.DateAxisRenderer;
-import de.atomfrede.forest.alumni.application.wicket.Numbers;
-import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
+
 //import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
-import de.atomfrede.forest.alumni.service.member.MemberService;
 
 @SuppressWarnings("serial")
 public class MemberCountGraphPanel extends Panel {
@@ -51,8 +50,8 @@ public class MemberCountGraphPanel extends Panel {
 					.toDate());
 
 			LabeledLineChart<Integer> lineChart = new LabeledLineChart<Integer>(
-					_("member.graph.heading", startYear, endYear).getString(),
-					_("graph.year").getString(), _("graph.members").getString());
+                    getText("member.graph.heading", startYear, endYear).getString(),
+                    getText("graph.year").getString(), getText("graph.members").getString());
 
 			Date[] dates = values.keySet().toArray(new Date[] {});
 

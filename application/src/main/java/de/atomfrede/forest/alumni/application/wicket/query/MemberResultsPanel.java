@@ -1,19 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.query;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
@@ -31,6 +17,19 @@ import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.domain.entity.member.Member;
 import de.atomfrede.forest.alumni.service.member.MemberService;
 import de.atomfrede.forest.alumni.service.query.Query;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class MemberResultsPanel extends Panel {
@@ -183,14 +182,14 @@ public class MemberResultsPanel extends Panel {
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
-		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalWarning);
+        modalWarning.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        add(modalWarning);
 	}
 
 	private void setupModalInfo() {
 		modalInfo = new BusinessCardModal("modal-info", null);
-		modalInfo.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalInfo);
+        modalInfo.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        add(modalInfo);
 	}
 
 	private MemberQueryProvider getMemberProvider() {
@@ -218,14 +217,14 @@ public class MemberResultsPanel extends Panel {
 				+ mem.getContactData().getTown();
 		String mailPrivate = mem.getContactData().getEmail();
 
-		String content = _("member.info.modal", mem.getSalutation(),
-				mem.getFirstname(), mem.getLastname(), street, postTown,
-				mailPrivate).getString();
+        String content = getText("member.info.modal", mem.getSalutation(),
+                mem.getFirstname(), mem.getLastname(), street, postTown,
+                mailPrivate).getString();
 
 		final BusinessCardModal modal = new BusinessCardModal("modal-info", id);
 		modal.setOutputMarkupId(true);
-		modal.addCloseButton(Model.of(_("global.close").getString()));
-		modal.header(Model.of(header));
+        modal.addCloseButton(Model.of(getText("global.close").getString()));
+        modal.header(Model.of(header));
 
 		modal.setEscapeModelStrings(false);
 
@@ -240,15 +239,15 @@ public class MemberResultsPanel extends Panel {
 	private void deleteMember(final long id, String firstname, String lastname) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",
-				Model.of(_("modal.text", firstname, lastname).getString()));
-		modal.setOutputMarkupId(true);
+                Model.of(getText("modal.text", firstname, lastname).getString()));
+        modal.setOutputMarkupId(true);
 
-		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		modal.header(Model.of(_("modal.header", firstname, lastname)
-				.getString()));
+        modal.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        modal.header(Model.of(getText("modal.header", firstname, lastname)
+                .getString()));
 
-		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_(
-				"modal.delete", "").getString())) {
+        AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(getText(
+                "modal.delete", "").getString())) {
 
 			@Override
 			protected void onConfigure() {

@@ -1,17 +1,16 @@
 package de.atomfrede.forest.alumni.application.wicket.company.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
+import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
+import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
-import de.atomfrede.forest.alumni.application.wicket.util.StringCheckUtil;
-import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class CompanyDetailPage extends BasePage<Void> {
@@ -57,26 +56,26 @@ public class CompanyDetailPage extends BasePage<Void> {
 		if (mEditType != null) {
 			switch (mEditType) {
 			case Create:
-				header = new Label("detail-header", _("legend.create.company"));
-				subHeader = new Label("detail-sub-header", "");
+                header = new Label("detail-header", getText("legend.create.company"));
+                subHeader = new Label("detail-sub-header", "");
 				break;
 			case Edit:
 				Company cmp = companyDao.findById(mCompanyId);
-				header = new Label("detail-header", _("legend.edit"));
-				if (cmp != null
+                header = new Label("detail-header", getText("legend.edit"));
+                if (cmp != null
 						&& StringCheckUtil.isStringSet(cmp.getCompany())) {
 					subHeader = new Label("detail-sub-header", cmp.getCompany());
 				}
 				break;
 
 			default:
-				header = new Label("detail-header", _("legend.create.company"));
-				subHeader = new Label("detail-sub-header", "");
+                header = new Label("detail-header", getText("legend.create.company"));
+                subHeader = new Label("detail-sub-header", "");
 				break;
 			}
 		} else {
-			header = new Label("detail-header", _("legend.create.company"));
-			subHeader = new Label("detail-sub-header", "");
+            header = new Label("detail-header", getText("legend.create.company"));
+            subHeader = new Label("detail-sub-header", "");
 		}
 
 		add(header, subHeader);

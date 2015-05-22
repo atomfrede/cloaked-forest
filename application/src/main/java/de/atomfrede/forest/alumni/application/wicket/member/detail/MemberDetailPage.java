@@ -1,14 +1,13 @@
 package de.atomfrede.forest.alumni.application.wicket.member.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
+import de.atomfrede.forest.alumni.application.wicket.member.DetailPageListener;
+import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage;
-import de.atomfrede.forest.alumni.application.wicket.member.DetailPageListener;
-import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class MemberDetailPage extends BasePage<Void> implements
@@ -17,19 +16,11 @@ public class MemberDetailPage extends BasePage<Void> implements
 	public static final String EDIT_TYPE = "type";
 	public static final String MEMBER_ID = "memberId";
 	public static final String FROM_PAGE = "fromPage";
-
-	public enum FromPage {
-		Homepage, QueryPage
-	}
-
 	@SpringBean
 	private MemberDao memberDao;
-
 	private Label header, subHeader;
-
 	private Type mEditType;
 	private Long mMemberId = null;
-
 	public MemberDetailPage(PageParameters params) {
 		super();
 		if (params.get(EDIT_TYPE) != null) {
@@ -52,38 +43,38 @@ public class MemberDetailPage extends BasePage<Void> implements
 			switch (mEditType) {
 			case Create:
 				header = new Label("detail-header",
-						_("legend.create", "Create"));
-				subHeader = new Label("detail-sub-header", "");
+                        getText("legend.create", "Create"));
+                subHeader = new Label("detail-sub-header", "");
 				break;
 			case Edit:
-				header = new Label("detail-header", _("legend.edit", "Edit"));
-				firstname = memberDao.findById(mMemberId).getFirstname();
+                header = new Label("detail-header", getText("legend.edit", "Edit"));
+                firstname = memberDao.findById(mMemberId).getFirstname();
 				lastname = memberDao.findById(mMemberId).getLastname();
 
 				subHeader = new Label("detail-sub-header", firstname + " "
 						+ lastname);
 				break;
 			case Show:
-				header = new Label("detail-header", _("legend.show", "Show"));
-				firstname = memberDao.findById(mMemberId).getFirstname();
+                header = new Label("detail-header", getText("legend.show", "Show"));
+                firstname = memberDao.findById(mMemberId).getFirstname();
 				lastname = memberDao.findById(mMemberId).getLastname();
 
 				subHeader = new Label("detail-sub-header", firstname + " "
 						+ lastname);
 				break;
 			default:
-				header = new Label("detail-header", _("legend.show", "Show"));
-				subHeader = new Label("detail-sub-header", "");
+                header = new Label("detail-header", getText("legend.show", "Show"));
+                subHeader = new Label("detail-sub-header", "");
 				break;
 			}
 		} else {
-			header = new Label("detail-header", _("legend.show", "Show"));
-			subHeader = new Label("detail-sub-header", "");
+            header = new Label("detail-header", getText("legend.show", "Show"));
+            subHeader = new Label("detail-sub-header", "");
 		}
 
 		header.setOutputMarkupId(true);
 		subHeader.setOutputMarkupId(true);
-		
+
 		add(header);
 		add(subHeader);
 	}
@@ -91,6 +82,10 @@ public class MemberDetailPage extends BasePage<Void> implements
 	@Override
 	public void editTypeChanged(Type newEditType) {
 		mEditType = newEditType;
-	}
+    }
+
+    public enum FromPage {
+        Homepage, QueryPage
+    }
 
 }

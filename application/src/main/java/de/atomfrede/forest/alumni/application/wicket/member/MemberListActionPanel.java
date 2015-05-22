@@ -1,15 +1,15 @@
 package de.atomfrede.forest.alumni.application.wicket.member;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
+import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
+import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
+import de.atomfrede.forest.alumni.application.wicket.util.PdfExporter;
+import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,16 +31,15 @@ import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.format.DateTimeFormat;
 
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.member.detail.MemberDetailPage;
-import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
-import de.atomfrede.forest.alumni.application.wicket.util.PdfExporter;
-import de.atomfrede.forest.alumni.domain.dao.member.MemberDao;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class MemberListActionPanel extends Panel {
@@ -123,8 +122,8 @@ public class MemberListActionPanel extends Panel {
 		};
 
 		newMember.setIconType(IconType.plussign).setLabel(
-				Model.of(_("member.action.new")));
-		add(newMember);
+                Model.of(getText("member.action.new")));
+        add(newMember);
 	}
 
 	private void addPdfDownload() {
@@ -163,7 +162,7 @@ public class MemberListActionPanel extends Panel {
 		// pdfDownload.add(load);
 
 		pdfDownload.setIconType(IconType.file)
-				.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
+                .setLabel(Model.of(getText("member.action.pdf"))).setInverted(false);
 
 		add(pdfDownload);
 	}
@@ -193,7 +192,7 @@ public class MemberListActionPanel extends Panel {
 		};
 
 		csvDownload.setIconType(IconType.file)
-				.setLabel(Model.of(_("member.action.csv"))).setInverted(false);
+                .setLabel(Model.of(getText("member.action.csv"))).setInverted(false);
 
 		add(csvDownload);
 	}

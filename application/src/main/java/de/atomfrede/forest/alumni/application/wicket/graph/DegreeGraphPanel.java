@@ -1,19 +1,18 @@
 package de.atomfrede.forest.alumni.application.wicket.graph;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import br.com.digilabs.jqplot.chart.PieChart;
 import br.com.digilabs.jqplot.data.item.LabeledItem;
 import de.atomfrede.forest.alumni.application.wicket.jqplot.JQPlotChart;
 import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import de.atomfrede.forest.alumni.service.member.MemberService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import java.util.Map;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DegreeGraphPanel extends Panel {
@@ -30,8 +29,8 @@ public class DegreeGraphPanel extends Panel {
 	}
 
 	private void setupGraph() {
-		PieChart<Number> pieChart = new PieChart<>(_("graph.degree.title")
-				.getString());
+        PieChart<Number> pieChart = new PieChart<>(getText("graph.degree.title")
+                .getString());
 
 		Map<Degree, Integer> values = memberService.getMembersPerDegree();
 

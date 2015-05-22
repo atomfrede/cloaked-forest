@@ -1,7 +1,16 @@
 package de.atomfrede.forest.alumni.application.wicket.degree;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
+import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
+import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
+import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
+import de.atomfrede.forest.alumni.service.degree.DegreeService;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -14,17 +23,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
-import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
-import de.agilecoders.wicket.core.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
-import de.atomfrede.forest.alumni.application.wicket.Numbers;
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.degree.detail.DegreeDetailPage;
-import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
-import de.atomfrede.forest.alumni.service.degree.DegreeService;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DegreeListPanel extends Panel {
@@ -59,8 +58,8 @@ public class DegreeListPanel extends Panel {
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
-		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalWarning);
+        modalWarning.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        add(modalWarning);
 	}
 
 	private void populateItems() {
@@ -127,15 +126,15 @@ public class DegreeListPanel extends Panel {
 	private void deleteDegree(final long id, String shortFrom, String title) {
 
 		final TextContentModal modal = new TextContentModal("modal-prompt",
-				Model.of(_("modal.degree.text", title, shortFrom).getString()));
-		modal.setOutputMarkupId(true);
+                Model.of(getText("modal.degree.text", title, shortFrom).getString()));
+        modal.setOutputMarkupId(true);
 
-		modal.addCloseButton(Model.of(_("modal.close", "").getString()));
-		modal.header(Model.of(_("modal.degree.header", title, shortFrom)
-				.getString()));
+        modal.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        modal.header(Model.of(getText("modal.degree.header", title, shortFrom)
+                .getString()));
 
-		AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(_(
-				"modal.delete", "").getString())) {
+        AjaxLink<String> doDelete = new AjaxLink<String>("button", Model.of(getText(
+                "modal.delete", "").getString())) {
 
 			@Override
 			protected void onConfigure() {

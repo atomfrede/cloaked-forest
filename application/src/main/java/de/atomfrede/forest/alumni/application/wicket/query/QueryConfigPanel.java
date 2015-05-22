@@ -1,11 +1,11 @@
 package de.atomfrede.forest.alumni.application.wicket.query;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class QueryConfigPanel extends Panel {
@@ -14,8 +14,8 @@ public class QueryConfigPanel extends Panel {
 
 	public QueryConfigPanel(String id) {
 		super(id);
-		header = new Label("page-header", _("query.header"));
-		subHeader = new Label("page-sub-header", _("query.sub.header"));
+        header = new Label("page-header", getText("query.header"));
+        subHeader = new Label("page-sub-header", getText("query.sub.header"));
 
 		add(header);
 		add(subHeader);

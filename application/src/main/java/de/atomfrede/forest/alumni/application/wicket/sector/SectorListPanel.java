@@ -1,18 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.sector;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
@@ -25,6 +12,18 @@ import de.atomfrede.forest.alumni.application.wicket.sector.detail.SectorDetailP
 import de.atomfrede.forest.alumni.domain.dao.company.CompanyDao;
 import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
 import de.atomfrede.forest.alumni.service.sector.SectorService;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class SectorListPanel extends Panel {
@@ -65,8 +64,8 @@ public class SectorListPanel extends Panel {
 	private void setupModal() {
 		modalWarning = new TextContentModal("modal-prompt",
 				Model.of("Hallo Welt"));
-		modalWarning.addCloseButton(Model.of(_("modal.close", "").getString()));
-		add(modalWarning);
+        modalWarning.addCloseButton(Model.of(getText("modal.close", "").getString()));
+        add(modalWarning);
 	}
 
 	private void populateItems() {

@@ -1,7 +1,17 @@
 package de.atomfrede.forest.alumni.application.wicket.sector.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
+import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationPanel;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
+import de.atomfrede.forest.alumni.application.wicket.Numbers;
+import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
+import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
+import de.atomfrede.forest.alumni.application.wicket.sector.SectorPage;
+import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
+import de.atomfrede.forest.alumni.service.sector.SectorService;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -15,18 +25,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
-import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationPanel;
-import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
-import de.atomfrede.forest.alumni.application.wicket.Numbers;
-import de.atomfrede.forest.alumni.application.wicket.base.BasePage.Type;
-import de.atomfrede.forest.alumni.application.wicket.model.AbstractEntityModel;
-import de.atomfrede.forest.alumni.application.wicket.sector.SectorPage;
-import de.atomfrede.forest.alumni.domain.dao.sector.SectorDao;
-import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
-import de.atomfrede.forest.alumni.service.sector.SectorService;
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class SectorDetailForm extends BootstrapForm<Sector> {
@@ -80,7 +79,7 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 
 		add(cancel);
 
-		cancel.setLabel(Model.of(_("global.cancel")));
+        cancel.setLabel(Model.of(getText("global.cancel")));
 
 		initFormValues();
 
@@ -118,9 +117,9 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 	}
 
 	private void onSectorAlreadyExisting(String sectorName) {
-		NotificationMessage nf = new NotificationMessage(Model.of(_(
-				"error.sector.existing", sectorName).getString()));
-		nf.hideAfter(Duration.seconds(Numbers.TEN));
+        NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                "error.sector.existing", sectorName).getString()));
+        nf.hideAfter(Duration.seconds(Numbers.TEN));
 		error(nf);
 	}
 
@@ -144,9 +143,9 @@ public class SectorDetailForm extends BootstrapForm<Sector> {
 			}
 
 			// It Was succesfull, so display a notifications about this
-			NotificationMessage nf = new NotificationMessage(Model.of(_(
-					"success.saved").getString()));
-			nf.hideAfter(Duration.seconds(Numbers.FIVE));
+            NotificationMessage nf = new NotificationMessage(Model.of(getText(
+                    "success.saved").getString()));
+            nf.hideAfter(Duration.seconds(Numbers.FIVE));
 			success(nf);
 		} catch (SectorAlreadyExistingException e) {
 			onSectorAlreadyExisting(_sector);

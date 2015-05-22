@@ -1,9 +1,8 @@
 package de.atomfrede.forest.alumni.application.wicket.query.filter;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.util.List;
-
+import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
+import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
+import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.extensions.markup.html.form.select.Select;
@@ -13,9 +12,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.atomfrede.forest.alumni.application.wicket.custom.DegreeSelectOption;
-import de.atomfrede.forest.alumni.domain.dao.degree.DegreeDao;
-import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
+import java.util.List;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class DegreeFilterPanel extends Panel {
@@ -39,7 +38,7 @@ public class DegreeFilterPanel extends Panel {
 		List<Degree> degrees = degreeDao.findAll();
 
 		Degree noRestrictions = new Degree();
-		noRestrictions.setTitle(_("query.no.restriction").getString());
+        noRestrictions.setTitle(getText("query.no.restriction").getString());
 
 		degrees.add(0, noRestrictions);
 

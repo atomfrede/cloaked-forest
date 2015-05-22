@@ -1,40 +1,5 @@
 package de.atomfrede.forest.alumni.application.wicket.member.detail;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.extensions.markup.html.form.select.Select;
-import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.time.Duration;
-import org.apache.wicket.validation.validator.EmailAddressValidator;
-import org.joda.time.format.DateTimeFormat;
-
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
@@ -72,72 +37,82 @@ import de.atomfrede.forest.alumni.service.member.MemberService;
 import de.atomfrede.forest.alumni.service.member.country.CountryService;
 import de.atomfrede.forest.alumni.service.member.focus.MainFocusService;
 import de.atomfrede.forest.alumni.service.member.professsion.ProfessionService;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.extensions.markup.html.form.select.Select;
+import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.time.Duration;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.joda.time.format.DateTimeFormat;
+
+import java.util.*;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class MembersDetailForm extends BootstrapForm<Member> {
 
-	@SpringBean
+    DataView<Activity> activities;
+    @SpringBean
 	private DegreeDao degreeDao;
-
 	@SpringBean
 	private SectorDao sectorDao;
-
 	@SpringBean
 	private CompanyDao companyDao;
-
 	@SpringBean
 	private ActivityDao activityDao;
-
 	@SpringBean
 	private DepartmentDao departmentDao;
-
 	@SpringBean
 	private MemberService memberService;
-
 	@SpringBean
 	private ProfessionService professionService;
-
 	@SpringBean
 	private MainFocusService mainFocusService;
-
 	@SpringBean
 	private CountryService countryService;
-
 	private List<Company> companies;
 	private List<Department> departments;
-
 	private Sector emptySector;
 	private Company emptyCompany;
 	private Department emptyDepartment;
-
 	private Type editType;
 	private Degree selectedDegree;
 	private Sector selectedSector;
 	private Company selectedCompany;
 	private Department selectedDepartment;
-
 	private Select<Sector> sectorSelect;
 	private Select<Company> companySelect;
 	private Select<Department> departmentSelect;
-
 	private Select<String> salutationSelect;
-
 	private NotificationPanel feedbackPanel;
-
 	private WebMarkupContainer firstnameWrapper, lastnameWrapper,
 			personalMailWrapper, selectWrapper;
-
 	private RequiredTextField<String> firstname, lastname;
 	private TextField<String> personalMail, personalAddon, graduationYear,
 			personalStreet, personalTown, personalPostcode, workMail,
 			personalMobile, personalFax, personalPhone, personalInternet,
 			workPhone, workMobile, workFax, workInternet, personalNumber;
-
 	private Typeahead<String> profession, mainfocus, personalCountry;
 	private DateTextField entryDate, leaveDate;
-
-	DataView<Activity> activities;
-
 	// Now the data for this formfields. To reuse this panel for new (=non
 	// existing entities we don't use the model directly...)
 	private String _salutation, _firstname, _lastname;
@@ -189,19 +164,19 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 
 		add(cancel);
 
-		cancel.setLabel(Model.of(_("global.cancel")));
+        cancel.setLabel(Model.of(getText("global.cancel")));
 
 		addNextMemberButton();
 		addPrevMemberButton();
 
 		emptySector = new Sector();
-		emptySector.setSector(_("model.empty").getString());
+        emptySector.setSector(getText("model.empty").getString());
 
 		emptyCompany = new Company();
-		emptyCompany.setCompany(_("model.empty", "---").getString());
+        emptyCompany.setCompany(getText("model.empty", "---").getString());
 
 		emptyDepartment = new Department();
-		emptyDepartment.setDepartment(_("model.empty", "---").getString());
+        emptyDepartment.setDepartment(getText("model.empty", "---").getString());
 
 		initFormValues(model);
 
@@ -532,9 +507,9 @@ public class MembersDetailForm extends BootstrapForm<Member> {
 				new PropertyModel<String>(this, "_salutation"));
 
 		salutationSelect.add(new SelectOption<String>("male-select", Model
-				.of(_("salutation.male").getString())));
-		salutationSelect.add(new SelectOption<String>("female-select", Model
-				.of(_("salutation.female").getString())));
+                .of(getText("salutation.male").getString())));
+        salutationSelect.add(new SelectOption<String>("female-select", Model
+                .of(getText("salutation.female").getString())));
 
 		firstname = new RequiredTextField<String>("firstname",
 				new PropertyModel<String>(this, "_firstname"));

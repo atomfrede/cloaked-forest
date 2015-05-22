@@ -1,11 +1,19 @@
 package de.atomfrede.forest.alumni.application.wicket.query;
 
-import static de.atomfrede.forest.alumni.application.wicket.MessageUtils._;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
+import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.atomfrede.forest.alumni.application.wicket.query.filter.*;
+import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
+import de.atomfrede.forest.alumni.application.wicket.util.PdfExporter;
+import de.atomfrede.forest.alumni.domain.entity.company.Company;
+import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
+import de.atomfrede.forest.alumni.domain.entity.member.Member;
+import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
+import de.atomfrede.forest.alumni.service.query.Query;
+import de.atomfrede.forest.alumni.service.query.filter.Filter;
+import de.atomfrede.forest.alumni.service.query.filter.Filter.Type;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,29 +26,12 @@ import org.apache.wicket.request.handler.resource.ResourceRequestHandler;
 import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
-import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
-import de.atomfrede.forest.alumni.application.wicket.query.filter.ActivityFilterPanel;
-import de.atomfrede.forest.alumni.application.wicket.query.filter.AppointedDateFilterPanel;
-import de.atomfrede.forest.alumni.application.wicket.query.filter.CompanyFilterPanel;
-import de.atomfrede.forest.alumni.application.wicket.query.filter.DegreeFilterPanel;
-import de.atomfrede.forest.alumni.application.wicket.query.filter.ProfessionFilterPanel;
-import de.atomfrede.forest.alumni.application.wicket.query.filter.SectorFilterPanel;
-import de.atomfrede.forest.alumni.application.wicket.util.CsvExporter;
-import de.atomfrede.forest.alumni.application.wicket.util.PdfExporter;
-import de.atomfrede.forest.alumni.domain.entity.company.Company;
-import de.atomfrede.forest.alumni.domain.entity.degree.Degree;
-import de.atomfrede.forest.alumni.domain.entity.member.Member;
-import de.atomfrede.forest.alumni.domain.entity.sector.Sector;
-import de.atomfrede.forest.alumni.service.query.Query;
-import de.atomfrede.forest.alumni.service.query.filter.Filter;
-import de.atomfrede.forest.alumni.service.query.filter.Filter.Type;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
+import static de.atomfrede.forest.alumni.application.wicket.MessageUtils.getText;
 
 @SuppressWarnings("serial")
 public class QueryConfigForm extends BootstrapForm<Void> {
@@ -195,7 +186,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		};
 
 		pdfDownload.setIconType(IconType.file)
-				.setLabel(Model.of(_("member.action.pdf"))).setInverted(false);
+                .setLabel(Model.of(getText("member.action.pdf"))).setInverted(false);
 
 		add(pdfDownload);
 	}
@@ -224,7 +215,7 @@ public class QueryConfigForm extends BootstrapForm<Void> {
 		};
 
 		csvDownload.setIconType(IconType.file)
-				.setLabel(Model.of(_("member.action.csv"))).setInverted(false);
+                .setLabel(Model.of(getText("member.action.csv"))).setInverted(false);
 
 		add(csvDownload);
 	}
