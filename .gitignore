@@ -10,3 +10,6 @@
 .gitignore~
 .project
 *.*~
+
+*.iml
+.idea
